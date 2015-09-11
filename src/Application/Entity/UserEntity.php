@@ -147,13 +147,6 @@ class UserEntity
      */
     protected $roles;
 
-    /**
-     * @var Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Application\Entity\PostEntity", mappedBy="user", cascade={"all"})
-     */
-    protected $posts;
-
     /***** Other Variables *****/
     protected $expired = false; // userExpired / accountExpired
     protected $credentialsExpired = false;
@@ -546,19 +539,6 @@ class UserEntity
         $this->profile = $profile;
 
         $this->getProfile()->setUser($this);
-
-        return $this;
-    }
-
-    /*** Posts ***/
-    public function getPosts()
-    {
-        return $this->posts;
-    }
-
-    public function setPosts($posts)
-    {
-        $this->posts = $posts;
 
         return $this;
     }

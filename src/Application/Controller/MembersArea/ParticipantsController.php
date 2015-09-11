@@ -6,13 +6,13 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PostsController
+class ParticipantsController
 {
     public function indexAction(Request $request, Application $app)
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_POSTS_EDITOR')
+        if (! $app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
             && ! $app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
@@ -20,19 +20,18 @@ class PostsController
         $limitPerPage = $request->query->get('limit_per_page', 20);
         $currentPage = $request->query->get('page');
 
-        $postResults = $app['orm.em']
+        $participantResults = $app['orm.em']
             ->createQueryBuilder()
             ->select('p')
-            ->from('Application\Entity\PostEntity', 'p')
-            ->leftJoin('p.user', 'u')
+            ->from('Application\Entity\ParticipantEntity', 'p')
         ;
 
         $pagination = $app['paginator']->paginate(
-            $postResults,
+            $participantResults,
             $currentPage,
             $limitPerPage,
             array(
-                'route' => 'members-area.posts',
+                'route' => 'members-area.participants',
                 'defaultSortFieldName' => 'p.timeCreated',
                 'defaultSortDirection' => 'desc',
             )
@@ -42,7 +41,7 @@ class PostsController
 
         return new Response(
             $app['twig']->render(
-                'contents/members-area/posts/index.html.twig',
+                'contents/members-area/participants/index.html.twig',
                 $data
             )
         );
@@ -52,44 +51,37 @@ class PostsController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_POSTS_EDITOR')
+        if (! $app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
             && ! $app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\PostType(),
-            new \Application\Entity\PostEntity()
+            new \Application\Form\Type\ParticipantType(),
+            new \Application\Entity\ParticipantEntity()
         );
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $postEntity = $form->getData();
+                $participantEntity = $form->getData();
 
-                /*** Image ***/
-                $postEntity
-                    ->setImageUploadPath($app['baseUrl'].'/assets/uploads/')
-                    ->setImageUploadDir(WEB_DIR.'/assets/uploads/')
-                    ->imageUpload()
-                ;
-
-                $app['orm.em']->persist($postEntity);
+                $app['orm.em']->persist($participantEntity);
                 $app['orm.em']->flush();
 
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.posts.new.successText'
+                        'members-area.participants.new.successText'
                     )
                 );
 
                 return $app->redirect(
                     $app['url_generator']->generate(
-                        'members-area.posts.edit',
+                        'members-area.participants.edit',
                         array(
-                            'id' => $postEntity->getId(),
+                            'id' => $participantEntity->getId(),
                         )
                     )
                 );
@@ -100,7 +92,7 @@ class PostsController
 
         return new Response(
             $app['twig']->render(
-                'contents/members-area/posts/new.html.twig',
+                'contents/members-area/participants/new.html.twig',
                 $data
             )
         );
@@ -110,50 +102,43 @@ class PostsController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_POSTS_EDITOR')
+        if (! $app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
             && ! $app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
-        $post = $app['orm.em']->find('Application\Entity\PostEntity', $id);
+        $participant = $app['orm.em']->find('Application\Entity\ParticipantEntity', $id);
 
-        if (! $post) {
+        if (! $participant) {
             $app->abort(404);
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\PostType(),
-            $post
+            new \Application\Form\Type\ParticipantType(),
+            $participant
         );
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $postEntity = $form->getData();
+                $participantEntity = $form->getData();
 
-                /*** Image ***/
-                $postEntity
-                    ->setImageUploadPath($app['baseUrl'].'/assets/uploads/')
-                    ->setImageUploadDir(WEB_DIR.'/assets/uploads/')
-                    ->imageUpload()
-                ;
-
-                $app['orm.em']->persist($postEntity);
+                $app['orm.em']->persist($participantEntity);
                 $app['orm.em']->flush();
 
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.posts.edit.successText'
+                        'members-area.participants.edit.successText'
                     )
                 );
 
                 return $app->redirect(
                     $app['url_generator']->generate(
-                        'members-area.posts.edit',
+                        'members-area.participants.edit',
                         array(
-                            'id' => $postEntity->getId(),
+                            'id' => $participantEntity->getId(),
                         )
                     )
                 );
@@ -161,11 +146,11 @@ class PostsController
         }
 
         $data['form'] = $form->createView();
-        $data['post'] = $post;
+        $data['participant'] = $participant;
 
         return new Response(
             $app['twig']->render(
-                'contents/members-area/posts/edit.html.twig',
+                'contents/members-area/participants/edit.html.twig',
                 $data
             )
         );
@@ -175,14 +160,14 @@ class PostsController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_POSTS_EDITOR')
+        if (! $app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
             && ! $app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
-        $post = $app['orm.em']->find('Application\Entity\PostEntity', $id);
+        $participant = $app['orm.em']->find('Application\Entity\ParticipantEntity', $id);
 
-        if (! $post) {
+        if (! $participant) {
             $app->abort(404);
         }
 
@@ -192,13 +177,13 @@ class PostsController
 
         if ($confirmAction) {
             try {
-                $app['orm.em']->remove($post);
+                $app['orm.em']->remove($participant);
                 $app['orm.em']->flush();
 
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.posts.remove.successText'
+                        'members-area.participants.remove.successText'
                     )
                 );
             } catch (\Exception $e) {
@@ -212,16 +197,16 @@ class PostsController
 
             return $app->redirect(
                 $app['url_generator']->generate(
-                    'members-area.posts'
+                    'members-area.participants'
                 )
             );
         }
 
-        $data['post'] = $post;
+        $data['participant'] = $participant;
 
         return new Response(
             $app['twig']->render(
-                'contents/members-area/posts/remove.html.twig',
+                'contents/members-area/participants/remove.html.twig',
                 $data
             )
         );

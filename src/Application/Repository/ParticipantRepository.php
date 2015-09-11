@@ -4,7 +4,7 @@ namespace Application\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class PostRepository
+class ParticipantRepository
     extends EntityRepository
 {
     public function countAll()

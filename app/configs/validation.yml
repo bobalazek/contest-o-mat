@@ -1,8 +1,20 @@
 Application\Entity\PostEntity:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: email
+            message: errors.participant.email.alreadyInUse
+            groups: [ newAndEdit ]
     properties:
-        title:
+        name:
             - NotBlank:
-                message: errors.post.title.notBlank
+                message: errors.participant.name.notBlank
+                groups: [ newAndEdit ]
+        email:
+            - NotBlank:
+                message: errors.participant.email.notBlank
+                groups: [ newAndEdit ]
+            - Email:
+                message: errors.participant.email.invalid
                 groups: [ newAndEdit ]
 
 Application\Entity\ProfileEntity:

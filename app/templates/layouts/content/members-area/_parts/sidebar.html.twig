@@ -22,11 +22,11 @@
 			</a>
 		</li>
 	{% endif %}
-	{% if is_granted('ROLE_POSTS_EDITOR') or is_granted('ROLE_ADMIN') %}
-		<li class="{{ path('members-area.posts') in app.currentUri ? 'active' : '' }}" role="presentation">
-			<a href="{{ url('members-area.posts') }}">
-				<i class="fa fa-fw fa-newspaper-o"></i>
-				{{ 'Posts'|trans }}
+	{% if is_granted('ROLE_PARTICIPANTS_EDITOR') or is_granted('ROLE_ADMIN') %}
+		<li class="{{ path('members-area.participants') in app.currentUri ? 'active' : '' }}" role="presentation">
+			<a href="{{ url('members-area.participants') }}">
+				<i class="fa fa-fw fa-users"></i>
+				{{ 'Participants'|trans }}
 			</a>
 		</li>
 	{% endif %}

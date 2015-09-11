@@ -3,9 +3,11 @@
 		<li>
 			<a href="{{ app.baseUrl }}/members-area/login">{{ 'Login'|trans }}</a>
 		</li>
-		<li>
-			<a href="{{ app.baseUrl }}/members-area/register">{{ 'Register'|trans }}</a>
-		</li>
+		{% if app.settings.registrationEnabled %}
+			<li>
+				<a href="{{ app.baseUrl }}/members-area/register">{{ 'Register'|trans }}</a>
+			</li>
+		{% endif %}
 		<li>
 			<a href="{{ app.baseUrl }}/members-area/reset-password">{{ 'Reset password'|trans }}</a>
 		</li>

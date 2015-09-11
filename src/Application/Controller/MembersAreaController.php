@@ -58,6 +58,10 @@ class MembersAreaController
     {
         $data = array();
 
+        if (! $app['settings']['registrationEnabled']) {
+            $app->abort(404);
+        }
+
         $code = $request->query->has('code')
             ? $request->query->get('code')
             : false

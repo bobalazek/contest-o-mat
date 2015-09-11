@@ -38,10 +38,10 @@ $app->mount(
     new Application\ControllerProvider\MembersArea\RolesControllerProvider()
 );
 
-/******** Posts ********/
+/******** Participants ********/
 $app->mount(
-    '/members-area/posts',
-    new Application\ControllerProvider\MembersArea\PostsControllerProvider()
+    '/members-area/participants',
+    new Application\ControllerProvider\MembersArea\ParticipantsControllerProvider()
 );
 
 /******** Statistics ********/
