@@ -7,11 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Participant Entity
  *
- * @ORM\Table(name="participants")
- * @ORM\Entity(repositoryClass="Application\Repository\ParticipantRepository")
+ * @ORM\Table(name="participant_metas")
+ * @ORM\Entity(repositoryClass="Application\Repository\ParticipantMetaRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class ParticipantEntity
+class ParticipantMetaEntity
 {
     /*************** Variables ***************/
     /********** General Variables **********/
@@ -27,23 +27,16 @@ class ParticipantEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="`key`", type="string", length=255)
      */
-    protected $name;
+    protected $key;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=64)
+     * @ORM\Column(name="`value`", type="text")
      */
-    protected $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="via", type="string", length=16)
-     */
-    protected $via;
+    protected $value;
 
     /**
      * @var \DateTime
@@ -68,11 +61,9 @@ class ParticipantEntity
     protected $entries;
 
     /**
-     * @var Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Application\Entity\ParticipantMetaEntity", mappedBy="participant", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Application\Entity\ParticipantEntity", inversedBy="participantMetas")
      */
-    protected $participantMetas;
+    protected $participant;
 
     /*************** Methods ***************/
     /********** General Methods **********/
@@ -90,41 +81,28 @@ class ParticipantEntity
         return $this;
     }
 
-    /*** Name ***/
-    public function getName()
+    /*** Key ***/
+    public function getKey()
     {
-        return $this->name;
+        return $this->key;
     }
 
-    public function setName($name)
+    public function setKey($key)
     {
-        $this->name = $name;
+        $this->key = $key;
 
         return $this;
     }
 
-    /*** Email ***/
-    public function getEmail()
+    /*** Value ***/
+    public function getValue()
     {
-        return $this->email;
+        return $this->value;
     }
 
-    public function setEmail($email)
+    public function setValue($value)
     {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /*** Via ***/
-    public function getVia()
-    {
-        return $this->via;
-    }
-
-    public function setVia($via)
-    {
-        $this->via = $via;
+        $this->value = $value;
 
         return $this;
     }
@@ -167,64 +145,25 @@ class ParticipantEntity
         return $this;
     }
 
-    /*** Particiant Metas ***/
-    public function getParticipantMetas()
+    /*** Participant ***/
+    public function getParticipant()
     {
-        return $this->participantMetas;
+        return $this->participant;
     }
-
-    public function setParticipantMetas($participantMetas)
+    public function setParticipant($participant)
     {
-        if( $participantMetas )
-		{
-			foreach( $participantMetas as $participantMeta )
-			{
-				$participantMeta->setParticipant($this);
-			}
-
-            $this->participantMetas = $participantMetas;
-		}
+        $this->participant = $participant;
 
         return $this;
     }
 
-    public function addParticipantMeta(\Application\Entity\ParticipantMetaEntity $participantMeta)
-	{
-		if ( ! $this->participantMetas->contains($participantMeta) )
-		{
-			$participantMeta->setParticipant($this);
-
-			$this->participantMetas->add($participantMeta);
-		}
-
-		return $this;
-	}
-
-	public function removeParticipantMeta(\Application\Entity\ParticipantMetaEntity $participantMeta)
-	{
-		$participantMeta->setParticipant(null);
-		$this->participantMetas->removeElement($participantMeta);
-
-		return $this;
-	}
-
     /********** API ***********/
     public function toArray()
     {
-        $metas = array();
-
-        $participantMetas = $this->getParticipantMetas();
-        if($participantMetas) {
-            foreach($participantMetas as $participantMeta) {
-                $metas[] = $participantMeta->toArray();
-            }
-        }
-
         return array(
             'id' => $this->getId(),
-            'name' => $this->getName(),
-            'email' => $this->getEmail(),
-            'metas' => $metas,
+            'key' => $this->getKey(),
+            'value' => $this->getValue(),
             'time_created' => $this->getTimeCreated(),
         );
     }
@@ -232,7 +171,7 @@ class ParticipantEntity
     /********** Magic Methods **********/
     public function __toString()
     {
-        return $this->getName().' <'.$this->getEmail().'>';
+        return $this->getKey().':'.$this->getValue();
     }
 
     /********** Callback Methods **********/

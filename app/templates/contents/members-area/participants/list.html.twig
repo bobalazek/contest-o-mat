@@ -27,8 +27,9 @@
 					<th>{{ paginator_sortable(pagination, 'Name', 'p.name') }}</th>
 					<th>{{ paginator_sortable(pagination, 'Email', 'p.email') }}</th>
 					<th>{{ paginator_sortable(pagination, 'Via', 'p.via') }}</th>
+					<th>{{ 'Metas' | trans }}</th>
 					<th width="160">{{ paginator_sortable(pagination, 'Time Created', 'p.timeCreated') }}</th>
-					<th width="100">{{ 'Actions'|trans }}</th>
+					<th width="100">{{ 'Actions' | trans }}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -37,6 +38,7 @@
 						<td>{{ participant.getName() }}</td>
 						<td>{{ participant.getEmail()}}</td>
 						<td>{{ participant.getVia()}}</td>
+						<td></td>
 						<td>{{ participant.getTimeCreated()|date(app.dateTimeFormat) }}</td>
 						<td>
 							<a class="btn btn-sm btn-default filter-submit margin-bottom"

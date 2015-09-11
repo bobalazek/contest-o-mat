@@ -30,6 +30,7 @@
 				<script id="modernizr-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/modernizr/modernizr.js"></script>
 				<script id="detectizr-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/detectizr/dist/detectizr.js"></script>
 				<script id="respond-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/respond/dest/respond.min.js"></script>
+				<script>(function(w,d,u){w.readyQ=[];w.bindReadyQ=[];function p(x,y){if(x=="ready"){w.bindReadyQ.push(y);}else{w.readyQ.push(x);}};var a={ready:p,bind:p};w.$=w.jQuery=function(f){if(f===d||f===u){return a}else{p(f)}}})(window,document)</script>
 			{% endblock %}
 			{% block head_javascripts_after %}{% endblock %}
 		<!-- Head Javascripts /END -->
@@ -96,6 +97,7 @@
 				<script id="application-initialize-js">
 					Application.initialize();
 				</script>
+				<script>(function($,d){$.each(readyQ,function(i,f){$(f)});$.each(bindReadyQ,function(i,f){$(d).bind("ready",f)})})(jQuery,document)</script>
 			{% endblock %}
 			{% block body_javascripts_after %}{% endblock %}
 		<!-- Body Javascripts /END -->

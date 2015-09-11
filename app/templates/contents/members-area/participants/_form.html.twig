@@ -1,1 +1,79 @@
-{{ form(form) }}
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.via) }}
+    <div id="participant-meta-wrapper">
+        {% do form.participantMetas.setRendered %}
+        <div class="clearfix">
+            <div class="pull-left">
+                {{ form_label(form.participantMetas) }}
+            </div>
+            <div class="pull-right">
+                <a id="new-participant-meta"
+                    class="btn btn-xs btn-primary"
+                    href="#">
+                    Add new Meta
+                </a>
+            </div>
+        </div>
+        {{ form_errors(form.participantMetas) }}
+        <ul id="participantMetas-fields-list"
+            data-prototype="{{ form_widget(form.participantMetas.vars.prototype)|e }}">
+            {% for participantMeta in form.participantMetas %}
+                <li>
+                    {{ form_errors(participantMeta) }}
+                    {{ form_widget(participantMeta) }}
+                    <div class="clearfix">
+                        <div class="pull-right">
+                            <a class="btn btn-xs btn-danger remove-meta-button"
+                                href="#">
+                                Remove
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{{ form_end(form) }}
+
+<script>
+    var participantMetasCount = {{ form.participantMetas|length }};
+
+    jQuery(document).ready(function() {
+        jQuery('#new-participant-meta').on('click', function(e) {
+            e.preventDefault();
+
+            var participantMetas = jQuery('#participantMetas-fields-list');
+            var newWidget = participantMetas.attr('data-prototype');
+            newWidget = newWidget.replace(/__name__/g, participantMetasCount);
+            participantMetasCount++;
+
+            var newLi = jQuery('<li></li>').html(
+                newWidget+
+                '<div class="clearfix">' +
+                    '<div class="pull-right">' +
+                        '<a class="btn btn-xs btn-danger remove-meta-button"' +
+                            'href="#">' +
+                            'Remove' +
+                        '</a>' +
+                    '</div>' +
+                '</div>'
+            );
+            newLi.appendTo(participantMetas);
+
+            initializeRemoveMetaButton();
+        });
+
+        function initializeRemoveMetaButton() {
+            jQuery('.remove-meta-button').on('click', function(e) {
+                e.preventDefault();
+
+                jQuery(this).closest('li').remove();
+
+                participantMetasCount--;
+            });
+        }
+        initializeRemoveMetaButton();
+    });
+</script>
