@@ -38,15 +38,24 @@
 						<td>{{ participant.getName() }}</td>
 						<td>{{ participant.getEmail()}}</td>
 						<td>{{ participant.getVia()}}</td>
-						<td></td>
+						<td>
+							{% set participantMetas = participant.getParticipantMetas() %}
+							{% if participantMetas %}
+								<ul>
+									{% for participantMeta in participantMetas %}
+										<li>{{ participantMeta }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</td>
 						<td>{{ participant.getTimeCreated()|date(app.dateTimeFormat) }}</td>
 						<td>
-							<a class="btn btn-sm btn-default filter-submit margin-bottom"
+							<a class="btn btn-sm btn-default margin-bottom"
 								data-toggle="tooltip" title="{{ 'Edit'|trans }}"
 								href="{{ url('members-area.participants.edit', { id : participant.getId() }) }}">
 								<i class="fa fa-fw fa-cog"></i>
 							</a>
-							<a class="btn btn-sm btn-default filter-submit margin-bottom"
+							<a class="btn btn-sm btn-default margin-bottom"
 								data-toggle="tooltip" title="{{ 'Remove'|trans }}"
 								href="{{ url('members-area.participants.remove', { id : participant.getId() }) }}">
 								<i class="fa fa-fw fa-times"></i>
