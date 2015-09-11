@@ -3,13 +3,13 @@
 return array(
     'environment' => 'development',
     'debug' => true,
-    'name' => 'Web Application Starter Kit',
-    'version' => '0.4',
+    'name' => 'Contest-O-Mat',
+    'version' => '0.1',
     'author' => 'Borut Balazek',
 
     // Admin email (& name)
     'email' => 'info@bobalazek.com',
-    'emailName' => 'Web Application Starter Kit Mailer',
+    'emailName' => 'Contest-O-Mat Mailer',
 
     // Default Locale / Language stuff
     'locale' => 'en_US', // Default locale
@@ -57,9 +57,9 @@ return array(
         'default' => array(
             'driver' => 'pdo_mysql',
             'host' => 'localhost',
-            'dbname' => 'wask',
-            'user' => 'wask',
-            'password' => 'wask',
+            'dbname' => 'com',
+            'user' => 'com',
+            'password' => 'com',
             'charset' => 'utf8',
         ),
     ),
@@ -86,6 +86,6 @@ return array(
     // Default settings (the setting values from the DB
     //   will override this values)
     'settings' => array(
-
+        'registrationEnabled' => false,
     ),
 );

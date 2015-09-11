@@ -6,9 +6,9 @@ return array(
         'default' => array(
             'driver' => 'pdo_mysql',
             'host' => 'localhost',
-            'dbname' => 'wask',
-            'user' => 'wask',
-            'password' => 'wask',
+            'dbname' => 'com',
+            'user' => 'com',
+            'password' => 'com',
             'charset' => 'utf8',
         ),
     ),
