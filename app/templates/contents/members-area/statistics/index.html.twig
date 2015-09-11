@@ -16,7 +16,7 @@
     </ol>
     <div id="main-content">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         {{ 'Users' | trans }}
@@ -30,8 +30,8 @@
                         </li>
                     </ul>
                 </div> <!-- /.panel -->
-            </div> <!-- /.col-md-4 -->
-            <div class="col-md-4">
+            </div> <!-- /.col-md-3 -->
+            <div class="col-md-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         {{ 'Roles' | trans }}
@@ -45,22 +45,37 @@
                         </li>
                     </ul>
                 </div> <!-- /.panel -->
-            </div> <!-- /.col-md-4 -->
-            <div class="col-md-4">
+            </div> <!-- /.col-md-3 -->
+            <div class="col-md-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        {{ 'Posts' | trans }}
+                        {{ 'Participants' | trans }}
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item">
                             {{ 'Total' | trans }}
                             <span class="badge">
-                                {{ app['orm.em'].getRepository('Application\\Entity\\PostEntity').countAll() }}
+                                {{ app['orm.em'].getRepository('Application\\Entity\\ParticipantEntity').countAll() }}
                             </span>
                         </li>
                     </ul>
                 </div> <!-- /.panel -->
-            </div> <!-- /.col-md-4 -->
+            </div> <!-- /.col-md-3 -->
+            <div class="col-md-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        {{ 'Entries' | trans }}
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            {{ 'Total' | trans }}
+                            <span class="badge">
+                                {{ app['orm.em'].getRepository('Application\\Entity\\EntryEntity').countAll() }}
+                            </span>
+                        </li>
+                    </ul>
+                </div> <!-- /.panel -->
+            </div> <!-- /.col-md-3 -->
         </div> <!-- /.row -->
     </div>
 {% endblock %}
