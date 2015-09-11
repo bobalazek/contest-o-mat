@@ -44,6 +44,12 @@ $app->mount(
     new Application\ControllerProvider\MembersArea\ParticipantsControllerProvider()
 );
 
+/******** Entries ********/
+$app->mount(
+    '/members-area/entries',
+    new Application\ControllerProvider\MembersArea\EntriesControllerProvider()
+);
+
 /******** Statistics ********/
 $app->mount(
     '/members-area/statistics',

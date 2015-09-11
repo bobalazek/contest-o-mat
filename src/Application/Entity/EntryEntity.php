@@ -7,11 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Participant Entity
  *
- * @ORM\Table(name="participants")
- * @ORM\Entity(repositoryClass="Application\Repository\ParticipantRepository")
+ * @ORM\Table(name="entries")
+ * @ORM\Entity(repositoryClass="Application\Repository\EntryRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class ParticipantEntity
+class EntryEntity
 {
     /*************** Variables ***************/
     /********** General Variables **********/
@@ -23,20 +23,6 @@ class ParticipantEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    protected $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=64, unique=true)
-     */
-    protected $email;
 
     /**
      * @var \DateTime
@@ -54,11 +40,9 @@ class ParticipantEntity
 
     /***** Relationship Variables *****/
     /**
-     * @var Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Application\Entity\EntryEntity", mappedBy="participant", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Application\Entity\ParticipantEntity", inversedBy="entries")
      */
-    protected $entries;
+    protected $participant;
 
     /*************** Methods ***************/
     /********** General Methods **********/
@@ -72,32 +56,6 @@ class ParticipantEntity
     public function setId($id)
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /*** Name ***/
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /*** Email ***/
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
 
         return $this;
     }
@@ -128,14 +86,15 @@ class ParticipantEntity
         return $this;
     }
 
-    /*** Entries ***/
-    public function getEntries()
+    /*** Participant ***/
+    public function getParticipant()
     {
-        return $this->entries;
+        return $this->participant;
     }
-    public function setEntries($entries)
+
+    public function setParticipant(\Application\Entity\ParticipantEntity $participant)
     {
-        $this->entries = $entries;
+        $this->participant = $participant;
 
         return $this;
     }
@@ -145,8 +104,6 @@ class ParticipantEntity
     {
         return array(
             'id' => $this->getId(),
-            'name' => $this->getName(),
-            'email' => $this->getEmail(),
             'meta' => array(),
             'time_created' => $this->getTimeCreated(),
         );
@@ -155,7 +112,7 @@ class ParticipantEntity
     /********** Magic Methods **********/
     public function __toString()
     {
-        return $this->getName().' <'.$this->getEmail().'>';
+        return 'Entry #'.$this->getId();
     }
 
     /********** Callback Methods **********/

@@ -30,6 +30,14 @@
 			</a>
 		</li>
 	{% endif %}
+	{% if is_granted('ROLE_ENTRIES_EDITOR') or is_granted('ROLE_ADMIN') %}
+		<li class="{{ path('members-area.entries') in app.currentUri ? 'active' : '' }}" role="presentation">
+			<a href="{{ url('members-area.entries') }}">
+				<i class="fa fa-fw fa-table"></i>
+				{{ 'Entries'|trans }}
+			</a>
+		</li>
+	{% endif %}
 	{% if is_granted('ROLE_ADMIN') %}
 		<li class="{{ path('members-area.statistics') in app.currentUri ? 'active' : '' }}" role="presentation">
 			<a href="{{ url('members-area.statistics') }}">
