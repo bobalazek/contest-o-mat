@@ -34,9 +34,16 @@ class ParticipantEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=64, unique=true)
+     * @ORM\Column(name="email", type="string", length=64)
      */
     protected $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="via", type="string", length=15)
+     */
+    protected $via;
 
     /**
      * @var \DateTime
@@ -98,6 +105,19 @@ class ParticipantEntity
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /*** Via ***/
+    public function getVia()
+    {
+        return $this->via;
+    }
+
+    public function setVia($via)
+    {
+        $this->via = $via;
 
         return $this;
     }

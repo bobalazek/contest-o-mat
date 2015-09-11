@@ -12,6 +12,12 @@ class ParticipantType extends AbstractType
     {
         $builder->add('name', 'text');
         $builder->add('email', 'email');
+        $builder->add('via', 'choice', array(
+            'choices' => array(
+                'administration' => 'Administration',
+                'application' => 'Application',
+            ),
+        ));
 
         $builder->add('Save', 'submit', array(
             'attr' => array(
