@@ -33,7 +33,7 @@
 			<tbody>
 				{% for participant in pagination.getItems() %}
 					<tr>
-						<td>{{ participant.getTitle() }}</td>
+						<td>{{ participant.getName() }}</td>
 						<td>{{ participant.getEmail()}}</td>
 						<td>{{ participant.getTimeCreated()|date(app.dateTimeFormat) }}</td>
 						<td>

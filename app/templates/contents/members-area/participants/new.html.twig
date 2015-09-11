@@ -1,9 +1,9 @@
 {% extends 'layouts/content/members-area.html.twig' %}
 
-{% block title %}{{ 'New'|trans }} | {{ 'Posts'|trans }} | {{ parent() }}{% endblock %}
+{% block title %}{{ 'New'|trans }} | {{ 'Participants'|trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
-	<h1>{{ 'New Post'|trans }}</h1>
+	<h1>{{ 'New Participant'|trans }}</h1>
 	<ol class="breadcrumb">
 		<li>
 			<a href="{{ url('members-area') }}">
@@ -11,13 +11,13 @@
 			</a>
 		</li>
 		<li>
-			<a href="{{ url('members-area.posts') }}">
-				{{ 'Posts' | trans }}
+			<a href="{{ url('members-area.participants') }}">
+				{{ 'Participant' | trans }}
 			</a>
 		</li>
 		<li class="active">
 			{{ 'New' | trans }}
 		</li>
 	</ol>
-	{% include 'contents/members-area/posts/_form.html.twig' %}
+	{% include 'contents/members-area/participants/_form.html.twig' %}
 {% endblock %}

@@ -1,11 +1,11 @@
 {% extends 'layouts/content/members-area.html.twig' %}
 
-{% block title %}{{ 'Remove'|trans }} | {{ 'Posts'|trans }} | {{ parent() }}{% endblock %}
+{% block title %}{{ 'Remove'|trans }} | {{ 'Participants'|trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
 	<h1>
-		{{ 'Remove Post'|trans }}
-		<small>"{{ post }}"</small>
+		{{ 'Remove Participant'|trans }}
+		<small>"{{ participant }}"</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li>
@@ -14,8 +14,8 @@
 			</a>
 		</li>
 		<li>
-			<a href="{{ url('members-area.posts') }}">
-				{{ 'Posts' | trans }}
+			<a href="{{ url('members-area.participants') }}">
+				{{ 'Participants' | trans }}
 			</a>
 		</li>
 		<li class="active">
@@ -24,14 +24,14 @@
 	</ol>
 	<div class="alert alert-block alert-warning">
 		<h4 class="alert-heading">{{ 'Warning!'|trans }}</h4>
-		<p>{{ 'Are you sure you want to remove this post?'|trans }}</p>
+		<p>{{ 'Are you sure you want to remove this participant?'|trans }}</p>
 		<p>
 			<a class="btn btn-danger"
-				href="{{ url('members-area.posts.remove', { id : post.getId() }) }}?action=confirm">
+				href="{{ url('members-area.participants.remove', { id : participant.getId() }) }}?action=confirm">
 				{{ 'Confirm'|trans }}
 			</a>
 			<a class="btn btn-success"
-				href="{{ url('members-area.posts') }}">
+				href="{{ url('members-area.participants') }}">
 				{{ 'Cancel'|trans }}
 			</a>
 		</p>
