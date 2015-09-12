@@ -1,1 +1,77 @@
-{{ form(form) }}
+{{ form_start(form) }}
+    {{ form_row(form.participant) }}
+    <div id="entry-meta-wrapper">
+        {% do form.entryMetas.setRendered %}
+        <div class="clearfix">
+            <div class="pull-left">
+                {{ form_label(form.entryMetas) }}
+            </div>
+            <div class="pull-right">
+                <a id="new-entry-meta"
+                    class="btn btn-xs btn-primary"
+                    href="#">
+                    Add new Meta
+                </a>
+            </div>
+        </div>
+        {{ form_errors(form.entryMetas) }}
+        <ul id="entryMetas-fields-list"
+            data-prototype="{{ form_widget(form.entryMetas.vars.prototype)|e }}">
+            {% for entryMeta in form.entryMetas %}
+                <li>
+                    {{ form_errors(entryMeta) }}
+                    {{ form_widget(entryMeta) }}
+                    <div class="clearfix">
+                        <div class="pull-right">
+                            <a class="btn btn-xs btn-danger remove-meta-button"
+                                href="#">
+                                Remove
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{{ form_end(form) }}
+
+<script>
+    var entryMetasCount = {{ form.entryMetas|length }};
+
+    jQuery(document).ready(function() {
+        jQuery('#new-entry-meta').on('click', function(e) {
+            e.preventDefault();
+
+            var entryMetas = jQuery('#entryMetas-fields-list');
+            var newWidget = entryMetas.attr('data-prototype');
+            newWidget = newWidget.replace(/__name__/g, entryMetasCount);
+            entryMetasCount++;
+
+            var newLi = jQuery('<li></li>').html(
+                newWidget+
+                '<div class="clearfix">' +
+                    '<div class="pull-right">' +
+                        '<a class="btn btn-xs btn-danger remove-meta-button"' +
+                            'href="#">' +
+                            'Remove' +
+                        '</a>' +
+                    '</div>' +
+                '</div>'
+            );
+            newLi.appendTo(entryMetas);
+
+            initializeRemoveMetaButton();
+        });
+
+        function initializeRemoveMetaButton() {
+            jQuery('.remove-meta-button').on('click', function(e) {
+                e.preventDefault();
+
+                jQuery(this).closest('li').remove();
+
+                entryMetasCount--;
+            });
+        }
+        initializeRemoveMetaButton();
+    });
+</script>

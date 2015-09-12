@@ -5,13 +5,13 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Participant Entity
+ * Entry Entity
  *
- * @ORM\Table(name="participant_metas")
- * @ORM\Entity(repositoryClass="Application\Repository\ParticipantMetaRepository")
+ * @ORM\Table(name="entry_metas")
+ * @ORM\Entity(repositoryClass="Application\Repository\EntryMetaRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class ParticipantMetaEntity
+class EntryMetaEntity
 {
     /*************** Variables ***************/
     /********** General Variables **********/
@@ -54,9 +54,9 @@ class ParticipantMetaEntity
 
     /***** Relationship Variables *****/
     /**
-     * @ORM\ManyToOne(targetEntity="Application\Entity\ParticipantEntity", inversedBy="participantMetas")
+     * @ORM\ManyToOne(targetEntity="Application\Entity\EntryEntity", inversedBy="entryMetas")
      */
-    protected $participant;
+    protected $entry;
 
     /*************** Methods ***************/
     /********** General Methods **********/
@@ -126,14 +126,14 @@ class ParticipantMetaEntity
         return $this;
     }
 
-    /*** Participant ***/
-    public function getParticipant()
+    /*** Entry ***/
+    public function getEntry()
     {
-        return $this->participant;
+        return $this->entry;
     }
-    public function setParticipant($participant)
+    public function setEntry($entry)
     {
-        $this->participant = $participant;
+        $this->entry = $entry;
 
         return $this;
     }

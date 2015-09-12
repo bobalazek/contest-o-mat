@@ -75,6 +75,12 @@ class ParticipantEntity
     protected $participantMetas;
 
     /*************** Methods ***************/
+    /********** Contructor **********/
+    public function __construct()
+    {
+        $this->participantMetas = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /********** General Methods **********/
     /***** Getters, Setters and Other stuff *****/
     /*** Id ***/

@@ -20,6 +20,17 @@ class EntryType extends AbstractType
             ),
         ));
 
+        $builder->add('entryMetas', 'collection', array(
+            'type' => new \Application\Form\Type\EntryMetaType(),
+            'allow_add' => true,
+			'allow_delete' => true,
+            'delete_empty' => true,
+			'prototype' => true,
+			'cascade_validation' => true,
+			'error_bubbling' => false,
+			'by_reference' => false,
+        ));
+
         $builder->add('Save', 'submit', array(
             'attr' => array(
                 'class' => 'btn-primary btn-lg btn-block',

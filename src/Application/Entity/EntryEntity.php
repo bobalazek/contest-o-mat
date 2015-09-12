@@ -44,7 +44,20 @@ class EntryEntity
      */
     protected $participant;
 
+    /**
+     * @var Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Application\Entity\EntryMetaEntity", mappedBy="entry", cascade={"all"})
+     */
+    protected $entryMetas;
+
     /*************** Methods ***************/
+    /********** Contructor **********/
+    public function __construct()
+    {
+        $this->entryMetas = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /********** General Methods **********/
     /***** Getters, Setters and Other stuff *****/
     /*** Id ***/
@@ -98,6 +111,47 @@ class EntryEntity
 
         return $this;
     }
+
+    /*** Entry Metas ***/
+    public function getEntryMetas()
+    {
+        return $this->entryMetas;
+    }
+
+    public function setEntryMetas($entryMetas)
+    {
+        if( $entryMetas )
+		{
+			foreach( $entryMetas as $entryMeta )
+			{
+				$entryMeta->setEntry($this);
+			}
+
+            $this->entryMetas = $entryMetas;
+		}
+
+        return $this;
+    }
+
+    public function addEntryMeta(\Application\Entity\EntryMetaEntity $entryMeta)
+	{
+		if ( ! $this->entryMetas->contains($entryMeta) )
+		{
+			$entryMeta->setEntry($this);
+
+			$this->entryMetas->add($entryMeta);
+		}
+
+		return $this;
+	}
+
+	public function removeEntryMeta(\Application\Entity\EntryMetaEntity $entryMeta)
+	{
+		$entryMeta->setEntry(null);
+		$this->entryMetas->removeElement($entryMeta);
+
+		return $this;
+	}
 
     /********** API ***********/
     public function toArray()
