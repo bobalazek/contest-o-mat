@@ -26,7 +26,7 @@ class ParticipantEntity
 
     /**
      * Useful if you are building an application with external API,
-     * so you can save the user's ID like fb:123456, twitter:123456, ...
+     * so you can save the user's ID like facebook:123456, twitter:123456, ...
      *
      * @var string
      *
