@@ -25,6 +25,16 @@ class ParticipantEntity
     protected $id;
 
     /**
+     * Useful if you are building an application with external API,
+     * so you can save the user's ID like fb:123456, twitter:123456, ...
+     *
+     * @var string
+     *
+     * @ORM\Column(name="uid", type="string", length=255)
+     */
+    protected $uid;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -92,6 +102,19 @@ class ParticipantEntity
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /*** Uid ***/
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
 
         return $this;
     }

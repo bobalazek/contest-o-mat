@@ -19,4 +19,20 @@ class ApiController
             $data
         );
     }
+
+    /********** Participants **********/
+    public function participantsPostAction(Request $request, Application $app)
+    {
+        return $app->json(array(
+            'status' => 'ok',
+        ));
+    }
+
+    /********** Entries **********/
+    public function entriesPostAction(Request $request, Application $app)
+    {
+        return $app->json(array(
+            'status' => 'ok', 
+        ));
+    }
 }
