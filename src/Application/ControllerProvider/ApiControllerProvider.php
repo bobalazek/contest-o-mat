@@ -19,14 +19,14 @@ class ApiControllerProvider
         ->bind('api');
 
         /***** Participants *****/
-        $controllers->post(
+        $controllers->match(
             '/participants',
             'Application\Controller\ApiController::participantsPostAction'
         )
         ->bind('api.participants');
 
         /***** Entries *****/
-        $controllers->post(
+        $controllers->match(
             '/entries',
             'Application\Controller\ApiController::entriesPostAction'
         )
