@@ -1,0 +1,14 @@
+{% extends 'layouts/content/application.html.twig' %}
+
+{% set isContainerFluid = false %}
+
+{% block main %}
+	<h2>
+		To participate in our prizegame, please fill out the following form:
+	</h2>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			{% include 'contents/application/_participate-form.html.twig' %}
+		</div>
+	</div>
+{% endblock %}

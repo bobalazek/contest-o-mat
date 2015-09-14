@@ -1,0 +1,30 @@
+{% extends 'layouts/content/default.html.twig' %}
+
+{% block wrapper %}
+    {% set isContainerFluid = isContainerFluid is defined ? isContainerFluid : true %}
+    <div id="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    {% include 'layouts/content/default/_parts/flash-messages.html.twig' %}
+                </div>
+            </div>
+        </div>
+        {% block content %}
+            <div class="container{{ isContainerFluid ? '-fluid' : '' }}">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="main" role="main">
+                            {% block main %}{% endblock %}
+                        </div> <!-- /#main -->
+                    </div> <!-- /.col-md-8 -->
+                </div> <!-- /.row -->
+            </div> <!-- /.container-fluid -->
+        {% endblock %}
+    </div> <!-- /#content -->
+    <footer id="footer" role="contentinfo">
+        {% block footer %}
+            {% include 'layouts/content/default/_parts/footer.html.twig' %}
+        {% endblock %}
+    </footer> <!-- /#footer -->
+{% endblock %}

@@ -12,11 +12,8 @@ class IndexController
     {
         $data = array();
 
-        return new Response(
-            $app['twig']->render(
-                'contents/index.html.twig',
-                $data
-            )
+        return $app->redirect(
+            $app['url_generator']->generate('application')
         );
     }
 }

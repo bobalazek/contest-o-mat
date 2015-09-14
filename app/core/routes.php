@@ -8,6 +8,12 @@ $app->mount(
     new Application\ControllerProvider\IndexControllerProvider()
 );
 
+/*========== Application ==========*/
+$app->mount(
+    '/application',
+    new Application\ControllerProvider\ApplicationControllerProvider()
+);
+
 /*========== API ==========*/
 $app->mount(
     '/api',
