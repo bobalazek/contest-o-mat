@@ -209,9 +209,14 @@ class EntryEntity
     }
 
     /*** Metas ***/
-    public function getMetas()
+    public function getMetas($key = null)
     {
-        return $this->metas;
+        return $key
+            ? (isset($this->metas[$key])
+                ? $this->metas[$key]
+                : null)
+            : $this->metas
+        ;
     }
 
     public function setMetas($metas)
@@ -219,6 +224,21 @@ class EntryEntity
         $this->metas = $metas;
 
         return $this;
+    }
+
+    public function hydrateEntryMetas()
+    {
+        $entryMetas = $this->getEntryMetas()->toArray();
+
+        if(count($entryMetas)) {
+            $metas = array();
+
+            foreach ($entryMetas as $entryMeta) {
+                $metas[$entryMeta->getKey()] = $entryMeta->getValue();
+            }
+
+            $this->setMetas($metas);
+        }
     }
 
     /********** API ***********/
@@ -238,6 +258,14 @@ class EntryEntity
     }
 
     /********** Callback Methods **********/
+    /**
+     * @ORM\PostLoad
+     */
+    public function postLoad()
+    {
+        $this->hydrateEntryMetas();
+    }
+
     /**
      * @ORM\PreUpdate
      */

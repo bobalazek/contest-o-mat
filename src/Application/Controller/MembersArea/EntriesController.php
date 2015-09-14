@@ -61,6 +61,7 @@ class EntriesController
                 array(
                     'ID',
                     'Participant',
+                    // 'Answer', // Example on how to use the metas
                     'Time',
                 ),
                 ';'
@@ -78,6 +79,7 @@ class EntriesController
                     array(
                         $entry->getId(),
                         (string) $entry->getParticipant(),
+                        // $entry->getMetas('answer'), // Example on how to use the metas
                         $entry->getTimeCreated()->format(DATE_ATOM),
                     ),
                     ';'

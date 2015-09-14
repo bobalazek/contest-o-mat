@@ -321,9 +321,14 @@ class ParticipantEntity
     }
 
     /*** Metas ***/
-    public function getMetas()
+    public function getMetas($key = null)
     {
-        return $this->metas;
+        return $key
+            ? (isset($this->metas[$key])
+                ? $this->metas[$key]
+                : null)
+            : $this->metas
+        ;
     }
 
     public function setMetas($metas)
@@ -331,6 +336,21 @@ class ParticipantEntity
         $this->metas = $metas;
 
         return $this;
+    }
+
+    public function hydrateParticipantMetas()
+    {
+        $participantMetas = $this->getParticipantMetas()->toArray();
+
+        if(count($participantMetas)) {
+            $metas = array();
+
+            foreach ($participantMetas as $participantMeta) {
+                $metas[$participantMeta->getKey()] = $participantMeta->getValue();
+            }
+
+            $this->setMetas($metas);
+        }
     }
 
     /********** API ***********/
@@ -361,6 +381,14 @@ class ParticipantEntity
     }
 
     /********** Callback Methods **********/
+    /**
+     * @ORM\PostLoad
+     */
+    public function postLoad()
+    {
+        $this->hydrateParticipantMetas();
+    }
+
     /**
      * @ORM\PreUpdate
      */
