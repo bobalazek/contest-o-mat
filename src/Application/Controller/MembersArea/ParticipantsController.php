@@ -17,7 +17,7 @@ class ParticipantsController
             $app->abort(403);
         }
 
-        $limitPerPage = $request->query->get('limit_per_page', 20);
+        $limitPerPage = $request->query->get('limit_per_page', 8);
         $currentPage = $request->query->get('page');
 
         $participantResults = $app['orm.em']

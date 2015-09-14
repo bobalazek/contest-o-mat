@@ -17,7 +17,7 @@ class EntriesController
             $app->abort(403);
         }
 
-        $limitPerPage = $request->query->get('limit_per_page', 20);
+        $limitPerPage = $request->query->get('limit_per_page', 8);
         $currentPage = $request->query->get('page');
 
         $entryResults = $app['orm.em']
