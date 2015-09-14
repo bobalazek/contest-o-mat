@@ -66,6 +66,10 @@ class ParticipantsController
 
             if ($form->isValid()) {
                 $participantEntity = $form->getData();
+                $participantEntity
+                    ->setIp($app['request']->getClientIp())
+                    ->setUserAgent($app['request']->headers->get('User-Agent'))
+                ;
 
                 $app['orm.em']->persist($participantEntity);
                 $app['orm.em']->flush();
