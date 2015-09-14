@@ -73,7 +73,8 @@ class ParticipateType extends AbstractType
             'required' => true,
         ));
 
-        $builder->add('Submit', 'submit', array(
+        $builder->add('submit', 'submit', array(
+            'label' => 'Submit',
             'attr' => array(
                 'class' => 'btn-primary btn-lg btn-block',
             ),
