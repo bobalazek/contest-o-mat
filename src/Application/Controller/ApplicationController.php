@@ -142,9 +142,7 @@ class ApplicationController
                                     ),
                                 ))
                             ;
-                        } catch (\Exception $e) {
-                            var_dump($e->getMessage());
-                        }
+                        } catch (\Exception $e) {}
                     }
 
                     $data['showForm'] = false;
