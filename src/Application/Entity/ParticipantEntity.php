@@ -260,7 +260,7 @@ class ParticipantEntity
         $entries = $this->getEntries()->toArray();
         $lastEntryIndex = count($entries) - 1;
 
-        return is_array($entries)
+        return is_array($entries) && count($entries)
             ? $entries[$lastEntryIndex]
             : false
         ;
