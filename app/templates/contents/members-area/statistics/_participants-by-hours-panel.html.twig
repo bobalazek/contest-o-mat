@@ -1,0 +1,31 @@
+{% set participants = app['orm.em'].getRepository('Application\\Entity\\ParticipantEntity').getByHours() %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Participants by hours' | trans }}</div>
+    <div id="participants-by-hours-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            new Morris.Line({
+                element: 'participants-by-hours-chart',
+                data: [
+                    {% for participant in participants %}
+                        {
+                            date: '{{ participant.date }}',
+                            count: {{ participant.count }}
+                        }{{ loop.last ? '' : ',' }}
+                    {% endfor %}
+                ],
+                parseTime: false,
+                xkey: 'date',
+                ykeys: [ 'count' ],
+                labels: [ '{{ 'Participants'|trans }}' ],
+                yLabelFormat: function(y){
+                    return y != Math.round(y) ? '' : y;
+                },
+            });
+        }
+    );
+</script>

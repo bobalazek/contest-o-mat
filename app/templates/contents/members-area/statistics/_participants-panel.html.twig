@@ -1,0 +1,14 @@
+<div id="participants-panel"
+    class="panel panel-primary">
+    <div class="panel-heading">
+        {{ 'Participants' | trans }}
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            {{ 'Total' | trans }}
+            <span class="badge">
+                {{ app['orm.em'].getRepository('Application\\Entity\\ParticipantEntity').countAll() }}
+            </span>
+        </li>
+    </ul>
+</div> <!-- /#participants-panel -->

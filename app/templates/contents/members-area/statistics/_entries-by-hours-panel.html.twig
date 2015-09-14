@@ -1,0 +1,31 @@
+{% set entries = app['orm.em'].getRepository('Application\\Entity\\EntryEntity').getByHours() %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Entries by hours' | trans }}</div>
+    <div id="entries-by-hours-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            new Morris.Line({
+                element: 'entries-by-hours-chart',
+                data: [
+                    {% for entry in entries %}
+                        {
+                            date: '{{ entry.date }}',
+                            count: {{ entry.count }}
+                        }{{ loop.last ? '' : ',' }}
+                    {% endfor %}
+                ],
+                parseTime: false,
+                xkey: 'date',
+                ykeys: [ 'count' ],
+                labels: [ '{{ 'Entries'|trans }}' ],
+                yLabelFormat: function(y){
+                    return y != Math.round(y) ? '' : y;
+                },
+            });
+        }
+    );
+</script>

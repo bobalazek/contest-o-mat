@@ -17,65 +17,27 @@
     <div id="main-content">
         <div class="row">
             <div class="col-md-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        {{ 'Users' | trans }}
-                    </div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            {{ 'Total' | trans }}
-                            <span class="badge">
-                                {{ app['orm.em'].getRepository('Application\\Entity\\UserEntity').countAll() }}
-                            </span>
-                        </li>
-                    </ul>
-                </div> <!-- /.panel -->
+                {% include 'contents/members-area/statistics/_users-panel.html.twig' %}
             </div> <!-- /.col-md-3 -->
             <div class="col-md-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        {{ 'Roles' | trans }}
-                    </div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            {{ 'Total' | trans }}
-                            <span class="badge">
-                                {{ app['orm.em'].getRepository('Application\\Entity\\RoleEntity').countAll() }}
-                            </span>
-                        </li>
-                    </ul>
-                </div> <!-- /.panel -->
+                {% include 'contents/members-area/statistics/_roles-panel.html.twig' %}
             </div> <!-- /.col-md-3 -->
             <div class="col-md-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        {{ 'Participants' | trans }}
-                    </div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            {{ 'Total' | trans }}
-                            <span class="badge">
-                                {{ app['orm.em'].getRepository('Application\\Entity\\ParticipantEntity').countAll() }}
-                            </span>
-                        </li>
-                    </ul>
-                </div> <!-- /.panel -->
+                {% include 'contents/members-area/statistics/_participants-panel.html.twig' %}
             </div> <!-- /.col-md-3 -->
             <div class="col-md-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        {{ 'Entries' | trans }}
-                    </div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            {{ 'Total' | trans }}
-                            <span class="badge">
-                                {{ app['orm.em'].getRepository('Application\\Entity\\EntryEntity').countAll() }}
-                            </span>
-                        </li>
-                    </ul>
-                </div> <!-- /.panel -->
+                {% include 'contents/members-area/statistics/_entries-panel.html.twig' %}
             </div> <!-- /.col-md-3 -->
+        </div> <!-- /.row -->
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'contents/members-area/statistics/_participants-by-hours-panel.html.twig' %}
+            </div> <!-- /.col-md-12 -->
+        </div> <!-- /.row -->
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'contents/members-area/statistics/_entries-by-hours-panel.html.twig' %}
+            </div> <!-- /.col-md-12 -->
         </div> <!-- /.row -->
     </div>
 {% endblock %}
