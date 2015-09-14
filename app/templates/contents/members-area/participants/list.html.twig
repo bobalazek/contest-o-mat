@@ -56,7 +56,7 @@
 						</td>
 						<td>
 							{% set participantIp = participant.getIp() %}
-							{% if participantIp %}
+							{% if participantIp and app['settings']['doIpGeolocation'] %}
 								{% set ipParserInfo = app['ip.parser'].parse( participantIp ) %}
 								<ul class="list-unstyled">
 									<li>
@@ -89,6 +89,8 @@
 										</li>
 									{% endif %}
 								</ul>
+							{% elseif participantIp %}
+								{{ participantIp }}
 							{% endif %}
 						</td>
 						<td>
