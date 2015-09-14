@@ -356,20 +356,11 @@ class ParticipantEntity
     /********** API ***********/
     public function toArray()
     {
-        $metas = array();
-
-        $participantMetas = $this->getParticipantMetas();
-        if ($participantMetas) {
-            foreach ($participantMetas as $participantMeta) {
-                $metas[] = $participantMeta->toArray();
-            }
-        }
-
         return array(
             'id' => $this->getId(),
             'name' => $this->getName(),
             'email' => $this->getEmail(),
-            'metas' => $metas,
+            'metas' => $this->getMetas(),
             'time_created' => $this->getTimeCreated(),
         );
     }

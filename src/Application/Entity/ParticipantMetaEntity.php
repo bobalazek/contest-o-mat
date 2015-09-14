@@ -156,7 +156,9 @@ class ParticipantMetaEntity
     /********** Magic Methods **********/
     public function __toString()
     {
-        return '"'.$this->getKey().'": "'.$this->getValue().'"';
+        $data[$this->getKey()] = $this->getValue();
+
+        return json_encode($data);
     }
 
     /********** Callback Methods **********/

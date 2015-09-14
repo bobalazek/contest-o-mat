@@ -246,7 +246,7 @@ class EntryEntity
     {
         return array(
             'id' => $this->getId(),
-            'meta' => array(),
+            'metas' => $this->getMetas(),
             'time_created' => $this->getTimeCreated(),
         );
     }
