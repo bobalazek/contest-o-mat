@@ -87,5 +87,7 @@ return array(
     //   will override this values)
     'settings' => array(
         'registrationEnabled' => false,
+        'canParticipateOnlyOnce' => false, // If that is the case, we technically don't need entries, rather save al data in the participant meta
+        'canParticipateOncePerDay' => true,
     ),
 );

@@ -247,11 +247,39 @@ class ParticipantEntity
     {
         return $this->entries;
     }
+
     public function setEntries($entries)
     {
         $this->entries = $entries;
 
         return $this;
+    }
+
+    public function getLastEntry()
+    {
+        $entries = $this->getEntries()->toArray();
+        $lastEntryIndex = count($entries) - 1;
+
+        return is_array($entries)
+            ? $entries[$lastEntryIndex]
+            : false
+        ;
+    }
+
+    public function hasAlreadyParticipatedToday()
+    {
+        $lastEntry = $this->getLastEntry();
+
+        if($lastEntry) {
+            $currentTime = new \Datetime();
+            $entryTime = $lastEntry->getTimeCreated();
+
+            if($currentTime->format('Y-m-d') == $entryTime->format('Y-m-d')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /*** Particiant Metas ***/
