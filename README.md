@@ -15,7 +15,7 @@ Requirements & Tools & Helpers
 * [Bower](http://bower.io/) *
 * [PHP Coding Standards Fixer](http://cs.sensiolabs.org/)
 
-Setup / Development
+Setup
 -------------------
 * Navigate yor your web directory: `cd /var/www`
 * Create a new project: `composer create-project bobalazek/web-application-starter-kit --no-scripts`
@@ -26,6 +26,19 @@ Setup / Development
     * `bower update` (to install the front-end dependencies - you will need to install [Bower](http://bower.io/) first - if you haven't already)
     * `bin/console application:database:hydrate-data` (to hydrate some data)
 * You are done! Start developing!
+
+Development
+-------------------
+Important files / directory you may want / need to edit when developing your application:
+
+* Config: `app/configs/global.php`
+* Templates: `app/templates/contents/application/`
+* Participate Form Type: `src/Application/Form/Type/ParticipateType.php`
+* Application Controller: `src/Application/Controller/ApplicationController.php`
+* Application Controller Provider: `src/Application/ControllerProvider/ApplicationControllerProvider.php`
+* Export Functonality:
+    * Participants Controller: `src/Application/Controller/MembersArea/ParticipantsController.php` - see the `exportAction`
+    * Entries Controller: `src/Application/Controller/MembersArea/EntriesController.php` - see the `exportAction`
 
 Database
 -------------------
@@ -39,11 +52,11 @@ Application name
 -------------------
 You should replace the name for your actual application inside the following files:
 
-* README.md
-* bower.json
-* composer.json
-* phpunit.xml
-* app/configs/global.php
+* `README.md`
+* `bower.json`
+* `composer.json`
+* `phpunit.xml`
+* `app/configs/global.php`
 
 Administrator login
 -------------------
@@ -66,83 +79,6 @@ Commands
 Other commands
 ----------------------
 * `sudo php-cs-fixer fix .` - if you want your code fixed before each commit. You will need to install [PHP Coding Standards Fixer](http://cs.sensiolabs.org/)
-
-Modules / Components
--------------------
-In case you want to create a new component / module in this system, do the following (in this case, the posts inside the members area):
-
-* Create a new Controller Provider (like [src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php) - plural)
-    * Bind with the following routes:
-        * Overview / list:
-            * Route name: [members-area.posts](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php#L18)
-            * Route pattern / url: [(blank)](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php#L15)
-            * Route controller method: [PostsController::indexAction](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php#L11)
-        * New:
-            * Route name: [members-area.posts.new](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php#L24)
-            * Route pattern / url: [/new](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php#L21)
-            * Route controller method: [PostsController::newAction](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php#L24)
-        * Detail:
-            * Route name: `members-area.posts.detail`
-            * Route pattern / url: `/{id}`
-            * Route controller method: `PostsController::detailAction`
-        * Edit:
-            * Route name: [members-area.posts.edit](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php#L30)
-            * Route pattern / url: [/{id}/edit](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php#L27)
-            * Route controller method: [PostsController::editAction](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php#L91)
-        * Remove:
-            * Route name: [members-area.posts.remove](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php#L36)
-            * Route pattern / url: [/{id}/remove](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/ControllerProvider/MembersArea/PostsControllerProvider.php#L33)
-            * Route controller method: [PostsController::removeAction](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php#L156)
-* Create a new Controller ([src/Application/Controller/MembersArea/PostsController.php](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php) - plural)
-    * With the following methods:
-        * [PostsController::indexAction](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php#L11) - for the list template
-        * [PostsController::newAction](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php#L33) - for the new templates
-        * `PostsController::detailAction` - for the details template
-        * [PostsController::editAction](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php#L91) - for the edit template
-        * [PostsController::removeAction](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Controller/MembersArea/PostsController.php#L156) - for the remove template
-* Mount the routes of the Controller Provider to the routes ([app/core/routes.php](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/core/routes.php#L33))
-* Create a new Entity ([src/Application/Entity/PostEntity.php](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Entity/PostEntity.php) - singular)
-* Create a new Repository ([src/Application/Repository/PostRepository.php](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Repository/PostRepository.php) - singular)
-* Create a new Form Type ([src/Application/Form/Type/PostType.php](https://github.com/bobalazek/web-application-starter-kit/blob/master/src/Application/Form/Type/PostType.php) - singular)
-* Create templates:
-    * app/templates/contents/members-area/posts/ (plural)
-    	* [index.html.twig](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/templates/contents/members-area/posts/index.html.twig) (normally just extends the list.html.twig)
-        * [list.html.twig](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/templates/contents/members-area/posts/list.html.twig)
-        * `detail.html.twig`
-        * [new.html.twig](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/templates/contents/members-area/posts/new.html.twig)
-        * [edit.html.twig](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/templates/contents/members-area/posts/edit.html.twig)
-        * [remove.html.twig](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/templates/contents/members-area/posts/remove.html.twig)
-        * [_form.html.twig](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/templates/contents/members-area/posts/_form.html.twig) (just include that inside the edit and new template, so you don't need to write the same form twice - if it's more complex)
-
-File structure
-----------------------
-* app/
-    * configs/ => All basic config stuff (+ validation)
-    * core/ => The core files such as providers, routes, middlewares, common functions and definitions
-    * fixtures/ => Used when hydrating the database
-    * locales/ => Translations & co.
-    * templates/ => All twig templates
-* bin/
-    * console
-* src/
-    * Application/
-        * Command/
-        * Controller/
-        * ControllerProvider/
-        * Doctrine/ => Some Doctrine fixes for Silex
-        * Entity/ => All entities / models
-        * Form/
-        * Provider/
-        * Repository/
-        * Tool/
-        * Twig/
-* web/
-    * assets/
-        * images/
-        * javascripts/
-        * uploads/ => Used for uploads
-        * vendor/ => Bower dependencies
-    * index.php
 
 License
 ----------------------
