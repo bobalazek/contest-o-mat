@@ -24,6 +24,12 @@ class EntriesControllerProvider implements ControllerProviderInterface
         ->bind('members-area.entries.new');
 
         $controllers->match(
+            '/export',
+            'Application\Controller\MembersArea\EntriesController::exportAction'
+        )
+        ->bind('members-area.entries.export');
+
+        $controllers->match(
             '/{id}/edit',
             'Application\Controller\MembersArea\EntriesController::editAction'
         )

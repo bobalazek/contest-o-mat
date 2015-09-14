@@ -24,6 +24,12 @@ class ParticipantsControllerProvider implements ControllerProviderInterface
         ->bind('members-area.participants.new');
 
         $controllers->match(
+            '/export',
+            'Application\Controller\MembersArea\ParticipantsController::exportAction'
+        )
+        ->bind('members-area.participants.export');
+
+        $controllers->match(
             '/{id}/edit',
             'Application\Controller\MembersArea\ParticipantsController::editAction'
         )

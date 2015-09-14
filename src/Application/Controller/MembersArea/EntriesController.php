@@ -5,6 +5,7 @@ namespace Application\Controller\MembersArea;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class EntriesController
 {
@@ -46,6 +47,51 @@ class EntriesController
                 $data
             )
         );
+    }
+
+    public function exportAction(Request $request, Application $app)
+    {
+        // WIP
+        $response = new StreamedResponse();
+        $response->setCallback(function() use ($app) {
+            $handle = fopen('php://output', 'w+');
+
+            fputcsv(
+                $handle,
+                array(
+                    'ID',
+                    'Participant',
+                    'Time',
+                ),
+                ';'
+            );
+
+            $entries = $app['orm.em']
+                ->getRepository('Application\Entity\EntryEntity')
+                ->findAll()
+            ;
+
+            foreach( $entries as $entry )
+            {
+                fputcsv(
+                    $handle,
+                    array(
+                        $entry->getId(),
+                        (string) $entry->getParticipant(),
+                        $entry->getTimeCreated()->format(DATE_ATOM),
+                    ),
+                    ';'
+                 );
+            }
+
+            fclose($handle);
+        });
+
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition','attachment; filename="entries.csv"');
+
+        return $response;
     }
 
     public function newAction(Request $request, Application $app)
