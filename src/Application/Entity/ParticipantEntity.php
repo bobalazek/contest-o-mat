@@ -186,7 +186,7 @@ class ParticipantEntity
     /**
      * @param $ip
      *
-     * @return \Application\Entity\UserActionEntity
+     * @return \Application\Entity\ParticipantEntity
      */
     public function setIp($ip)
     {
@@ -207,7 +207,7 @@ class ParticipantEntity
     /**
      * @param $userAgent
      *
-     * @return \Application\Entity\UserActionEntity
+     * @return \Application\Entity\ParticipantEntity
      */
     public function setUserAgent($userAgent)
     {

@@ -67,6 +67,10 @@ class EntriesController
 
             if ($form->isValid()) {
                 $entryEntity = $form->getData();
+                $entryEntity
+                    ->setIp($app['request']->getClientIp())
+                    ->setUserAgent($app['request']->headers->get('User-Agent'))
+                ;
 
                 $app['orm.em']->persist($entryEntity);
                 $app['orm.em']->flush();

@@ -68,6 +68,35 @@ class ApplicationController
                     $app['orm.em']->flush();
                 }
 
+                if(isset($data['entry']) &&
+                    is_a($data['entry'], 'Application\Entity\EntryEntity'))
+                {
+                    $entryEntity = $data['entry'];
+                    $entryEntity
+                        ->setIp($app['request']->getClientIp())
+                        ->setUserAgent($app['request']->headers->get('User-Agent'))
+                    ;
+
+                    $metas = $entryEntity->getMetas();
+                    if(! empty($metas)) {
+                        foreach($metas as $metaKey => $metaValue) {
+                            $metaEntity = new \Application\Entity\EntryMetaEntity();
+
+                            $metaEntity
+                                ->setKey($metaKey)
+                                ->setValue($metaValue)
+                            ;
+
+                            $entryEntity
+                                ->addEntryMeta($metaEntity)
+                            ;
+                        }
+                    }
+
+                    $app['orm.em']->persist($entryEntity);
+                    $app['orm.em']->flush();
+                }
+
                 $data['showForm'] = false;
                 $data['alert'] = 'success';
                 $data['alertMessage'] = 'You have successfully participated in our prizegame!';
