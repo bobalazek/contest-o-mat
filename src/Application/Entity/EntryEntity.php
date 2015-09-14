@@ -230,7 +230,7 @@ class EntryEntity
     {
         $entryMetas = $this->getEntryMetas()->toArray();
 
-        if(count($entryMetas)) {
+        if (count($entryMetas)) {
             $metas = array();
 
             foreach ($entryMetas as $entryMeta) {

@@ -53,7 +53,7 @@ class EntriesController
     {
         // WIP
         $response = new StreamedResponse();
-        $response->setCallback(function() use ($app) {
+        $response->setCallback(function () use ($app) {
             $handle = fopen('php://output', 'w+');
 
             fputcsv(
@@ -72,8 +72,7 @@ class EntriesController
                 ->findAll()
             ;
 
-            foreach( $entries as $entry )
-            {
+            foreach ($entries as $entry) {
                 fputcsv(
                     $handle,
                     array(
@@ -91,7 +90,7 @@ class EntriesController
 
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-        $response->headers->set('Content-Disposition','attachment; filename="entries.csv"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="entries.csv"');
 
         return $response;
     }

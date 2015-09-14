@@ -342,7 +342,7 @@ class ParticipantEntity
     {
         $participantMetas = $this->getParticipantMetas()->toArray();
 
-        if(count($participantMetas)) {
+        if (count($participantMetas)) {
             $metas = array();
 
             foreach ($participantMetas as $participantMeta) {

@@ -52,7 +52,7 @@ class ParticipantsController
     {
         // WIP
         $response = new StreamedResponse();
-        $response->setCallback(function() use ($app) {
+        $response->setCallback(function () use ($app) {
             $handle = fopen('php://output', 'w+');
 
             fputcsv(
@@ -72,8 +72,7 @@ class ParticipantsController
                 ->findAll()
             ;
 
-            foreach( $participants as $participant )
-            {
+            foreach ($participants as $participant) {
                 fputcsv(
                     $handle,
                     array(
@@ -92,7 +91,7 @@ class ParticipantsController
 
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-        $response->headers->set('Content-Disposition','attachment; filename="participants.csv"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="participants.csv"');
 
         return $response;
     }
