@@ -34,6 +34,36 @@ class ApplicationController
             if ($form->isValid()) {
                 $data = $form->getData();
 
+                if(isset($data['participant']) &&
+                    is_a($data['participant'], 'Application\Entity\ParticipantEntity'))
+                {
+                    $participantEntity = $data['participant'];
+                    $participantEntity
+                        ->setVia('application')
+                        ->setIp($app['request']->getClientIp())
+                        ->setUserAgent($app['request']->headers->get('User-Agent'))
+                    ;
+
+                    $metas = $participantEntity->getMetas();
+                    if(! empty($metas)) {
+                        foreach($metas as $metaKey => $metaValue) {
+                            $metaEntity = new \Application\Entity\ParticipantMetaEntity();
+
+                            $metaEntity
+                                ->setKey($metaKey)
+                                ->setValue($metaValue)
+                            ;
+
+                            $participantEntity
+                                ->addParticipantMeta($metaEntity)
+                            ;
+                        }
+                    }
+
+                    $app['orm.em']->persist($participantEntity);
+                    $app['orm.em']->flush();
+                }
+
                 // Do something with the data!
             }
         }

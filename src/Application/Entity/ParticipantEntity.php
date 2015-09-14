@@ -56,6 +56,20 @@ class ParticipantEntity
     protected $via;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ip", type="string", length=255, nullable=true)
+     */
+    protected $ip;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_agent", type="text", nullable=true)
+     */
+    protected $userAgent;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="time_created", type="datetime")
@@ -83,6 +97,8 @@ class ParticipantEntity
      * @ORM\OneToMany(targetEntity="Application\Entity\ParticipantMetaEntity", mappedBy="participant", cascade={"all"})
      */
     protected $participantMetas;
+
+    protected $metas;
 
     /*************** Methods ***************/
     /********** Contructor **********/
@@ -154,6 +170,48 @@ class ParticipantEntity
     public function setVia($via)
     {
         $this->via = $via;
+
+        return $this;
+    }
+
+    /*** IP ***/
+    /**
+     * @return string
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * @param $ip
+     *
+     * @return \Application\Entity\UserActionEntity
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+
+        return $this;
+    }
+
+    /*** User agent ***/
+    /**
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        return $this->userAgent;
+    }
+
+    /**
+     * @param $userAgent
+     *
+     * @return \Application\Entity\UserActionEntity
+     */
+    public function setUserAgent($userAgent)
+    {
+        $this->userAgent = $userAgent;
 
         return $this;
     }
@@ -236,6 +294,19 @@ class ParticipantEntity
 
 		return $this;
 	}
+
+    /*** Metas ***/
+    public function getMetas()
+    {
+        return $this->metas;
+    }
+
+    public function setMetas($metas)
+    {
+        $this->metas = $metas;
+
+        return $this;
+    }
 
     /********** API ***********/
     public function toArray()

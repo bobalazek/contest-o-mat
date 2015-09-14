@@ -28,6 +28,8 @@
 					<th>{{ paginator_sortable(pagination, 'Email', 'p.email') }}</th>
 					<th>{{ paginator_sortable(pagination, 'Via', 'p.via') }}</th>
 					<th>{{ 'Metas' | trans }}</th>
+					<th>{{ paginator_sortable(pagination, 'IP', 'p.ip') }}</th>
+					<th>{{ paginator_sortable(pagination, 'User Agent', 'p.userAgent') }}</th>
 					<th width="160">{{ paginator_sortable(pagination, 'Time Created', 'p.timeCreated') }}</th>
 					<th width="100">{{ 'Actions' | trans }}</th>
 				</tr>
@@ -36,8 +38,8 @@
 				{% for participant in pagination.getItems() %}
 					<tr>
 						<td>{{ participant.getName() }}</td>
-						<td>{{ participant.getEmail()}}</td>
-						<td>{{ participant.getVia()}}</td>
+						<td>{{ participant.getEmail() }}</td>
+						<td>{{ participant.getVia() }}</td>
 						<td>
 							{% set participantMetas = participant.getParticipantMetas() %}
 							{% if participantMetas %}
@@ -48,6 +50,8 @@
 								</ul>
 							{% endif %}
 						</td>
+						<td>{{ participant.getIp() }}</td>
+						<td>{{ participant.getUserAgent() }}</td>
 						<td>{{ participant.getTimeCreated()|date(app.dateTimeFormat) }}</td>
 						<td>
 							<a class="btn btn-sm btn-default margin-bottom"

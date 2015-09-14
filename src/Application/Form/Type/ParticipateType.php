@@ -24,11 +24,22 @@ class ParticipateType extends AbstractType
         $builder->add(
 			$builder
 				->create('participant', 'form', array(
-						'by_reference' => true,
-						'data_class' => 'Application\Entity\ParticipantEntity',
+                    'label' => false,
+					'by_reference' => true,
+					'data_class' => 'Application\Entity\ParticipantEntity',
 				))
 				    ->add('name', 'text')
                     ->add('email', 'email')
+                    // Only if you want custom metas for the participant
+                    /* ->add(
+                        $builder
+                            ->create('metas', 'form', array(
+                                'label' => false,
+                            ))
+                                ->add('age', 'number')
+                                ->add('birthdate', 'date')
+                                ->add('phone_number', 'text')
+                    ) */
 		);
 
         $builder->add('public', 'checkbox', array(

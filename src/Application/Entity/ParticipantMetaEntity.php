@@ -95,6 +95,10 @@ class ParticipantMetaEntity
 
     public function setValue($value)
     {
+        if(is_a($value, 'DateTime')) {
+            $value = $value->format(DATE_ATOM);
+        }
+
         $this->value = $value;
 
         return $this;
@@ -152,7 +156,7 @@ class ParticipantMetaEntity
     /********** Magic Methods **********/
     public function __toString()
     {
-        return $this->getKey().':'.$this->getValue();
+        return '"'.$this->getKey().'": "'.$this->getValue().'"';
     }
 
     /********** Callback Methods **********/
