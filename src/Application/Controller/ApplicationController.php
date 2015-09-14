@@ -77,6 +77,19 @@ class ApplicationController
                         ->setUserAgent($app['request']->headers->get('User-Agent'))
                     ;
 
+                    $participant = $app['participant']
+                        ? $app['participant']
+                        : isset($participantEntity)
+                            ? $participantEntity
+                            : false
+                    ;
+
+                    if($participant) {
+                        $entryEntity
+                            ->setParticipant($participant)
+                        ;
+                    }
+
                     $metas = $entryEntity->getMetas();
                     if(! empty($metas)) {
                         foreach($metas as $metaKey => $metaValue) {

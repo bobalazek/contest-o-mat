@@ -21,6 +21,7 @@ class ParticipateType extends AbstractType
         $twig = clone $this->app['twig'];
         $twig->setLoader(new \Twig_Loader_String());
 
+        // Participant
         $builder->add(
 			$builder
 				->create('participant', 'form', array(
@@ -40,6 +41,27 @@ class ParticipateType extends AbstractType
                                 ->add('birthdate', 'date')
                                 ->add('phone_number', 'text')
                     ) */
+		);
+
+        // Entry
+        $builder->add(
+			$builder
+				->create('entry', 'form', array(
+                    'label' => false,
+					'by_reference' => true,
+					'data_class' => 'Application\Entity\EntryEntity',
+				))
+                    ->add(
+                        $builder
+                            ->create('metas', 'form', array(
+                                'label' => false,
+                            ))
+                                /*
+                                 * Since the entries entity depends on metas,
+                                 * hydrate the custom metas for each entry here below!
+                                 */
+                                ->add('answer', 'text')
+                    )
 		);
 
         $builder->add('public', 'checkbox', array(

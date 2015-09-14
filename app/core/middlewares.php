@@ -28,6 +28,25 @@ $app->before(function () use ($app) {
         $token->getUser() instanceof \Application\Entity\UserEntity) {
         $app['user'] = $token->getUser();
     }
+
+    $app['participant'] = false;
+
+    // To-Do: If participant already exists
+    // (ex.: we have a FB app, where each fb user is one participant...)
+    // something like:
+    /*
+     * $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
+     * $facebookUser = $app['facebookSdk']->getUser();
+     * if ($facebookUser) {
+     *     $participant = $participantsRepository->findByUid(
+     *         'facebook:'.$facebookUser->getId()
+     *     );
+     *
+     *     if($participant) {
+     *         $participantEntity  = $participant;
+     *     }
+     * }
+     */
 });
 
 /*** Language / Locale check ***/
