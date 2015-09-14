@@ -178,7 +178,7 @@
     {% endif %}
     <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
         {{ widget|raw }}
-        {{ label|trans({}, translation_domain) }}
+        {{ label|trans({}, translation_domain)|raw }}
     </label>
 {% endblock checkbox_radio_label %}
 

@@ -17,6 +17,10 @@ class ParticipateType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // Fix, so the url gets parsed thought twig
+        $twig = clone $this->app['twig'];
+        $twig->setLoader(new \Twig_Loader_String());
+
         $builder->add(
 			$builder
 				->create('participant', 'form', array(
@@ -28,7 +32,9 @@ class ParticipateType extends AbstractType
 		);
 
         $builder->add('public', 'checkbox', array(
-            'label' => 'You agree with our Terms',
+            'label' => $twig->render(
+                'You agree with our <a href="{{ url(\'application.terms\') }}" target="_blank">Terms</a>'
+            ),
             'required' => true,
         ));
 
