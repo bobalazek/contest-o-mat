@@ -1,22 +1,22 @@
-{% set participants = app['orm.em'].getRepository('Application\\Entity\\ParticipantEntity').getByHours() %}
+{% set participants = app['orm.em'].getRepository('Application\\Entity\\ParticipantEntity').getByDays() %}
 <div class="panel panel-primary">
-    <div class="panel-heading">{{ 'Participants by hours' | trans }}</div>
-    <div id="participants-by-hours-chart" style="height: 200px; width: 100%;"></div>
+    <div class="panel-heading">{{ 'Participants by days' | trans }}</div>
+    <div id="participants-by-days-chart" style="height: 200px; width: 100%;"></div>
 </div> <!-- /.panel -->
 
 <script>
     document.addEventListener(
         "DOMContentLoaded",
         function(event) {
-            initializeParticipantsByHoursChart();
+            initializeParticipantsByDaysChart();
         }
     );
 
-    var participantsByHoursChart;
-    function initializeParticipantsByHoursChart() {
-        jQuery('#participants-by-hours-chart').html('');
-        participantsByHoursChart = new Morris.Line({
-            element: 'participants-by-hours-chart',
+    var participantsByDaysChart;
+    function initializeParticipantsByDaysChart() {
+        jQuery('#participants-by-days-chart').html('');
+        participantsByDaysChart = new Morris.Line({
+            element: 'participants-by-days-chart',
             resize: true,
             data: [
                 {% for participant in participants %}

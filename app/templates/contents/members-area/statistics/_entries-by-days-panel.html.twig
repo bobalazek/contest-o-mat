@@ -1,22 +1,22 @@
-{% set entries = app['orm.em'].getRepository('Application\\Entity\\EntryEntity').getByHours() %}
+{% set entries = app['orm.em'].getRepository('Application\\Entity\\EntryEntity').getByDays() %}
 <div class="panel panel-primary">
-    <div class="panel-heading">{{ 'Entries by hours' | trans }}</div>
-    <div id="entries-by-hours-chart" style="height: 200px; width: 100%;"></div>
+    <div class="panel-heading">{{ 'Entries by days' | trans }}</div>
+    <div id="entries-by-days-chart" style="height: 200px; width: 100%;"></div>
 </div> <!-- /.panel -->
 
 <script>
     document.addEventListener(
         "DOMContentLoaded",
         function(event) {
-            initializeEntriesByHoursChart();
+            initializeEntriesByDaysChart();
         }
     );
 
-    var entriesByHoursChart;
-    function initializeEntriesByHoursChart() {
-        jQuery('#entries-by-hours-chart').html('');
-        entriesByHoursChart = new Morris.Line({
-            element: 'entries-by-hours-chart',
+    var entriesByDaysChart;
+    function initializeEntriesByDaysChart() {
+        jQuery('#entries-by-days-chart').html('');
+        entriesByDaysChart = new Morris.Line({
+            element: 'entries-by-days-chart',
             resize: true,
             data: [
                 {% for entry in entries %}

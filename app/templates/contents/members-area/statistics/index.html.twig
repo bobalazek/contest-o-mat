@@ -16,28 +16,97 @@
     </ol>
     <div id="main-content">
         <div class="row">
-            <div class="col-md-3">
-                {% include 'contents/members-area/statistics/_users-panel.html.twig' %}
-            </div> <!-- /.col-md-3 -->
-            <div class="col-md-3">
-                {% include 'contents/members-area/statistics/_roles-panel.html.twig' %}
-            </div> <!-- /.col-md-3 -->
-            <div class="col-md-3">
-                {% include 'contents/members-area/statistics/_participants-panel.html.twig' %}
-            </div> <!-- /.col-md-3 -->
-            <div class="col-md-3">
-                {% include 'contents/members-area/statistics/_entries-panel.html.twig' %}
-            </div> <!-- /.col-md-3 -->
-        </div> <!-- /.row -->
-        <div class="row">
             <div class="col-md-12">
-                {% include 'contents/members-area/statistics/_participants-by-hours-panel.html.twig' %}
+                <h2>{{ 'General' | trans }}</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        {% include 'contents/members-area/statistics/_users-panel.html.twig' %}
+                    </div> <!-- /.col-md-3 -->
+                    <div class="col-md-3">
+                        {% include 'contents/members-area/statistics/_roles-panel.html.twig' %}
+                    </div> <!-- /.col-md-3 -->
+                    <div class="col-md-3">
+                        {% include 'contents/members-area/statistics/_participants-panel.html.twig' %}
+                    </div> <!-- /.col-md-3 -->
+                    <div class="col-md-3">
+                        {% include 'contents/members-area/statistics/_entries-panel.html.twig' %}
+                    </div> <!-- /.col-md-3 -->
+                </div> <!-- /.row -->
             </div> <!-- /.col-md-12 -->
         </div> <!-- /.row -->
         <div class="row">
             <div class="col-md-12">
-                {% include 'contents/members-area/statistics/_entries-by-hours-panel.html.twig' %}
+                <h2>{{ 'Detailed' | trans }}</h2>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-justified"
+                    role="tablist">
+                    <li class="active"
+                        role="presentation">
+                        <a href="#participants-tab"
+                            aria-controls="participants"
+                            role="tab"
+                            data-toggle="tab">
+                            Participants
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#entries-tab"
+                            aria-controls="entries"
+                            role="tab"
+                            data-toggle="tab">
+                            Entries
+                        </a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="participants-tab"
+                        class="tab-pane active fade in"
+                        role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>{{ 'Participants' | trans }}</h3>
+                            </div> <!-- /.col-md-12 -->
+                            <div class="col-md-12">
+                                {% include 'contents/members-area/statistics/_participants-by-hours-panel.html.twig' %}
+                            </div> <!-- /.col-md-12 -->
+                            <div class="col-md-12">
+                                {% include 'contents/members-area/statistics/_participants-by-days-panel.html.twig' %}
+                            </div> <!-- /.col-md-12 -->
+                        </div> <!-- /.row -->
+                    </div>
+                    <div id="entries-tab"
+                        class="tab-pane fade in"
+                        role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>{{ 'Entries' | trans }}</h3>
+                            </div> <!-- /.col-md-12 -->
+                            <div class="col-md-12">
+                                {% include 'contents/members-area/statistics/_entries-by-hours-panel.html.twig' %}
+                            </div> <!-- /.col-md-12 -->
+                            <div class="col-md-12">
+                                {% include 'contents/members-area/statistics/_entries-by-days-panel.html.twig' %}
+                            </div> <!-- /.col-md-12 -->
+                        </div> <!-- /.row -->
+                    </div>
+                </div>
             </div> <!-- /.col-md-12 -->
         </div> <!-- /.row -->
     </div>
+{% endblock %}
+
+{% block body_javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // Participants
+            initializeParticipantsByDaysChart();
+            initializeParticipantsByHoursChart();
+
+            // Entries
+            initializeEntriesByDaysChart();
+            initializeEntriesByHoursChart();
+        });
+    </script>
 {% endblock %}

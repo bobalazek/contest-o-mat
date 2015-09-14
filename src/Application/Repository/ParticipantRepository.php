@@ -17,8 +17,6 @@ class ParticipantRepository
     }
 
     /**
-     * To-Do: This function may need a little refactoring.
-     *
      * @return array
      */
     public function getByHours()
@@ -26,7 +24,7 @@ class ParticipantRepository
         $results = array();
 
         $databaseResults = $this->createQueryBuilder('p')
-            ->select("p.timeCreated AS date")
+            ->select('p.timeCreated AS date')
             ->orderBy('p.timeCreated', 'DESC')
             ->getQuery()
             ->getResult()
@@ -49,6 +47,44 @@ class ParticipantRepository
 
             $results[] = array(
                 'date' => $date.':00',
+                'count' => $count,
+            );
+        }
+
+        return $results;
+    }
+
+    /**
+     * @return array
+     */
+    public function getByDays()
+    {
+        $results = array();
+
+        $databaseResults = $this->createQueryBuilder('p')
+            ->select('p.timeCreated AS date')
+            ->orderBy('p.timeCreated', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        $firstDate = date('Y-m-d H:i:s', strtotime('-4 weeks'));
+        $lastDate = date('Y-m-d H:i:s');
+        $dates = dateRange($firstDate, $lastDate, '+ 1 day', 'Y-m-d');
+
+        foreach ($dates as $date) {
+            $count = 0;
+
+            if ($databaseResults) {
+                foreach ($databaseResults as $databaseResult) {
+                    if (strpos($date, $databaseResult['date']->format('Y-m-d')) !== false) {
+                        $count++;
+                    }
+                }
+            }
+
+            $results[] = array(
+                'date' => $date,
                 'count' => $count,
             );
         }
