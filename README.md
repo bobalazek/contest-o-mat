@@ -36,7 +36,7 @@ Important files / directory you may want / need to edit when developing your app
 * Participate Form Type: `src/Application/Form/Type/ParticipateType.php`
 * Application Controller: `src/Application/Controller/ApplicationController.php`
 * Application Controller Provider: `src/Application/ControllerProvider/ApplicationControllerProvider.php`
-* Export Functonality:
+* Export Functionality:
     * Participants Controller: `src/Application/Controller/MembersArea/ParticipantsController.php` - see the `exportAction`
     * Entries Controller: `src/Application/Controller/MembersArea/EntriesController.php` - see the `exportAction`
 
