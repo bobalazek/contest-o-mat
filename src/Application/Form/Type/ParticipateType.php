@@ -22,26 +22,28 @@ class ParticipateType extends AbstractType
         $twig->setLoader(new \Twig_Loader_String());
 
         // Participant
-        $builder->add(
-			$builder
-				->create('participant', 'form', array(
-                    'label' => false,
-					'by_reference' => true,
-					'data_class' => 'Application\Entity\ParticipantEntity',
-				))
-				    ->add('name', 'text')
-                    ->add('email', 'email')
-                    // Only if you want custom metas for the participant
-                    /* ->add(
-                        $builder
-                            ->create('metas', 'form', array(
-                                'label' => false,
-                            ))
-                                ->add('age', 'number')
-                                ->add('birthdate', 'date')
-                                ->add('phone_number', 'text')
-                    ) */
-		);
+        if(! $this->app['participant']) {
+            $builder->add(
+    			$builder
+    				->create('participant', 'form', array(
+                        'label' => false,
+    					'by_reference' => true,
+    					'data_class' => 'Application\Entity\ParticipantEntity',
+    				))
+    				    ->add('name', 'text')
+                        ->add('email', 'email')
+                        // Only if you want custom metas for the participant
+                        /* ->add(
+                            $builder
+                                ->create('metas', 'form', array(
+                                    'label' => false,
+                                ))
+                                    ->add('age', 'number')
+                                    ->add('birthdate', 'date')
+                                    ->add('phone_number', 'text')
+                        ) */
+    		);
+        }
 
         // Entry
         $builder->add(

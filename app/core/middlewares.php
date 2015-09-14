@@ -30,12 +30,24 @@ $app->before(function () use ($app) {
     }
 
     $app['participant'] = false;
+    $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
+
+    if($app['request']->cookies->has('participant_id')) {
+        $participantId = $app['request']->cookies->get('participant_id');
+
+        $participant = $participantsRepository->findOneById(
+            $participantId
+        );
+
+        if($participant) {
+            $app['participant'] = $participant;
+        }
+    }
 
     // To-Do: If participant already exists
     // (ex.: we have a FB app, where each fb user is one participant...)
     // something like:
     /*
-     * $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
      * $facebookUser = $app['facebookSdk']->getUser();
      * if ($facebookUser) {
      *     $participant = $participantsRepository->findByUid(

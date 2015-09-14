@@ -152,7 +152,7 @@ class EntryMetaEntity
     /********** Magic Methods **********/
     public function __toString()
     {
-        return $this->getKey().':'.$this->getValue();
+        return '"'.$this->getKey().'": "'.$this->getValue().'"';
     }
 
     /********** Callback Methods **********/

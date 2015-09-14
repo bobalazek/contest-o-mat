@@ -22,6 +22,7 @@ class ApplicationController
 
     public function participateAction(Request $request, Application $app)
     {
+        $response = new Response();
         $data = array();
 
         $data['showForm'] = true;
@@ -66,6 +67,13 @@ class ApplicationController
 
                     $app['orm.em']->persist($participantEntity);
                     $app['orm.em']->flush();
+
+                    $participantCookie = new \Symfony\Component\HttpFoundation\Cookie(
+                        'participant_id',
+                        $participantEntity->getId(),
+                        time() + (DAY_IN_MINUTES * 365)
+                    );
+                    $response->headers->setCookie($participantCookie);
                 }
 
                 if(isset($data['entry']) &&
@@ -79,9 +87,9 @@ class ApplicationController
 
                     $participant = $app['participant']
                         ? $app['participant']
-                        : isset($participantEntity)
+                        : (isset($participantEntity)
                             ? $participantEntity
-                            : false
+                            : false)
                     ;
 
                     if($participant) {
@@ -118,7 +126,7 @@ class ApplicationController
 
         $data['form'] = $form->createView();
 
-        return new Response(
+        return $response->setContent(
             $app['twig']->render(
                 'contents/application/participate.html.twig',
                 $data
