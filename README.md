@@ -144,36 +144,6 @@ File structure
         * vendor/ => Bower dependencies
     * index.php
 
-Preview
-----------------------
-
-### Login ###
-![Dashboard preview](doc/assets/images/login-preview.png)
-
-### Register ###
-![Dashboard preview](doc/assets/images/register-preview.png)
-
-### Reset password ###
-![Dashboard preview](doc/assets/images/reset-password-preview.png)
-
-### Dashboard ###
-![Dashboard preview](doc/assets/images/dashboard-preview.png)
-
-### Profile ###
-![Profile preview](doc/assets/images/profile-preview.png)
-
-### Profile settings ###
-![Profile settings preview](doc/assets/images/profile-settings-preview.png)
-
-### Statistics ###
-![Statistics preview](doc/assets/images/statistics-preview.png)
-
-### Users ###
-![Users preview](doc/assets/images/users-preview.png)
-
-### Users edit ###
-![Users edit preview](doc/assets/images/users-edit-preview.png)
-
 License
 ----------------------
-Web Application Starter Kit is licensed under the MIT license.
+Contest-O-Mat is licensed under the MIT license.
