@@ -61,6 +61,7 @@ class ParticipantsController
                     'ID',
                     'Name',
                     'Email',
+                    'Via',
                     'Time',
                 ),
                 ';'
@@ -79,6 +80,7 @@ class ParticipantsController
                         $participant->getId(),
                         $participant->getName(),
                         $participant->getEmail(),
+                        $participant->getVia(),
                         $participant->getTimeCreated()->format(DATE_ATOM),
                     ),
                     ';'
