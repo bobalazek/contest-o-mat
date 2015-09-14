@@ -22,15 +22,15 @@ class ParticipateType extends AbstractType
         $twig->setLoader(new \Twig_Loader_String());
 
         // Participant
-        if(! $this->app['participant']) {
+        if (! $this->app['participant']) {
             $builder->add(
-    			$builder
-    				->create('participant', 'form', array(
+                $builder
+                    ->create('participant', 'form', array(
                         'label' => false,
-    					'by_reference' => true,
-    					'data_class' => 'Application\Entity\ParticipantEntity',
-    				))
-    				    ->add('name', 'text')
+                        'by_reference' => true,
+                        'data_class' => 'Application\Entity\ParticipantEntity',
+                    ))
+                        ->add('name', 'text')
                         ->add('email', 'email')
                         // Only if you want custom metas for the participant
                         /* ->add(
@@ -42,17 +42,17 @@ class ParticipateType extends AbstractType
                                     ->add('birthdate', 'date')
                                     ->add('phone_number', 'text')
                         ) */
-    		);
+            );
         }
 
         // Entry
         $builder->add(
-			$builder
-				->create('entry', 'form', array(
+            $builder
+                ->create('entry', 'form', array(
                     'label' => false,
-					'by_reference' => true,
-					'data_class' => 'Application\Entity\EntryEntity',
-				))
+                    'by_reference' => true,
+                    'data_class' => 'Application\Entity\EntryEntity',
+                ))
                     ->add(
                         $builder
                             ->create('metas', 'form', array(
@@ -64,7 +64,7 @@ class ParticipateType extends AbstractType
                                  */
                                 ->add('answer', 'text')
                     )
-		);
+        );
 
         $builder->add('public', 'checkbox', array(
             'label' => $twig->render(

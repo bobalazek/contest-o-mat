@@ -32,14 +32,14 @@ $app->before(function () use ($app) {
     $app['participant'] = false;
     $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
 
-    if($app['request']->cookies->has('participant_id')) {
+    if ($app['request']->cookies->has('participant_id')) {
         $participantId = $app['request']->cookies->get('participant_id');
 
         $participant = $participantsRepository->findOneById(
             $participantId
         );
 
-        if($participant) {
+        if ($participant) {
             $app['participant'] = $participant;
         }
     }

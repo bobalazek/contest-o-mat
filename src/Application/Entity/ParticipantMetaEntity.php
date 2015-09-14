@@ -95,7 +95,7 @@ class ParticipantMetaEntity
 
     public function setValue($value)
     {
-        if(is_a($value, 'DateTime')) {
+        if (is_a($value, 'DateTime')) {
             $value = $value->format(DATE_ATOM);
         }
 

@@ -29,13 +29,13 @@ class ApplicationController
         $data['alert'] = false;
         $data['alertMessage'] = '';
 
-        if($app['participant'] &&
+        if ($app['participant'] &&
             $app['participant']->hasAlreadyParticipatedToday() &&
             $app['settings']['canParticipateOncePerDay']) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = 'You have already participated today. Come back tomorrow. Thanks!';
-        } else if( $app['participant'] &&
+        } elseif ($app['participant'] &&
             $app['settings']['canParticipateOnlyOnce']) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
@@ -51,9 +51,8 @@ class ApplicationController
                 if ($form->isValid()) {
                     $data = $form->getData();
 
-                    if(isset($data['participant']) &&
-                        is_a($data['participant'], 'Application\Entity\ParticipantEntity'))
-                    {
+                    if (isset($data['participant']) &&
+                        is_a($data['participant'], 'Application\Entity\ParticipantEntity')) {
                         $participantEntity = $data['participant'];
                         $participantEntity
                             ->setVia('application')
@@ -62,8 +61,8 @@ class ApplicationController
                         ;
 
                         $metas = $participantEntity->getMetas();
-                        if(! empty($metas)) {
-                            foreach($metas as $metaKey => $metaValue) {
+                        if (! empty($metas)) {
+                            foreach ($metas as $metaKey => $metaValue) {
                                 $metaEntity = new \Application\Entity\ParticipantMetaEntity();
 
                                 $metaEntity
@@ -88,9 +87,8 @@ class ApplicationController
                         $response->headers->setCookie($participantCookie);
                     }
 
-                    if(isset($data['entry']) &&
-                        is_a($data['entry'], 'Application\Entity\EntryEntity'))
-                    {
+                    if (isset($data['entry']) &&
+                        is_a($data['entry'], 'Application\Entity\EntryEntity')) {
                         $entryEntity = $data['entry'];
                         $entryEntity
                             ->setIp($app['request']->getClientIp())
@@ -104,15 +102,15 @@ class ApplicationController
                                 : false)
                         ;
 
-                        if($participant) {
+                        if ($participant) {
                             $entryEntity
                                 ->setParticipant($participant)
                             ;
                         }
 
                         $metas = $entryEntity->getMetas();
-                        if(! empty($metas)) {
-                            foreach($metas as $metaKey => $metaValue) {
+                        if (! empty($metas)) {
+                            foreach ($metas as $metaKey => $metaValue) {
                                 $metaEntity = new \Application\Entity\EntryMetaEntity();
 
                                 $metaEntity

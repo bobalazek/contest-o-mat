@@ -270,11 +270,11 @@ class ParticipantEntity
     {
         $lastEntry = $this->getLastEntry();
 
-        if($lastEntry) {
+        if ($lastEntry) {
             $currentTime = new \Datetime();
             $entryTime = $lastEntry->getTimeCreated();
 
-            if($currentTime->format('Y-m-d') == $entryTime->format('Y-m-d')) {
+            if ($currentTime->format('Y-m-d') == $entryTime->format('Y-m-d')) {
                 return true;
             }
         }
@@ -290,38 +290,35 @@ class ParticipantEntity
 
     public function setParticipantMetas($participantMetas)
     {
-        if( $participantMetas )
-		{
-			foreach( $participantMetas as $participantMeta )
-			{
-				$participantMeta->setParticipant($this);
-			}
+        if ($participantMetas) {
+            foreach ($participantMetas as $participantMeta) {
+                $participantMeta->setParticipant($this);
+            }
 
             $this->participantMetas = $participantMetas;
-		}
+        }
 
         return $this;
     }
 
     public function addParticipantMeta(\Application\Entity\ParticipantMetaEntity $participantMeta)
-	{
-		if ( ! $this->participantMetas->contains($participantMeta) )
-		{
-			$participantMeta->setParticipant($this);
+    {
+        if (! $this->participantMetas->contains($participantMeta)) {
+            $participantMeta->setParticipant($this);
 
-			$this->participantMetas->add($participantMeta);
-		}
+            $this->participantMetas->add($participantMeta);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function removeParticipantMeta(\Application\Entity\ParticipantMetaEntity $participantMeta)
-	{
-		$participantMeta->setParticipant(null);
-		$this->participantMetas->removeElement($participantMeta);
+    public function removeParticipantMeta(\Application\Entity\ParticipantMetaEntity $participantMeta)
+    {
+        $participantMeta->setParticipant(null);
+        $this->participantMetas->removeElement($participantMeta);
 
-		return $this;
-	}
+        return $this;
+    }
 
     /*** Metas ***/
     public function getMetas()
@@ -342,8 +339,8 @@ class ParticipantEntity
         $metas = array();
 
         $participantMetas = $this->getParticipantMetas();
-        if($participantMetas) {
-            foreach($participantMetas as $participantMeta) {
+        if ($participantMetas) {
+            foreach ($participantMetas as $participantMeta) {
                 $metas[] = $participantMeta->toArray();
             }
         }

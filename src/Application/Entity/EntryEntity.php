@@ -178,38 +178,35 @@ class EntryEntity
 
     public function setEntryMetas($entryMetas)
     {
-        if( $entryMetas )
-		{
-			foreach( $entryMetas as $entryMeta )
-			{
-				$entryMeta->setEntry($this);
-			}
+        if ($entryMetas) {
+            foreach ($entryMetas as $entryMeta) {
+                $entryMeta->setEntry($this);
+            }
 
             $this->entryMetas = $entryMetas;
-		}
+        }
 
         return $this;
     }
 
     public function addEntryMeta(\Application\Entity\EntryMetaEntity $entryMeta)
-	{
-		if ( ! $this->entryMetas->contains($entryMeta) )
-		{
-			$entryMeta->setEntry($this);
+    {
+        if (! $this->entryMetas->contains($entryMeta)) {
+            $entryMeta->setEntry($this);
 
-			$this->entryMetas->add($entryMeta);
-		}
+            $this->entryMetas->add($entryMeta);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function removeEntryMeta(\Application\Entity\EntryMetaEntity $entryMeta)
-	{
-		$entryMeta->setEntry(null);
-		$this->entryMetas->removeElement($entryMeta);
+    public function removeEntryMeta(\Application\Entity\EntryMetaEntity $entryMeta)
+    {
+        $entryMeta->setEntry(null);
+        $this->entryMetas->removeElement($entryMeta);
 
-		return $this;
-	}
+        return $this;
+    }
 
     /*** Metas ***/
     public function getMetas()

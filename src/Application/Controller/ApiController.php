@@ -35,7 +35,7 @@ class ApiController
         if (count($validatorErrors) > 0) {
             $errors = array();
 
-            foreach($validatorErrors as $error) {
+            foreach ($validatorErrors as $error) {
                 $errorKey = $error->getPropertyPath();
                 $errorValue = $error->getMessage();
 
