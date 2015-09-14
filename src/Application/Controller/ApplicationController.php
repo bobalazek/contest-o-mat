@@ -24,6 +24,10 @@ class ApplicationController
     {
         $data = array();
 
+        $data['showForm'] = true;
+        $data['alert'] = false;
+        $data['alertMessage'] = '';
+
         $form = $app['form.factory']->create(
             new \Application\Form\Type\ParticipateType($app)
         );
@@ -64,7 +68,9 @@ class ApplicationController
                     $app['orm.em']->flush();
                 }
 
-                // Do something with the data!
+                $data['showForm'] = false;
+                $data['alert'] = 'success';
+                $data['alertMessage'] = 'You have successfully participated in our prizegame!';
             }
         }
 
