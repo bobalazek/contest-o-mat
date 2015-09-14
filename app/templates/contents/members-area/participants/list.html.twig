@@ -50,8 +50,67 @@
 								</ul>
 							{% endif %}
 						</td>
-						<td>{{ participant.getIp() }}</td>
-						<td>{{ participant.getUserAgent() }}</td>
+						<td>
+							{% set participantIp = participant.getIp() %}
+							{% if participantIp %}
+								{% set ipParserInfo = app['ip.parser'].parse( participantIp ) %}
+								<ul class="list-unstyled">
+									<li>
+										<b>{{ 'IP' | trans }}:</b>
+										{{ participantIp }}
+									</li>
+									{% if ipParserInfo.geoplugin_city is defined and ipParserInfo.geoplugin_city %}
+										<li>
+											<b>{{ 'City' | trans }}:</b>
+											{{ ipParserInfo.geoplugin_city }}
+										</li>
+									{% endif %}
+									{% if ipParserInfo.geoplugin_region is defined and ipParserInfo.geoplugin_region %}
+										<li>
+											<b>{{ 'Region' | trans }}:</b>
+											{{ ipParserInfo.geoplugin_region }}
+										</li>
+									{% endif %}
+									{% if ipParserInfo.geoplugin_countryCode is defined and ipParserInfo.geoplugin_countryCode %}
+										<li>
+											<b>{{ 'Country' | trans }}:</b>
+											{{ ipParserInfo.geoplugin_countryCode }} /
+											{{ ipParserInfo.geoplugin_countryName }}
+										</li>
+									{% endif %}
+									{% if ipParserInfo.geoplugin_continentCode is defined and ipParserInfo.geoplugin_continentCode %}
+										<li>
+											<b>{{ 'Country' | trans }}:</b>
+											{{ ipParserInfo.geoplugin_continentCode }}
+										</li>
+									{% endif %}
+								</ul>
+							{% endif %}
+						</td>
+						<td>
+							{% set participantUserAgent = participant.getUserAgent() %}
+							{% if participantUserAgent %}
+								{% set uaParserInfo = app['ua.parser'].parse( participantUserAgent ) %}
+								<ul class="list-unstyled">
+									<li class="hidden">
+										<b>{{ 'User Agent' | trans }}:</b>
+										{{ participant.getUserAgent() }}
+									</li>
+									<li>
+										<b>{{ 'Browser' | trans }}:</b>
+										{{ uaParserInfo.ua }}
+									</li>
+									<li>
+										<b>{{ 'Operating system' | trans }}:</b>
+										{{ uaParserInfo.os }}
+									</li>
+									<li>
+										<b>{{ 'Device' | trans }}:</b>
+										{{ uaParserInfo.device }}
+									</li>
+								</ul>
+							{% endif %}
+						</td>
 						<td>{{ participant.getTimeCreated()|date(app.dateTimeFormat) }}</td>
 						<td>
 							<a class="btn btn-sm btn-default margin-bottom"
@@ -74,4 +133,8 @@
 			</tbody>
 		</table>
 	</div>
+	<p>
+		Some of the returned data includes GeoLite data created by MaxMind,
+		available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+	</p>
 {% endblock %}

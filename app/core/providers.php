@@ -250,6 +250,16 @@ $app['user.provider'] = $app->share(function () use ($app) {
     return new \Application\Provider\UserProvider($app);
 });
 
+/*** UAParser ***/
+$app['ua.parser'] = $app->share(function () use ($app) {
+    return \UAParser\Parser::create();
+});
+
+/*** UAParser ***/
+$app['ip.parser'] = $app->share(function () use ($app) {
+    return new \Application\IPParser();
+});
+
 /***** Security *****/
 $securityFirewalls = array();
 
