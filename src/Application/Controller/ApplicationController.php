@@ -128,6 +128,25 @@ class ApplicationController
                         $app['orm.em']->flush();
                     }
 
+                    if ($participant &&
+                        $app['settings']['sendEmailToParticipantOnEntry']) {
+                        try {
+                            $app['application.mailer']
+                                ->swiftMessageInitializeAndSend(array(
+                                    'subject' => $app['name'].' - '.$app['translator']->trans('Thanks for participating!'),
+                                    'to' => array( $participant->getEmail() ),
+                                    'body' => 'emails/participants/new-entry.html.twig',
+                                    'type' => 'participant.entry.new',
+                                    'templateData' => array(
+                                        'participant' => $participant,
+                                    ),
+                                ))
+                            ;
+                        } catch(\Exception $e) {
+                            var_dump($e->getMessage());
+                        }
+                    }
+
                     $data['showForm'] = false;
                     $data['alert'] = 'success';
                     $data['alertMessage'] = 'You have successfully participated in our prizegame!';

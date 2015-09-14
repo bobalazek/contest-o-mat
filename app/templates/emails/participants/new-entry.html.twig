@@ -1,0 +1,20 @@
+{% extends 'layouts/email.html.twig' %}
+
+{% block main %}
+    <table class="row note">
+        <tr>
+            <td class="wrapper last">
+                <h4>{{ 'Hello'|trans }} <b>{{ participant.getName()  }}</b>!</h4>
+                <table class="twelve columns">
+                <tr>
+                    <td class="panel">
+                        {{ 'Thanks for participating in our prizegame!' | trans }}
+                    </td>
+                    <td class="expander"></td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <p></p>
+{% endblock %}

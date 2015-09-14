@@ -89,5 +89,6 @@ return array(
         'registrationEnabled' => false,
         'canParticipateOnlyOnce' => false, // If that is the case, we technically don't need entries, rather save al data in the participant meta
         'canParticipateOncePerDay' => false,
+        'sendEmailToParticipantOnEntry' => false, // Shall the user become a "thanks for the participation" mail?
     ),
 );
