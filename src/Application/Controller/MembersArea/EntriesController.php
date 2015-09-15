@@ -25,6 +25,7 @@ class EntriesController
             ->createQueryBuilder()
             ->select('e')
             ->from('Application\Entity\EntryEntity', 'e')
+            ->leftJoin('e.entryMetas', 'em')
             ->leftJoin('e.participant', 'p')
         ;
 
@@ -39,6 +40,7 @@ class EntriesController
                 'searchFields' => array(
                     'p.name',
                     'p.email',
+                    'em.value',
                 ),
             )
         );

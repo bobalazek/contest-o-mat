@@ -25,6 +25,7 @@ class ParticipantsController
             ->createQueryBuilder()
             ->select('p')
             ->from('Application\Entity\ParticipantEntity', 'p')
+            ->leftJoin('p.participantMetas', 'pm')
         ;
 
         $pagination = $app['paginator']->paginate(
@@ -39,6 +40,7 @@ class ParticipantsController
                     'p.name',
                     'p.email',
                     'p.via',
+                    'pm.value',
                 ),
             )
         );
