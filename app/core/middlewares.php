@@ -29,18 +29,23 @@ $app->before(function () use ($app) {
         $app['user'] = $token->getUser();
     }
 
+    // This shall only run when we have a database,
+    // or else testing won't work (because there we don't have a database)
     $app['participant'] = false;
-    $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
+    if (isset($app['databaseOptions']) &&
+        is_array($app['databaseOptions'])) {
+        $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
 
-    if ($app['request']->cookies->has('participant_id')) {
-        $participantId = $app['request']->cookies->get('participant_id');
+        if ($app['request']->cookies->has('participant_id')) {
+            $participantId = $app['request']->cookies->get('participant_id');
 
-        $participant = $participantsRepository->findOneById(
-            $participantId
-        );
+            $participant = $participantsRepository->findOneById(
+                $participantId
+            );
 
-        if ($participant) {
-            $app['participant'] = $participant;
+            if ($participant) {
+                $app['participant'] = $participant;
+            }
         }
     }
 
