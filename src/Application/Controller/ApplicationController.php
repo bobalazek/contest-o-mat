@@ -215,8 +215,10 @@ class ApplicationController
     {
         if ($app['facebookSdk']) {
             $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
-            $url = $app['baseUrl'].
-                str_replace(
+            $referer = $request->headers->get('referer');
+            $url = $referer
+                ? $referer
+                : $app['baseUrl'].str_replace(
                     $app['baseUri'],
                     '',
                     $app['url_generator']->generate('application.facebook-authenticated')
