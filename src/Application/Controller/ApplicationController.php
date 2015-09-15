@@ -42,7 +42,7 @@ class ApplicationController
             $data['alertMessage'] = 'You have already participated. Thanks!';
         } else {
             $form = $app['form.factory']->create(
-                new \Application\Form\Type\ParticipateType($app)
+                new \Application\Form\Type\Participate\DefaultType($app)
             );
 
             if ($request->getMethod() == 'POST') {

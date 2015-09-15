@@ -1,12 +1,12 @@
 <?php
 
-namespace Application\Form\Type;
+namespace Application\Form\Type\Participate;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ParticipateType extends AbstractType
+class DefaultType extends AbstractType
 {
     protected $app;
 
@@ -22,6 +22,11 @@ class ParticipateType extends AbstractType
         $twig->setLoader(new \Twig_Loader_String());
 
         // Participant
+        /*
+         * Show only the first time until the visitor isn't a participant yet.
+         * Each time afer that, the participant will automaticall be "attached"
+         * to the entry.
+         */
         if (! $this->app['participant']) {
             $builder->add(
                 $builder
@@ -66,7 +71,7 @@ class ParticipateType extends AbstractType
                     )
         );
 
-        $builder->add('public', 'checkbox', array(
+        $builder->add('terms', 'checkbox', array(
             'label' => $twig->render(
                 'You agree with our <a href="{{ url(\'application.terms\') }}" target="_blank">Terms</a>'
             ),

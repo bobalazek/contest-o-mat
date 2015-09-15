@@ -33,7 +33,7 @@ Important files / directory you may want / need to edit when developing your app
 
 * Config: `app/configs/global.php`
 * Templates: `app/templates/contents/application/`
-* Participate Form Type: `src/Application/Form/Type/ParticipateType.php`
+* Participate Form Type: `src/Application/Form/Type/Participate/DefaultType.php`
 * Application Controller: `src/Application/Controller/ApplicationController.php`
 * Application Controller Provider: `src/Application/ControllerProvider/ApplicationControllerProvider.php`
 * Export Functionality:
