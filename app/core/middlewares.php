@@ -52,7 +52,8 @@ $app->before(function () use ($app) {
 
     $app['facebookUser'] = false;
     $app['facebookLoginUrl'] = false;
-    if ($app['facebookSdk']) {
+    if ($app['facebookSdk'] &&
+        $app['settings']['useFacebookUserAsParticipantIfPossible']) {
         $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
 
         try {
@@ -64,12 +65,17 @@ $app->before(function () use ($app) {
                 );
 
                 try {
-                    $facebookUserData = $app['facebookSdk']->get('/me');
+                    $facebookFields = $app['facebookSdkOptions']['fields'];
+
+                    $facebookUserData = $app['facebookSdk']->get(
+                        '/me?fields='.
+                        implode(',', $facebookFields)
+                    );
                     $app['facebookUser'] = json_decode(
                         $facebookUserData->getGraphUser()->asJson()
                     );
 
-                    $participant = $participantsRepository->findByUid(
+                    $participant = $participantsRepository->findOneByUid(
                         'facebook:'.$app['facebookUser']->id
                     );
 

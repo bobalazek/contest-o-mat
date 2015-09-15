@@ -338,6 +338,13 @@ class ParticipantEntity
         return $this;
     }
 
+    public function addMeta($key, $value = null)
+    {
+        $this->metas[$key] = $value;
+
+        return $this;
+    }
+
     public function hydrateParticipantMetas()
     {
         $participantMetas = $this->getParticipantMetas()->toArray();

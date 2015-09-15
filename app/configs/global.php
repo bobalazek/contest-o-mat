@@ -92,6 +92,16 @@ return array(
         'permissions' => array(
             'email',
         ),
+        'fields' => array( // Which fields should be fetched when requesting the facebook graph object (/me)?
+            'id',
+            'name',
+            'email',
+            'verified',
+            'locale',
+            'first_name',
+            'middle_name',
+            'last_name',
+        ),
     ),
 
     // Default settings (the setting values from the DB
@@ -103,6 +113,6 @@ return array(
         'sendEmailToParticipantOnEntry' => false, // Shall the user become a "thanks for the participation" mail?
         'doIpGeolocation' => false,
         'useSameParticipantDataAfterFirstEntry' => true, // If you want to use the same participant data (that you entered with the first entry) each follow up entry
-        'useFacebookUserAsParticipantIfPossible' => true, // To-Do: Soon! Not implemented yet.
+        'useFacebookUserAsParticipantIfPossible' => true, // Should we use the facebook SDK?
     ),
 );

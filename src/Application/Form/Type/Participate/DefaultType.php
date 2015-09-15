@@ -28,6 +28,21 @@ class DefaultType extends AbstractType
          * to the entry.
          */
         if (! $this->app['participant']) {
+            $nameData = null;
+            $emailData = null;
+
+            if($this->app['facebookUser']) {
+                $nameData = isset($this->app['facebookUser']->name)
+                    ? $this->app['facebookUser']->name
+                    : null
+                ;
+
+                $emailData = isset($this->app['facebookUser']->email)
+                    ? $this->app['facebookUser']->email
+                    : null
+                ;
+            }
+
             $builder->add(
                 $builder
                     ->create('participant', 'form', array(
@@ -35,8 +50,12 @@ class DefaultType extends AbstractType
                         'by_reference' => true,
                         'data_class' => 'Application\Entity\ParticipantEntity',
                     ))
-                        ->add('name', 'text')
-                        ->add('email', 'email')
+                        ->add('name', 'text', array(
+                            'data' => $nameData,
+                        ))
+                        ->add('email', 'email', array(
+                            'data' => $emailData,
+                        ))
                         // Only if you want custom metas for the participant
                         /* ->add(
                             $builder

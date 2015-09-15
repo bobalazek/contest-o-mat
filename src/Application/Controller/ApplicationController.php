@@ -60,6 +60,52 @@ class ApplicationController
                             ->setUserAgent($app['request']->headers->get('User-Agent'))
                         ;
 
+                        if($app['facebookUser']) {
+                            $uid = 'facebook:'.$app['facebookUser']->id;
+
+                            $participantEntity
+                                ->setUid($uid)
+                            ;
+
+                            // Maybe add some other atributes inside the metas?
+                            // https://developers.facebook.com/docs/graph-api/reference/user
+                            if(isset($app['facebookUser']->verified)) {
+                                $participantEntity
+                                    ->addMeta(
+                                        'verified',
+                                        $app['facebookUser']->verified
+                                    )
+                                ;
+                            }
+
+                            if(isset($app['facebookUser']->first_name)) {
+                                $participantEntity
+                                    ->addMeta(
+                                        'first_name',
+                                        $app['facebookUser']->first_name
+                                    )
+                                ;
+                            }
+
+                            if(isset($app['facebookUser']->middle_name)) {
+                                $participantEntity
+                                    ->addMeta(
+                                        'middle_name',
+                                        $app['facebookUser']->middle_name
+                                    )
+                                ;
+                            }
+
+                            if(isset($app['facebookUser']->last_name)) {
+                                $participantEntity
+                                    ->addMeta(
+                                        'last_name',
+                                        $app['facebookUser']->last_name
+                                    )
+                                ;
+                            }
+                        }
+
                         $metas = $participantEntity->getMetas();
                         if (! empty($metas)) {
                             foreach ($metas as $metaKey => $metaValue) {
@@ -195,8 +241,6 @@ class ApplicationController
     public function facebookAuthenticatedAction(Request $request, Application $app)
     {
         if ($app['facebookSdk']) {
-            // To-Do: This is the callback on facebook authentication...
-            // maybe also save the user as participant ...
             $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
 
             try {
@@ -205,6 +249,13 @@ class ApplicationController
                 $app['session']->set(
                     'fb_access_token',
                     (string) $accessToken
+                );
+
+                $app['flashbag']->add(
+                    'success',
+                    $app['translator']->trans(
+                        'You have successfully authenticated to Facebook.'
+                    )
                 );
             } catch(\Exception $e) {
             }
