@@ -79,12 +79,14 @@ class ApplicationController
                         $app['orm.em']->persist($participantEntity);
                         $app['orm.em']->flush();
 
-                        $participantCookie = new \Symfony\Component\HttpFoundation\Cookie(
-                            'participant_id',
-                            $participantEntity->getId(),
-                            time() + (DAY_IN_MINUTES * 365)
-                        );
-                        $response->headers->setCookie($participantCookie);
+                        if ($app['settings']['useSameParticipantDataAfterFirstEntry']) {
+                            $participantCookie = new \Symfony\Component\HttpFoundation\Cookie(
+                                'participant_id',
+                                $participantEntity->getId(),
+                                time() + (DAY_IN_MINUTES * 365)
+                            );
+                            $response->headers->setCookie($participantCookie);
+                        }
                     }
 
                     if (isset($data['entry']) &&

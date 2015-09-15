@@ -36,7 +36,8 @@ $app->before(function () use ($app) {
         is_array($app['databaseOptions'])) {
         $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
 
-        if ($app['request']->cookies->has('participant_id')) {
+        if ($app['request']->cookies->has('participant_id') &&
+            $app['settings']['useSameParticipantDataAfterFirstEntry']) {
             $participantId = $app['request']->cookies->get('participant_id');
 
             $participant = $participantsRepository->findOneById(
