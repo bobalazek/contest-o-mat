@@ -91,6 +91,6 @@ return array(
         'canParticipateOncePerDay' => false,
         'sendEmailToParticipantOnEntry' => false, // Shall the user become a "thanks for the participation" mail?
         'doIpGeolocation' => false,
-        'useSameParticipantDataAfterFirstEntry' => true, // IF you want to use the same participant data (that you entered with the first entry) each follow up entry
+        'useSameParticipantDataAfterFirstEntry' => true, // If you want to use the same participant data (that you entered with the first entry) each follow up entry
     ),
 );
