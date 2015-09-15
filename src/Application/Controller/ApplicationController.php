@@ -67,7 +67,7 @@ class ApplicationController
                                 ->setUid($uid)
                             ;
 
-                            // Maybe add some other atributes inside the metas?
+                            // Maybe add some other attributes inside the metas?
                             // https://developers.facebook.com/docs/graph-api/reference/user
                             if(isset($app['facebookUser']->verified)) {
                                 $participantEntity
