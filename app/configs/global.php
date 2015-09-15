@@ -83,6 +83,15 @@ return array(
         'remember_me_parameter' => 'remember_me',
     ),
 
+    // Facebook SDK Options
+    // https://developers.facebook.com/docs/php/gettingstarted/4.0.0
+    'facebookSdkOptions' => array(
+        'id' => '',
+        'secret' => '',
+        'version' => 'v2.4',
+        'scope' => 'email',
+    ),
+
     // Default settings (the setting values from the DB
     //   will override this values)
     'settings' => array(
@@ -92,5 +101,6 @@ return array(
         'sendEmailToParticipantOnEntry' => false, // Shall the user become a "thanks for the participation" mail?
         'doIpGeolocation' => false,
         'useSameParticipantDataAfterFirstEntry' => true, // If you want to use the same participant data (that you entered with the first entry) each follow up entry
+        'useFacebookUserAsParticipantIfPossible' => true, // To-Do: Soon! Not implemented yet.
     ),
 );

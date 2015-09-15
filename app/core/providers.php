@@ -351,6 +351,15 @@ $app['mailer.css_to_inline_styles_converter'] = $app->protect(function ($twigTem
     return $emogrifier->emogrify();
 });
 
+/*** Facebook SDK ***/
+if ($app['facebookSdkOptions']['id'] &&
+    $app['facebookSdkOptions']['secret']) {
+    \FacebookFacebookSession::setDefaultApplication(
+        $app['facebookSdkOptions']['id'],
+        $app['facebookSdkOptions']['secret']
+    );
+}
+
 /*** Listeners ***/
 $app['dispatcher']->addListener(
     \Symfony\Component\Security\Core\AuthenticationEvents::AUTHENTICATION_SUCCESS,
