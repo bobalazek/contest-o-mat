@@ -39,6 +39,20 @@ class EntryEntity
     protected $userAgent;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="user_agent_ua", type="text", nullable=true)
+     */
+    protected $userAgentUa;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_agent_os", type="text", nullable=true)
+     */
+    protected $userAgentOs;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="time_created", type="datetime")
@@ -128,8 +142,14 @@ class EntryEntity
     {
         $this->userAgent = $userAgent;
 
+        $parser = \UAParser\Parser::create();
+        $userAgentInfo = $parser->parse($userAgent);
+
+        $this->userAgentUa = $userAgentInfo->ua->family;
+        $this->userAgentOs = $userAgentInfo->os->family;
+
         return $this;
-    }
+     }
 
     /*** Time created ***/
     public function getTimeCreated()

@@ -23,30 +23,40 @@ class ParticipantRepository
     {
         $results = array();
 
-        $databaseResults = $this->createQueryBuilder('p')
-            ->select('p.timeCreated AS date')
-            ->orderBy('p.timeCreated', 'DESC')
-            ->getQuery()
-            ->getResult()
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    TIMESTAMP(CONCAT(
+                        DATE(p.timeCreated),
+                        ' ',
+                        HOUR(p.timeCreated),
+                        ':00:00'
+                    )) AS date,
+                    COUNT(p.id) AS countNumber
+                FROM Application\Entity\ParticipantEntity p
+                GROUP BY date
+                ORDER BY date DESC"
+            )
+            ->getArrayResult()
         ;
 
-        $firstDate = date('Y-m-d H:i:s', strtotime('-2 days'));
-        $lastDate = date('Y-m-d H:i:s');
-        $dates = dateRange($firstDate, $lastDate, '+ 1 hour', 'Y-m-d H');
+        $firstDate = date('Y-m-d H:00:00', strtotime('-2 days'));
+        $lastDate = date('Y-m-d H:00:00');
+        $dates = dateRange($firstDate, $lastDate, '+ 1 hour', 'Y-m-d H:00:00');
 
         foreach ($dates as $date) {
             $count = 0;
 
             if ($databaseResults) {
-                foreach ($databaseResults as $databaseResult) {
-                    if (strpos($date, $databaseResult['date']->format('Y-m-d H')) !== false) {
-                        $count++;
+                foreach($databaseResults as $databaseResult) {
+                    if($databaseResult['date'] == $date) {
+                        $count = (int) $databaseResult['countNumber'];
                     }
                 }
             }
 
             $results[] = array(
-                'date' => $date.':00',
+                'date' => $date,
                 'count' => $count,
             );
         }
@@ -61,24 +71,29 @@ class ParticipantRepository
     {
         $results = array();
 
-        $databaseResults = $this->createQueryBuilder('p')
-            ->select('p.timeCreated AS date')
-            ->orderBy('p.timeCreated', 'DESC')
-            ->getQuery()
-            ->getResult()
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    DATE(p.timeCreated) AS date,
+                    COUNT(p.id) AS countNumber
+                FROM Application\Entity\ParticipantEntity p
+                GROUP BY date
+                ORDER BY date DESC"
+            )
+            ->getArrayResult()
         ;
 
-        $firstDate = date('Y-m-d H:i:s', strtotime('-4 weeks'));
-        $lastDate = date('Y-m-d H:i:s');
+        $firstDate = date('Y-m-d', strtotime('-4 weeks'));
+        $lastDate = date('Y-m-d');
         $dates = dateRange($firstDate, $lastDate, '+ 1 day', 'Y-m-d');
 
         foreach ($dates as $date) {
             $count = 0;
 
             if ($databaseResults) {
-                foreach ($databaseResults as $databaseResult) {
-                    if (strpos($date, $databaseResult['date']->format('Y-m-d')) !== false) {
-                        $count++;
+                foreach($databaseResults as $databaseResult) {
+                    if($databaseResult['date'] == $date) {
+                        $count = (int) $databaseResult['countNumber'];
                     }
                 }
             }
@@ -105,21 +120,22 @@ class ParticipantRepository
             'IE' => 0,
         );
 
-        $participants = $this->createQueryBuilder('p')
-            ->getQuery()
-            ->getResult()
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    p.userAgentUa,
+                    COUNT(p.id) AS countNumber
+                FROM Application\Entity\ParticipantEntity p
+                GROUP BY p.userAgentUa"
+            )
+            ->getArrayResult()
         ;
 
-        if ($participants) {
-            foreach ($participants as $participant) {
-                $uaParserInfo = $app['ua.parser']->parse($participant->getUserAgent());
-                $browser = $uaParserInfo->ua->family;
+        if ($databaseResults) {
+            foreach ($databaseResults as $databaseResult) {
+                $userAgentUa = $databaseResult['userAgentUa'];
 
-                if (! isset($data[$browser])) {
-                    $data[$browser] = 0;
-                } else {
-                    $data[$browser]++;
-                }
+                $data[$userAgentUa] = $databaseResult['countNumber'];
             }
         }
 
@@ -137,21 +153,22 @@ class ParticipantRepository
             'Linux' => 0,
         );
 
-        $participants = $this->createQueryBuilder('p')
-            ->getQuery()
-            ->getResult()
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    p.userAgentOs,
+                    COUNT(p.id) AS countNumber
+                FROM Application\Entity\ParticipantEntity p
+                GROUP BY p.userAgentOs"
+            )
+            ->getArrayResult()
         ;
 
-        if ($participants) {
-            foreach ($participants as $participant) {
-                $uaParserInfo = $app['ua.parser']->parse($participant->getUserAgent());
-                $os = $uaParserInfo->os->family;
+        if ($databaseResults) {
+            foreach ($databaseResults as $databaseResult) {
+                $userAgentOs = $databaseResult['userAgentOs'];
 
-                if (! isset($data[$os])) {
-                    $data[$os] = 0;
-                } else {
-                    $data[$os]++;
-                }
+                $data[$userAgentOs] = $databaseResult['countNumber'];
             }
         }
 

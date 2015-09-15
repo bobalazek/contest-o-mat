@@ -158,6 +158,31 @@ if (isset($app['databaseOptions']) &&
                     ),
                 ),
             ),
+            'orm.custom.functions.string' => array(
+                'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
+                'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat'
+            ),
+            'orm.custom.functions.datetime' => array(
+                'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'time'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'timestamp'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'convert_tz'    => 'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz'
+            ),
+            'orm.custom.functions.numeric' => array(
+                'timestampdiff' => 'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',
+                'dayofyear'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'dayofweek'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'week'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'day'           => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'hour'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'minute'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'month'         => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'quarter'       => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'second'        => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'year'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                'sign'          => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
+                'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
+            ),
         )
     );
 
