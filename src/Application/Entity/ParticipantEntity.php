@@ -72,16 +72,30 @@ class ParticipantEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="user_agent_ua", type="text", nullable=true)
+     * @ORM\Column(name="user_agent_ua", type="string", length=32, nullable=true)
      */
     protected $userAgentUa;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="user_agent_os", type="text", nullable=true)
+     * @ORM\Column(name="user_agent_os", type="string", length=32, nullable=true)
      */
     protected $userAgentOs;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_agent_device", type="string", length=32, nullable=true)
+     */
+    protected $userAgentDevice;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_agent_device_type", type="string", length=32, nullable=true)
+     */
+    protected $userAgentDeviceType = 'Desktop';
 
     /**
      * @var \DateTime
@@ -228,10 +242,19 @@ class ParticipantEntity
         $this->userAgent = $userAgent;
 
         $parser = \UAParser\Parser::create();
+        $detect = new \Mobile_Detect;
         $userAgentInfo = $parser->parse($userAgent);
+        $userAgentMobileInfo = $detect->setUserAgent($userAgent);
 
         $this->userAgentUa = $userAgentInfo->ua->family;
         $this->userAgentOs = $userAgentInfo->os->family;
+        $this->userAgentDevice = $userAgentInfo->device->family;
+
+        if ($detect->isMobile()) {
+            $this->userAgentDeviceType = 'Mobile';
+        } elseif($detect->isTablet()) {
+            $this->userAgentDeviceType = 'Tablet';
+        }
 
         return $this;
     }

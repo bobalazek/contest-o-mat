@@ -49,7 +49,10 @@
         "knplabs/knp-components": "~1.2",
         "ua-parser/uap-php": "~3.4",
         "facebook/php-sdk-v4" : "~5.0",
-        "oro/doctrine-extensions": "dev-master"
+        "oro/doctrine-extensions": "dev-master",
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "jbinfo/mobile-detect-service-provider": "~1",
+        "mwhite/random-uagent": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "4.1"

@@ -280,6 +280,11 @@ $app['ua.parser'] = $app->share(function () use ($app) {
     return \UAParser\Parser::create();
 });
 
+/*** Mobile Detect ***/
+$app->register(
+    new Binfo\Silex\MobileDetectServiceProvider()
+);
+
 /*** UAParser ***/
 $app['ip.parser'] = $app->share(function () use ($app) {
     return new \Application\IPParser();

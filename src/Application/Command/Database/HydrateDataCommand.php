@@ -75,17 +75,19 @@ class HydrateDataCommand
                 $participantEntity = new \Application\Entity\ParticipantEntity();
                 $entryEntity = new \Application\Entity\EntryEntity();
 
+                $userAgent = \random_uagent();
+
                 $participantEntity
                     ->setVia('administration')
                     ->setName('Participant '.$i)
                     ->setEmail($i.'email@myapp.com')
-                    ->setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36')
+                    ->setUserAgent($userAgent)
                     ->setIp('127.0.0.1')
                 ;
 
                 $entryEntity
                     ->setParticipant($participantEntity)
-                    ->setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36')
+                    ->setUserAgent($userAgent)
                     ->setIp('127.0.0.1')
                 ;
 

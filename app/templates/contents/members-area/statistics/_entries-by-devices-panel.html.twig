@@ -1,0 +1,34 @@
+{% set devices = app['orm.em'].getRepository('Application\\Entity\\EntryEntity').getByDevices(app) %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Entries by Devices' | trans }}</div>
+    <div id="entries-by-devices-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            initializeEntriesByDevicesChart();
+        }
+    );
+
+    var entriesByDevicesChart;
+    function initializeEntriesByDevicesChart() {
+        jQuery('#entries-by-devices-chart').html('');
+        entriesByDevicesChart = new Morris.Bar({
+            element: 'entries-by-devices-chart',
+            resize: true,
+            data: [
+                {% for key, value in devices %}
+                    {
+                        device: '{{ key }}',
+                        count: {{ value }}
+                    }{{ loop.last ? '' : ',' }}
+                {% endfor %}
+            ],
+            xkey: 'device',
+            ykeys: [ 'count' ],
+            labels: [ '{{ 'Count'|trans }}' ],
+        });
+    }
+</script>

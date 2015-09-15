@@ -148,7 +148,8 @@ class ParticipantRepository
     public function getByOperatingSystems($app)
     {
         $data = array(
-            'Windows' => 0,
+            'Windows 7' => 0,
+            'Windows XP' => 0,
             'Mac OS X' => 0,
             'Linux' => 0,
         );
@@ -169,6 +170,72 @@ class ParticipantRepository
                 $userAgentOs = $databaseResult['userAgentOs'];
 
                 $data[$userAgentOs] = $databaseResult['countNumber'];
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getByDeviceTypes($app)
+    {
+        $data = array(
+            'Desktop' => 0,
+            'Tablet' => 0,
+            'Mobile' => 0,
+        );
+
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    p.userAgentDeviceType,
+                    COUNT(p.id) AS countNumber
+                FROM Application\Entity\ParticipantEntity p
+                GROUP BY p.userAgentDeviceType"
+            )
+            ->getArrayResult()
+        ;
+
+        if ($databaseResults) {
+            foreach ($databaseResults as $databaseResult) {
+                $userAgentDeviceType = $databaseResult['userAgentDeviceType'];
+
+                $data[$userAgentDeviceType] = $databaseResult['countNumber'];
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getByDevices($app)
+    {
+        $data = array(
+            'Other' => 0,
+            'Android' => 0,
+            'Apple' => 0,
+        );
+
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    p.userAgentDevice,
+                    COUNT(p.id) AS countNumber
+                FROM Application\Entity\ParticipantEntity p
+                GROUP BY p.userAgentDevice"
+            )
+            ->getArrayResult()
+        ;
+
+        if ($databaseResults) {
+            foreach ($databaseResults as $databaseResult) {
+                $userAgentDevice = $databaseResult['userAgentDevice'];
+
+                $data[$userAgentDevice] = $databaseResult['countNumber'];
             }
         }
 
