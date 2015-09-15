@@ -40,6 +40,8 @@ class ParticipantsController
                     'p.name',
                     'p.email',
                     'p.via',
+                    'p.ip',
+                    'p.userAgent',
                     'pm.value',
                 ),
             )

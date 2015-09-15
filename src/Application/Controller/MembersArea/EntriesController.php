@@ -40,6 +40,8 @@ class EntriesController
                 'searchFields' => array(
                     'p.name',
                     'p.email',
+                    'e.ip',
+                    'e.userAgent',
                     'em.value',
                 ),
             )
