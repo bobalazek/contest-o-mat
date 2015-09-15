@@ -167,7 +167,58 @@ class ApplicationController
 
     public function facebookAuthenticateAction(Request $request, Application $app)
     {
-        // SOON!
+        if ($app['facebookSdk']) {
+            $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
+            $url = $app['baseUrl'].
+                str_replace(
+                    $app['baseUri'],
+                    '',
+                    $app['url_generator']->generate('application.facebook-authenticated')
+                )
+            ;
+
+            $loginUrl = $redirectLoginHelper->getLoginUrl(
+                $url,
+                $app['facebookSdkOptions']['permissions']
+            );
+
+            return $app->redirect(
+                $loginUrl
+            );
+        } else {
+            return $app->redirect(
+                $app['url_generator']->generate('application')
+            );
+        }
+    }
+
+    public function facebookAuthenticatedAction(Request $request, Application $app)
+    {
+        if ($app['facebookSdk']) {
+            // To-Do: This is the callback on facebook authentication...
+            // maybe also save the user as participant ...
+            $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
+
+            try {
+                $accessToken = $redirectLoginHelper->getAccessToken();
+
+                $app['session']->set(
+                    'fb_access_token',
+                    (string) $accessToken
+                );
+            } catch(\Exception $e) {
+            }
+
+            return $app->redirect(
+                $app['url_generator']->generate('application.participate')
+            );
+        } else {
+            return $app->redirect(
+                $app['url_generator']->generate('application')
+            );
+        }
+
+
     }
 
     public function termsAction(Request $request, Application $app)

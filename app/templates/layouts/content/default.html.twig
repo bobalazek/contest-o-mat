@@ -30,7 +30,7 @@
 					var currentUrl = '{{ app.currentUrl }}';
 					var currentUri = '{{ app.currentUri }}';
 					var participant = {{ app.participant ? (app.participant.toArray() | json_encode | raw) : 'false' }};
-					var facebookUser = {{ app.facebookUser | json_encode }};
+					var facebookUser = {{ app.facebookUser ? (app.facebookUser | json_encode | raw) : 'false' }};
 				</script>
 				{% if app.facebookSdkOptions.id %}
 					<script>

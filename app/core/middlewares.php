@@ -51,29 +51,33 @@ $app->before(function () use ($app) {
     }
 
     $app['facebookUser'] = false;
-    if ($app['facebookSdkOptions']['id'] &&
-        $app['facebookSdkOptions']['secret']) {
-        $helper = $app['facebookSdk']->getJavaScriptHelper();
+    $app['facebookLoginUrl'] = false;
+    if ($app['facebookSdk']) {
+        $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
 
         try {
-            $accessToken = $helper->getAccessToken();
+            $accessToken = $app['session']->get('fb_access_token');
 
-            $app['facebookSdk']->setDefaultAccessToken(
-                $accessToken
-            );
-
-            try {
-                $facebookUserData = $app['facebookSdk']->get('/me');
-                $app['facebookUser'] = $facebookUserData->getGraphUser();
-
-                $participant = $participantsRepository->findByUid(
-                    'facebook:'.$app['facebookUser']->getId()
+            if($accessToken) {
+                $app['facebookSdk']->setDefaultAccessToken(
+                    $accessToken
                 );
 
-                if($participant) {
-                    $app['participant']  = $participant;
+                try {
+                    $facebookUserData = $app['facebookSdk']->get('/me');
+                    $app['facebookUser'] = json_decode(
+                        $facebookUserData->getGraphUser()->asJson()
+                    );
+
+                    $participant = $participantsRepository->findByUid(
+                        'facebook:'.$app['facebookUser']->id
+                    );
+
+                    if($participant) {
+                        $app['participant']  = $participant;
+                    }
+                } catch(\Exception $e) {
                 }
-            } catch(\Exception $e) {
             }
         } catch(\Exception $e) {
         }

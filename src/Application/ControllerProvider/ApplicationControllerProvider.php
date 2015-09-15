@@ -31,6 +31,12 @@ class ApplicationControllerProvider
         ->bind('application.facebook-authenticate');
 
         $controllers->match(
+            '/facebook-authenticated',
+            'Application\Controller\ApplicationController::facebookAuthenticatedAction'
+        )
+        ->bind('application.facebook-authenticated');
+
+        $controllers->match(
             '/terms',
             'Application\Controller\ApplicationController::termsAction'
         )

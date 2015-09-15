@@ -352,6 +352,7 @@ $app['mailer.css_to_inline_styles_converter'] = $app->protect(function ($twigTem
 });
 
 /*** Facebook SDK ***/
+$app['facebookSdk'] = false;
 if ($app['facebookSdkOptions']['id'] &&
     $app['facebookSdkOptions']['secret']) {
     $app['facebookSdk'] = $app->share(function () use ($app) {
