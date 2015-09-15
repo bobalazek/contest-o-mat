@@ -1,12 +1,12 @@
 README
 ======
-**Web Application Starter Kit**
+**Contest-O-Mat**
 
-An simple web application boilerplate for min or mid scale applications. Included user system (login, logout, register, forgotten password, profile, edit profile and change password), users, roles, simple statistics and more.
+An simple contest / prize game application starter kit.
 
 Build status
 -------------------
-[![Build Status](https://travis-ci.org/bobalazek/web-application-starter-kit.svg?branch=master)](https://travis-ci.org/bobalazek/web-application-starter-kit)
+[![Build Status](https://travis-ci.org/bobalazek/contest-o-mat.svg?branch=master)](https://travis-ci.org/bobalazek/contest-o-mat)
 
 Requirements & Tools & Helpers
 -------------------
@@ -18,8 +18,8 @@ Requirements & Tools & Helpers
 Setup
 -------------------
 * Navigate yor your web directory: `cd /var/www`
-* Create a new project: `composer create-project bobalazek/web-application-starter-kit --no-scripts`
-* Configure database (and maybe other stuff if you want): [app/configs/global.php](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/configs/global.php#L47) or [app/configs/global-local.php.dist](https://github.com/bobalazek/web-application-starter-kit/blob/master/app/configs/global-local.php.dist) (in case you will deploy it and need a different local configuration. Just rename the global-local.php.dist to global-local.php and set your own configuration)
+* Create a new project: `composer create-project bobalazek/contest-o-mat --no-scripts`
+* Configure database (and maybe other stuff if you want): [app/configs/global.php](https://github.com/bobalazek/contest-o-mat/blob/master/app/configs/global.php#L47) or [app/configs/global-local.php.dist](https://github.com/bobalazek/contest-o-mat/blob/master/app/configs/global-local.php.dist) (in case you will deploy it and need a different local configuration. Just rename the global-local.php.dist to global-local.php and set your own configuration)
 * Run the following commands:
     * `composer install`
     * `bin/console orm:schema-tool:install --force` (to install the database schema)
