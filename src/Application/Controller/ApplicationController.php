@@ -142,7 +142,8 @@ class ApplicationController
                                     ),
                                 ))
                             ;
-                        } catch (\Exception $e) {}
+                        } catch (\Exception $e) {
+                        }
                     }
 
                     $data['showForm'] = false;
