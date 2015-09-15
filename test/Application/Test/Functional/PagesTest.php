@@ -42,7 +42,6 @@ class PagesTest
         return array(
             array('/'),
             array('/members-area/login'),
-            array('/members-area/register'),
             array('/members-area/reset-password'),
         );
     }
