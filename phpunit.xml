@@ -11,7 +11,7 @@
     bootstrap="app/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="Web Application Starter Kit Test Suite">
+        <testsuite name="Contest-O-Mat Test Suite">
             <directory>./test</directory>
         </testsuite>
     </testsuites>
