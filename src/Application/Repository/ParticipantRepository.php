@@ -110,12 +110,12 @@ class ParticipantRepository
             ->getResult()
         ;
 
-        if($participants) {
-            foreach($participants as $participant) {
+        if ($participants) {
+            foreach ($participants as $participant) {
                 $uaParserInfo = $app['ua.parser']->parse($participant->getUserAgent());
                 $browser = $uaParserInfo->ua->family;
 
-                if(! isset($data[$browser])) {
+                if (! isset($data[$browser])) {
                     $data[$browser] = 0;
                 } else {
                     $data[$browser]++;
@@ -142,12 +142,12 @@ class ParticipantRepository
             ->getResult()
         ;
 
-        if($participants) {
-            foreach($participants as $participant) {
+        if ($participants) {
+            foreach ($participants as $participant) {
                 $uaParserInfo = $app['ua.parser']->parse($participant->getUserAgent());
                 $os = $uaParserInfo->os->family;
 
-                if(! isset($data[$os])) {
+                if (! isset($data[$os])) {
                     $data[$os] = 0;
                 } else {
                     $data[$os]++;

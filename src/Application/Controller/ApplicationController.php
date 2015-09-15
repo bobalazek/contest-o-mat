@@ -60,7 +60,7 @@ class ApplicationController
                             ->setUserAgent($app['request']->headers->get('User-Agent'))
                         ;
 
-                        if($app['facebookUser']) {
+                        if ($app['facebookUser']) {
                             $uid = 'facebook:'.$app['facebookUser']->id;
 
                             $participantEntity
@@ -69,7 +69,7 @@ class ApplicationController
 
                             // Maybe add some other attributes inside the metas?
                             // https://developers.facebook.com/docs/graph-api/reference/user
-                            if(isset($app['facebookUser']->verified)) {
+                            if (isset($app['facebookUser']->verified)) {
                                 $participantEntity
                                     ->addMeta(
                                         'verified',
@@ -78,7 +78,7 @@ class ApplicationController
                                 ;
                             }
 
-                            if(isset($app['facebookUser']->first_name)) {
+                            if (isset($app['facebookUser']->first_name)) {
                                 $participantEntity
                                     ->addMeta(
                                         'first_name',
@@ -87,7 +87,7 @@ class ApplicationController
                                 ;
                             }
 
-                            if(isset($app['facebookUser']->middle_name)) {
+                            if (isset($app['facebookUser']->middle_name)) {
                                 $participantEntity
                                     ->addMeta(
                                         'middle_name',
@@ -96,7 +96,7 @@ class ApplicationController
                                 ;
                             }
 
-                            if(isset($app['facebookUser']->last_name)) {
+                            if (isset($app['facebookUser']->last_name)) {
                                 $participantEntity
                                     ->addMeta(
                                         'last_name',
@@ -259,7 +259,7 @@ class ApplicationController
                         'You have successfully authenticated to Facebook.'
                     )
                 );
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
             }
 
             return $app->redirect(
@@ -270,8 +270,6 @@ class ApplicationController
                 $app['url_generator']->generate('application')
             );
         }
-
-
     }
 
     public function termsAction(Request $request, Application $app)

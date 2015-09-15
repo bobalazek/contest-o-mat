@@ -59,7 +59,7 @@ $app->before(function () use ($app) {
         try {
             $accessToken = $app['session']->get('fb_access_token');
 
-            if($accessToken) {
+            if ($accessToken) {
                 $app['facebookSdk']->setDefaultAccessToken(
                     $accessToken
                 );
@@ -79,13 +79,13 @@ $app->before(function () use ($app) {
                         'facebook:'.$app['facebookUser']->id
                     );
 
-                    if($participant) {
+                    if ($participant) {
                         $app['participant']  = $participant;
                     }
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                 }
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 });

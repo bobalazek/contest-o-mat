@@ -31,7 +31,7 @@ class DefaultType extends AbstractType
             $nameData = null;
             $emailData = null;
 
-            if($this->app['facebookUser']) {
+            if ($this->app['facebookUser']) {
                 $nameData = isset($this->app['facebookUser']->name)
                     ? $this->app['facebookUser']->name
                     : null
