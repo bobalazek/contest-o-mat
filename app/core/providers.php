@@ -354,7 +354,7 @@ $app['mailer.css_to_inline_styles_converter'] = $app->protect(function ($twigTem
 /*** Facebook SDK ***/
 if ($app['facebookSdkOptions']['id'] &&
     $app['facebookSdkOptions']['secret']) {
-    \FacebookFacebookSession::setDefaultApplication(
+    \Facebook\FacebookSession::setDefaultApplication(
         $app['facebookSdkOptions']['id'],
         $app['facebookSdkOptions']['secret']
     );
