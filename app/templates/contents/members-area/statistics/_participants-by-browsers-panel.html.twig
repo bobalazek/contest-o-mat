@@ -1,0 +1,34 @@
+{% set browsers = app['orm.em'].getRepository('Application\\Entity\\ParticipantEntity').getByBrowsers(app) %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Participants by Browsers' | trans }}</div>
+    <div id="participants-by-browsers-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            initializeParticipantsByBrowsersChart();
+        }
+    );
+
+    var participantsByBrowsersChart;
+    function initializeParticipantsByBrowsersChart() {
+        jQuery('#participants-by-browsers-chart').html('');
+        participantsByBrowsersChart = new Morris.Bar({
+            element: 'participants-by-browsers-chart',
+            resize: true,
+            data: [
+                {% for key, value in browsers %}
+                    {
+                        browser: '{{ key }}',
+                        count: {{ value }}
+                    }{{ loop.last ? '' : ',' }}
+                {% endfor %}
+            ],
+            xkey: 'browser',
+            ykeys: [ 'count' ],
+            labels: [ '{{ 'Count'|trans }}' ],
+        });
+    }
+</script>

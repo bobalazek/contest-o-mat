@@ -73,6 +73,12 @@
                             <div class="col-md-12">
                                 {% include 'contents/members-area/statistics/_participants-by-days-panel.html.twig' %}
                             </div> <!-- /.col-md-12 -->
+                            <div class="col-md-12">
+                                {% include 'contents/members-area/statistics/_participants-by-browsers-panel.html.twig' %}
+                            </div> <!-- /.col-md-12 -->
+                            <div class="col-md-12">
+                                {% include 'contents/members-area/statistics/_participants-by-operating-systems-panel.html.twig' %}
+                            </div> <!-- /.col-md-12 -->
                         </div> <!-- /.row -->
                     </div>
                     <div id="entries-tab"
@@ -87,6 +93,12 @@
                             </div> <!-- /.col-md-12 -->
                             <div class="col-md-12">
                                 {% include 'contents/members-area/statistics/_entries-by-days-panel.html.twig' %}
+                            </div> <!-- /.col-md-12 -->
+                            <div class="col-md-12">
+                                {% include 'contents/members-area/statistics/_entries-by-browsers-panel.html.twig' %}
+                            </div> <!-- /.col-md-12 -->
+                            <div class="col-md-12">
+                                {% include 'contents/members-area/statistics/_entries-by-operating-systems-panel.html.twig' %}
                             </div> <!-- /.col-md-12 -->
                         </div> <!-- /.row -->
                     </div>
@@ -103,10 +115,14 @@
             // Participants
             initializeParticipantsByDaysChart();
             initializeParticipantsByHoursChart();
+            initializeParticipantsByBrowsersChart();
+            initializeParticipantsByOperatingSystemsChart();
 
             // Entries
             initializeEntriesByDaysChart();
             initializeEntriesByHoursChart();
+            initializeEntriesByBrowsersChart();
+            initializeEntriesByOperatingSystemsChart();
         });
     </script>
 {% endblock %}

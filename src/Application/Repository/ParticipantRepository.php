@@ -91,4 +91,70 @@ class ParticipantRepository
 
         return $results;
     }
+
+    /**
+     * @return array
+     */
+    public function getByBrowsers($app)
+    {
+        $data = array(
+            'Chrome' => 0,
+            'Firefox' => 0,
+            'Opera' => 0,
+            'Safari' => 0,
+            'IE' => 0,
+        );
+
+        $participants = $this->createQueryBuilder('p')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        if($participants) {
+            foreach($participants as $participant) {
+                $uaParserInfo = $app['ua.parser']->parse($participant->getUserAgent());
+                $browser = $uaParserInfo->ua->family;
+
+                if(! isset($data[$browser])) {
+                    $data[$browser] = 0;
+                } else {
+                    $data[$browser]++;
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getByOperatingSystems($app)
+    {
+        $data = array(
+            'Windows' => 0,
+            'Mac OS X' => 0,
+            'Linux' => 0,
+        );
+
+        $participants = $this->createQueryBuilder('p')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        if($participants) {
+            foreach($participants as $participant) {
+                $uaParserInfo = $app['ua.parser']->parse($participant->getUserAgent());
+                $os = $uaParserInfo->os->family;
+
+                if(! isset($data[$os])) {
+                    $data[$os] = 0;
+                } else {
+                    $data[$os]++;
+                }
+            }
+        }
+
+        return $data;
+    }
 }
