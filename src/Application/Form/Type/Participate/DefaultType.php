@@ -67,7 +67,9 @@ class DefaultType extends AbstractType
                                  * Since the entries entity depends on metas,
                                  * hydrate the custom metas for each entry here below!
                                  */
-                                ->add('answer', 'text')
+                                ->add('answer', 'text', array(
+                                    'label' => 'What is the meaning of life?',
+                                ))
                     )
         );
 
