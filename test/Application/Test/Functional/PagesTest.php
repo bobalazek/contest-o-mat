@@ -41,6 +41,8 @@ class PagesTest
     {
         return array(
             array('/'),
+            array('/application'),
+            array('/application/participate'),
             array('/members-area/login'),
             array('/members-area/reset-password'),
         );
