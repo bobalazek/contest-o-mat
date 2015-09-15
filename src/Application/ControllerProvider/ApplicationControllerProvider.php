@@ -25,6 +25,12 @@ class ApplicationControllerProvider
         ->bind('application.participate');
 
         $controllers->match(
+            '/facebook-authenticate',
+            'Application\Controller\ApplicationController::facebookAuthenticateAction'
+        )
+        ->bind('application.facebook-authenticate');
+
+        $controllers->match(
             '/terms',
             'Application\Controller\ApplicationController::termsAction'
         )

@@ -84,12 +84,14 @@ return array(
     ),
 
     // Facebook SDK Options
-    // https://developers.facebook.com/docs/php/gettingstarted/4.0.0
+    // https://developers.facebook.com/docs/php/gettingstarted/5.0.0
     'facebookSdkOptions' => array(
         'id' => '',
         'secret' => '',
         'version' => 'v2.4',
-        'scope' => 'email',
+        'permissions' => array(
+            'email',
+        ),
     ),
 
     // Default settings (the setting values from the DB

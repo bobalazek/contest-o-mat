@@ -165,6 +165,11 @@ class ApplicationController
         );
     }
 
+    public function facebookAuthenticateAction(Request $request, Application $app)
+    {
+        // SOON!
+    }
+
     public function termsAction(Request $request, Application $app)
     {
         $data = array();

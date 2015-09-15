@@ -25,12 +25,32 @@
 			{% block head_javascripts_before %}{% endblock %}
 			{% block head_javascripts %}
 				<script id="config-js">
-					var baseUrl = "{{ app.baseUrl }}";
-					var baseUri = "{{ app.baseUri }}";
-					var currentUrl = "{{ app.currentUrl }}";
-					var currentUri = "{{ app.currentUri }}";
-					var datatablesTranslationsUrl = "{{ 'settings.datatables.translations.url' | trans }}";
+					var baseUrl = '{{ app.baseUrl }}';
+					var baseUri = '{{ app.baseUri }}';
+					var currentUrl = '{{ app.currentUrl }}';
+					var currentUri = '{{ app.currentUri }}';
+					var participant = {{ app.participant ? (app.participant.toArray() | json_encode | raw) : 'false' }};
+					var facebookUser = {{ app.facebookUser | json_encode }};
 				</script>
+				{% if app.facebookSdkOptions.id %}
+					<script>
+						window.fbAsyncInit = function() {
+							FB.init({
+								appId: '{{ app.facebookSdkOptions.id }}',
+								xfbml: true,
+								version: '{{ app.facebookSdkOptions.version }}',
+							});
+						};
+
+						(function(d, s, id){
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) {return;}
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/en_US/sdk.js";
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+					</script>
+				{% endif %}
 				<script id="modernizr-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/modernizr/modernizr.js"></script>
 				<script id="detectizr-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/detectizr/dist/detectizr.js"></script>
 				<script id="respond-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/respond/dest/respond.min.js"></script>

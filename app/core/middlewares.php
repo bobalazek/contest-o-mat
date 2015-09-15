@@ -50,21 +50,34 @@ $app->before(function () use ($app) {
         }
     }
 
-    // To-Do: If participant already exists
-    // (ex.: we have a FB app, where each fb user is one participant...)
-    // something like:
-    /*
-     * $facebookUser = $app['facebookSdk']->getUser();
-     * if ($facebookUser) {
-     *     $participant = $participantsRepository->findByUid(
-     *         'facebook:'.$facebookUser->getId()
-     *     );
-     *
-     *     if($participant) {
-     *         $participantEntity  = $participant;
-     *     }
-     * }
-     */
+    $app['facebookUser'] = false;
+    if ($app['facebookSdkOptions']['id'] &&
+        $app['facebookSdkOptions']['secret']) {
+        $helper = $app['facebookSdk']->getJavaScriptHelper();
+
+        try {
+            $accessToken = $helper->getAccessToken();
+
+            $app['facebookSdk']->setDefaultAccessToken(
+                $accessToken
+            );
+
+            try {
+                $facebookUserData = $app['facebookSdk']->get('/me');
+                $app['facebookUser'] = $facebookUserData->getGraphUser();
+
+                $participant = $participantsRepository->findByUid(
+                    'facebook:'.$app['facebookUser']->getId()
+                );
+
+                if($participant) {
+                    $app['participant']  = $participant;
+                }
+            } catch(\Exception $e) {
+            }
+        } catch(\Exception $e) {
+        }
+    }
 });
 
 /*** Language / Locale check ***/

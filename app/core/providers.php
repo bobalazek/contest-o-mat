@@ -354,10 +354,13 @@ $app['mailer.css_to_inline_styles_converter'] = $app->protect(function ($twigTem
 /*** Facebook SDK ***/
 if ($app['facebookSdkOptions']['id'] &&
     $app['facebookSdkOptions']['secret']) {
-    \Facebook\FacebookSession::setDefaultApplication(
-        $app['facebookSdkOptions']['id'],
-        $app['facebookSdkOptions']['secret']
-    );
+    $app['facebookSdk'] = $app->share(function () use ($app) {
+        return new \Facebook\Facebook(array(
+            'app_id' => $app['facebookSdkOptions']['id'],
+            'app_secret' => $app['facebookSdkOptions']['secret'],
+            'default_graph_version' => $app['facebookSdkOptions']['version'],
+        ));
+    });
 }
 
 /*** Listeners ***/
