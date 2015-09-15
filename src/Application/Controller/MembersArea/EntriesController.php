@@ -18,7 +18,7 @@ class EntriesController
             $app->abort(403);
         }
 
-        $limitPerPage = $request->query->get('limit_per_page', 8);
+        $limitPerPage = $request->query->get('limit_per_page', 10);
         $currentPage = $request->query->get('page');
 
         $entryResults = $app['orm.em']
@@ -36,6 +36,10 @@ class EntriesController
                 'route' => 'members-area.entries',
                 'defaultSortFieldName' => 'e.timeCreated',
                 'defaultSortDirection' => 'desc',
+                'searchFields' => array(
+                    'p.name',
+                    'p.email',
+                ),
             )
         );
 

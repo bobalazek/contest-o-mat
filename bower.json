@@ -24,7 +24,8 @@
         "moment": "~2.9",
         "respond": "~1.4",
         "restangular": "~1.4",
-        "morrisjs": "~0.5"
+        "morrisjs": "~0.5",
+        "uri.js": "~1.15.0"
     },
     "resolutions": {
         "d3": "~3.5",

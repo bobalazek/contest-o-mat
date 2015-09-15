@@ -24,6 +24,7 @@
 			{{ 'Entries' | trans }}
 		</li>
 	</ol>
+	{{ paginator_top_render(pagination) }}
 	<div class="table-responsive">
 		<table class="table table-striped table-condensed">
 			<thead>
@@ -134,8 +135,8 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		{{ paginator_render(pagination) }}
 	</div>
+	{{ paginator_bottom_render(pagination) }}
 	{% if app['settings']['doIpGeolocation'] %}
 		<p>
 			Some of the returned data includes GeoLite data created by MaxMind,

@@ -25,7 +25,10 @@
 			{% block head_javascripts_before %}{% endblock %}
 			{% block head_javascripts %}
 				<script id="config-js">
-					var baseUrl = "{{ app.baseUri }}";
+					var baseUrl = "{{ app.baseUrl }}";
+					var baseUri = "{{ app.baseUri }}";
+					var currentUrl = "{{ app.currentUrl }}";
+					var currentUri = "{{ app.currentUri }}";
 					var datatablesTranslationsUrl = "{{ 'settings.datatables.translations.url' | trans }}";
 				</script>
 				<script id="modernizr-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/modernizr/modernizr.js"></script>
@@ -95,6 +98,7 @@
 				<script id="raphael-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/raphael/raphael-min.js"></script>
 				<script id="morrisjs-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/morrisjs/morris.min.js"></script>
 				<script id="moment-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/moment/min/moment-with-locales.min.js"></script>
+				<script id="uri-js" type="text/javascript" src="{{ app.baseUri }}/assets/vendor/uri.js/src/URI.min.js"></script>
 				<script id="helpers-js" type="text/javascript" src="{{ app.baseUri }}/assets/javascripts/helpers.js"></script>
 				<script id="application-js" type="text/javascript" src="{{ app.baseUri }}/assets/javascripts/application.js?version={{ app.version }}"></script>
 				<script id="application-initialize-js">

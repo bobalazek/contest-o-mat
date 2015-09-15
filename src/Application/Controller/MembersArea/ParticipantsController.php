@@ -18,7 +18,7 @@ class ParticipantsController
             $app->abort(403);
         }
 
-        $limitPerPage = $request->query->get('limit_per_page', 8);
+        $limitPerPage = $request->query->get('limit_per_page', 10);
         $currentPage = $request->query->get('page');
 
         $participantResults = $app['orm.em']
@@ -35,6 +35,11 @@ class ParticipantsController
                 'route' => 'members-area.participants',
                 'defaultSortFieldName' => 'p.timeCreated',
                 'defaultSortDirection' => 'desc',
+                'searchFields' => array(
+                    'p.name',
+                    'p.email',
+                    'p.via',
+                ),
             )
         );
 
