@@ -4,7 +4,7 @@ return array(
     'environment' => 'development',
     'debug' => true,
     'name' => 'Contest-O-Mat',
-    'version' => '0.4',
+    'version' => '0.5',
     'author' => 'Borut Balazek',
 
     // Admin email (& name)
