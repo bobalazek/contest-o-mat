@@ -92,7 +92,10 @@ return array(
         'permissions' => array(
             'email',
         ),
-        'fields' => array( // Which fields should be fetched when requesting the facebook graph object (/me)?
+        // Which fields should be fetched when requesting the facebook graph object (/me)?
+        // This fields will also be present when user participates (via facebook).
+        // Only if the fields are present.
+        'fields' => array(
             'id',
             'name',
             'email',

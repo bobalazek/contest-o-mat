@@ -39,12 +39,12 @@ class ApplicationController
             : false
         ;
 
-        if($startDatetime &&
+        if ($startDatetime &&
             $startDatetime > $currentDatetime) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['notYetStarted'];
-        } elseif($endDatetime &&
+        } elseif ($endDatetime &&
             $endDatetime < $currentDatetime) {
             $data['showForm'] = false;
             $data['alert'] = 'info';

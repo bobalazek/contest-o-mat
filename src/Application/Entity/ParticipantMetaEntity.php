@@ -160,7 +160,7 @@ class ParticipantMetaEntity
         $value = $this->getValue();
 
         // Prevent double encoding
-        if($value[0] == '{' || $value[0] == '[') {
+        if ($value[0] == '{' || $value[0] == '[') {
             $value = json_decode($value);
         }
 
