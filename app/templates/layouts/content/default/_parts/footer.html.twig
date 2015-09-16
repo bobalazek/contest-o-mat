@@ -29,13 +29,6 @@
 									{{ 'Terms'|trans }}
 								</a>
 							</li>
-							{% if app.facebookUser == false and app.settings.useFacebookUserAsParticipantIfPossible %}
-								<li>
-									<a href="{{ url('application.facebook-authenticate') }}">
-										{{ 'Facebook Authenticate'|trans }}
-									</a>
-								</li>
-							{% endif %}
 							|
 							<li>
 								<small>

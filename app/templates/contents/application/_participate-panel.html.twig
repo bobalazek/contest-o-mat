@@ -4,6 +4,22 @@
         {{ 'Participate' | trans }}
     </div>
     <div class="panel-body">
-        {{ form(form) }}
+        {{ form_start(form) }}
+            {% if form.participant is defined %}
+                {{ form_row(form.participant) }}
+                {% if app.facebookUser == false and
+                    app.settings.useFacebookUserAsParticipantIfPossible %}
+                    <div class="text-center">
+                        - {{ 'or' | trans }} -
+                    </div>
+                    <a class="btn btn-block btn-sm btn-primary"
+                        href="{{ url('application.facebook-authenticate') }}">
+                        {{ 'Login with Facebook'|trans }}
+                    </a>
+                {% endif %}
+                <hr />
+            {% endif %}
+            {{ form_row(form.entry) }}
+        {{ form_end(form) }}
     </div>
 </div>
