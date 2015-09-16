@@ -60,60 +60,8 @@
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div id="participants-tab"
-                        class="tab-pane active fade in"
-                        role="tabpanel">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>{{ 'Participants' | trans }}</h3>
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/participants/by-hours-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/participants/by-days-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/participants/by-browsers-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/participants/by-operating-systems-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/participants/by-device-types-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/participants/by-devices-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                        </div> <!-- /.row -->
-                    </div> <!-- #participants-tab -->
-                    <div id="entries-tab"
-                        class="tab-pane fade in"
-                        role="tabpanel">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>{{ 'Entries' | trans }}</h3>
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/entries/by-hours-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/entries/by-days-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/entries/by-browsers-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/entries/by-operating-systems-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/entries/by-device-types-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                            <div class="col-md-12">
-                                {% include 'contents/members-area/statistics/_panels/entries/by-devices-panel.html.twig' %}
-                            </div> <!-- /.col-md-12 -->
-                        </div> <!-- /.row -->
-                    </div> <!-- /#entries-tab -->
+                    {% include 'contents/members-area/statistics/_participants-tab.html.twig' %}
+                    {% include 'contents/members-area/statistics/_entries-tab.html.twig' %}
                 </div>
             </div> <!-- /.col-md-12 -->
         </div> <!-- /.row -->
