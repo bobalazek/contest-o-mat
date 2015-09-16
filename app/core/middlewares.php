@@ -52,6 +52,7 @@ $app->before(function () use ($app) {
 
     $app['facebookUser'] = false;
     $app['facebookLoginUrl'] = false;
+
     if ($app['facebookSdk'] &&
         $app['settings']['useFacebookUserAsParticipantIfPossible']) {
         $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();

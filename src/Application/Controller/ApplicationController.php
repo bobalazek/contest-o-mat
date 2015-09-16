@@ -215,10 +215,7 @@ class ApplicationController
     {
         if ($app['facebookSdk']) {
             $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
-            $referer = $request->headers->get('referer');
-            $url = $referer
-                ? $referer
-                : $app['baseUrl'].str_replace(
+            $url = $app['baseUrl'].str_replace(
                     $app['baseUri'],
                     '',
                     $app['url_generator']->generate('application.facebook-authenticated')
@@ -260,6 +257,12 @@ class ApplicationController
                     )
                 );
             } catch (\Exception $e) {
+                $app['flashbag']->add(
+                    'danger',
+                    $app['translator']->trans(
+                        $e->getMessage()
+                    )
+                );
             }
 
             return $app->redirect(
