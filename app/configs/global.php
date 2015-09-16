@@ -108,6 +108,14 @@ return array(
         ),
     ),
 
+    // Piwik Options
+    'piwikOptions' => array(
+        'enabled' => false,
+        'url' => 'http://piwik.example.com/', // MUST include the trailing slash!
+        'site_id' => 0,
+        'token_auth' => '',
+    ),
+
     // Default settings
     'settings' => array(
         'registrationEnabled' => false,

@@ -127,6 +127,24 @@
 				<script>(function($,d){$.each(readyQ,function(i,f){$(f)});$.each(bindReadyQ,function(i,f){$(d).bind("ready",f)})})(jQuery,document)</script>
 			{% endblock %}
 			{% block body_javascripts_after %}{% endblock %}
+			{% if app.piwikOptions.enabled %}
+				<!-- Piwik -->
+				<script type="text/javascript">
+					var _paq = _paq || [];
+					_paq.push(['trackPageView']);
+					_paq.push(['enableLinkTracking']);
+					
+					(function() {
+						var u="{{ app.piwikOptions.url }}";
+						_paq.push(['setTrackerUrl', u+'piwik.php']);
+						_paq.push(['setSiteId', {{ app.piwikOptions.site_id }}]);
+						var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+						g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+					})();
+				</script>
+				<noscript><p><img src="{{ app.piwikOptions.url }}piwik.php?idsite={{ app.piwikOptions.site_id }}" style="border:0;" alt="" /></p></noscript>
+				<!-- End Piwik Code -->
+			{% endif %}
 		<!-- Body Javascripts /END -->
 	</body>
 </html>

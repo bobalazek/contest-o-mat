@@ -58,11 +58,24 @@
                             Entries
                         </a>
                     </li>
+                    {% if app.piwikOptions.enabled %}
+                        <li role="presentation">
+                            <a href="#visits-tab"
+                                aria-controls="visits"
+                                role="tab"
+                                data-toggle="tab">
+                                Visits
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     {% include 'contents/members-area/statistics/_participants-tab.html.twig' %}
                     {% include 'contents/members-area/statistics/_entries-tab.html.twig' %}
+                    {% if app.piwikOptions.enabled %}
+                        {% include 'contents/members-area/statistics/_visits-tab.html.twig' %}
+                    {% endif %}
                 </div>
             </div> <!-- /.col-md-12 -->
         </div> <!-- /.row -->
@@ -92,6 +105,15 @@
             initializeEntriesByDevicesChart();
             initializeEntriesByCitiesChart();
             initializeEntriesByCountriesChart();
+
+            // Visits
+            jQuery('#visits-tab iframe').each(function() {
+                var src = jQuery(this).attr('src');
+
+                jQuery(this).attr('src', '');
+
+                jQuery(this).attr('src', src);
+            })
         });
     </script>
 {% endblock %}
