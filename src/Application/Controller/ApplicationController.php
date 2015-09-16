@@ -29,17 +29,37 @@ class ApplicationController
         $data['alert'] = false;
         $data['alertMessage'] = '';
 
-        if ($app['participant'] &&
+        $currentDatetime = new \Datetime('now');
+        $startDatetime = $app['settings']['startDate']
+            ? new \Datetime($app['settings']['startDate'])
+            : false
+        ;
+        $endDatetime = $app['settings']['endDate']
+            ? new \Datetime($app['settings']['endDate'])
+            : false
+        ;
+
+        if($startDatetime &&
+            $startDatetime > $currentDatetime) {
+            $data['showForm'] = false;
+            $data['alert'] = 'info';
+            $data['alertMessage'] = $app['settings']['texts']['notYetStarted'];
+        } elseif($endDatetime &&
+            $endDatetime < $currentDatetime) {
+            $data['showForm'] = false;
+            $data['alert'] = 'info';
+            $data['alertMessage'] = $app['settings']['texts']['hasEnded'];
+        } elseif ($app['participant'] &&
             $app['participant']->hasAlreadyParticipatedToday() &&
             $app['settings']['canParticipateOncePerDay']) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
-            $data['alertMessage'] = 'You have already participated today. Come back tomorrow. Thanks!';
+            $data['alertMessage'] = $app['settings']['texts']['alreadyParticipatedToday'];
         } elseif ($app['participant'] &&
             $app['settings']['canParticipateOnlyOnce']) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
-            $data['alertMessage'] = 'You have already participated. Thanks!';
+            $data['alertMessage'] = $app['settings']['texts']['alreadyParticipated'];
         } else {
             $form = $app['form.factory']->create(
                 new \Application\Form\Type\Participate\DefaultType($app)
@@ -196,7 +216,7 @@ class ApplicationController
 
                     $data['showForm'] = false;
                     $data['alert'] = 'success';
-                    $data['alertMessage'] = 'You have successfully participated in our prizegame!';
+                    $data['alertMessage'] = $app['settings']['texts']['thanksForYourParticipation'];
                 }
             }
 
