@@ -71,22 +71,26 @@ class HydrateDataCommand
         }
 
         if ($testData) {
-            $timeMin = strtotime('-1 month');
+            $timeMin = strtotime('-4 weeks');
             $timeMax = strtotime('now');
 
             for ($i = 0; $i < 1000; $i++) {
                 $participantEntity = new \Application\Entity\ParticipantEntity();
                 $entryEntity = new \Application\Entity\EntryEntity();
 
+                $rand = rand(
+                    $timeMin,
+                    $timeMax
+                );
+
+                $randDate = date(
+                    'Y-m-d H:i:s',
+                    $rand
+                );
+
                 $userAgent = \random_uagent();
-                $timeCreated = new \Datetime(
-                    date(
-                        'Y-m-d H:i:s',
-                        rand(
-                            $timeMin,
-                            $timeMax
-                        )
-                    )
+                $datetime = new \Datetime(
+                    $randDate
                 );
 
                 $participantEntity
@@ -95,14 +99,16 @@ class HydrateDataCommand
                     ->setEmail($i.'email@myapp.com')
                     ->setUserAgent($userAgent)
                     ->setIp('127.0.0.1')
-                    ->setTimeCreated($timeCreated)
+                    ->setTimeCreated($datetime)
+                    ->setTimeUpdated($datetime)
                 ;
 
                 $entryEntity
                     ->setParticipant($participantEntity)
                     ->setUserAgent($userAgent)
                     ->setIp('127.0.0.1')
-                    ->setTimeCreated($timeCreated)
+                    ->setTimeCreated($datetime)
+                    ->setTimeUpdated($datetime)
                 ;
 
                 $app['orm.em']->persist($participantEntity);

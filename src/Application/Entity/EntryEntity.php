@@ -187,24 +187,26 @@ class EntryEntity
         // We shall not do requests from the command line
         // (prevent batch requests when hydrating test data)
         if(php_sapi_name() !== 'cli') {
-            $ipData = json_decode(
-                file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
-            );
-            $converterArray = array(
-                'ipContinent' => 'geoplugin_continentCode',
-                'ipCountry' => 'geoplugin_countryCode',
-                'ipState' => 'geoplugin_state',
-                'ipRegion' => 'geoplugin_region',
-                'ipCity' => 'geoplugin_city',
-                'ipLatitude' => 'geoplugin_latitude',
-                'ipLongitude' => 'geoplugin_longitude',
-            );
+            try {
+                $ipData = json_decode(
+                    @file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
+                );
+                $converterArray = array(
+                    'ipContinent' => 'geoplugin_continentCode',
+                    'ipCountry' => 'geoplugin_countryCode',
+                    'ipState' => 'geoplugin_state',
+                    'ipRegion' => 'geoplugin_region',
+                    'ipCity' => 'geoplugin_city',
+                    'ipLatitude' => 'geoplugin_latitude',
+                    'ipLongitude' => 'geoplugin_longitude',
+                );
 
-            foreach($converterArray as $key => $val) {
-                if(isset($ipData->{$val}) && $ipData->{$val} != '') {
-                    $this->{$key} = $ipData->{$val};
+                foreach($converterArray as $key => $val) {
+                    if(isset($ipData->{$val}) && $ipData->{$val} != '') {
+                        $this->{$key} = $ipData->{$val};
+                    }
                 }
-            }
+            } catch(\Exception $e) {}
         }
 
         return $this;
@@ -482,7 +484,15 @@ class EntryEntity
      */
     public function prePersist()
     {
-        $this->setTimeUpdated(new \DateTime('now'));
-        $this->setTimeCreated(new \DateTime('now'));
+        $this->setTimeUpdated(
+            $this->timeUpdated
+                ? $this->timeUpdated
+                : new \DateTime('now')
+        );
+        $this->setTimeCreated(
+            $this->timeUpdated
+                ? $this->timeUpdated
+                : new \DateTime('now')
+        );
     }
 }
