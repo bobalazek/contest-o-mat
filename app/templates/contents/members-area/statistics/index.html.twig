@@ -38,7 +38,8 @@
             <div class="col-md-12">
                 <h2>{{ 'Detailed' | trans }}</h2>
                 <!-- Nav tabs -->
-                <ul class="nav nav-tabs nav-justified"
+                <ul id="detailed-nav"
+                    class="nav nav-tabs nav-justified"
                     role="tablist">
                     <li class="active"
                         role="presentation">
@@ -71,7 +72,7 @@
 {% block body_javascripts %}
     {{ parent() }}
     <script>
-        jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        jQuery('#detailed-nav li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             // Participants
             initializeParticipantsByDaysChart();
             initializeParticipantsByHoursChart();
