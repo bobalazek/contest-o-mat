@@ -117,6 +117,7 @@ return array(
         'doIpGeolocation' => false,
         'useSameParticipantDataAfterFirstEntry' => true, // If you want to use the same participant data (that you entered with the first entry) each follow up entry
         'useFacebookUserAsParticipantIfPossible' => true, // Should we use the facebook SDK?
+        'onlyFacebookUsersCanParticipate' => false, // If you only want facebook users to participate
         'startDate' => false, // or enter a time like '2015-10-01 08:00:00'
         'endDate' => false, // or enter a time like '2015-11-01 00:00:00'
         'texts' => array(
@@ -125,6 +126,8 @@ return array(
             'thanksForYourParticipation' => 'You have successfully participated in our prizegame. Thanks!',
             'notYetStarted' => 'The contest has not yet started. Please visit us 1.10.2015 again. Thanks!',
             'hasEnded' => 'The contest has closed. Thanks everybody for participation!',
+            'onlyFacebookUsersCanParticipate' => 'This contest only allows facebook users to participate.',
+            'onlyFacebookUsersCanParticipateButton' => 'Login into Facebook',
         ),
     ),
 );

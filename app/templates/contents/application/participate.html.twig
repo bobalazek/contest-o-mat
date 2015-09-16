@@ -5,7 +5,7 @@
 {% block main %}
 	{% if alert is defined and alert %}
 		<div class="alert alert-{{ alert }}">
-			{{ alertMessage }}
+			{{ alertMessage | raw }}
 		</div>
 	{% endif %}
 	{% if showForm %}

@@ -49,6 +49,15 @@ class ApplicationController
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['hasEnded'];
+        } elseif (! $app['facebookUser'] &&
+            $app['settings']['onlyFacebookUsersCanParticipate']) {
+            $data['showForm'] = false;
+            $data['alert'] = 'info';
+            $data['alertMessage'] = $app['settings']['texts']['onlyFacebookUsersCanParticipate'].
+            '<br/><br/><a class="btn btn-block btn-lg btn-primary"
+                href="'.$app['url_generator']->generate('application.facebook-authenticate').'">'.
+                $app['settings']['texts']['onlyFacebookUsersCanParticipateButton'].
+            '</a>';
         } elseif ($app['participant'] &&
             $app['participant']->hasAlreadyParticipatedToday() &&
             $app['settings']['canParticipateOncePerDay']) {
