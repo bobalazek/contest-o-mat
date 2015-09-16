@@ -241,4 +241,66 @@ class ParticipantRepository
 
         return $data;
     }
+
+    /**
+     * @return array
+     */
+    public function getByCities($app)
+    {
+        $data = array(
+            'Undefined' => 0,
+        );
+
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    p.ipCity,
+                    COUNT(p.id) AS countNumber
+                FROM Application\Entity\ParticipantEntity p
+                GROUP BY p.ipCity"
+            )
+            ->getArrayResult()
+        ;
+
+        if ($databaseResults) {
+            foreach ($databaseResults as $databaseResult) {
+                $ipCity = $databaseResult['ipCity'];
+
+                $data[$ipCity] = $databaseResult['countNumber'];
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getByCountries($app)
+    {
+        $data = array(
+            'Undefined' => 0,
+        );
+
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    p.ipCountry,
+                    COUNT(p.id) AS countNumber
+                FROM Application\Entity\ParticipantEntity p
+                GROUP BY p.ipCountry"
+            )
+            ->getArrayResult()
+        ;
+
+        if ($databaseResults) {
+            foreach ($databaseResults as $databaseResult) {
+                $ipCountry = $databaseResult['ipCountry'];
+
+                $data[$ipCountry] = $databaseResult['countNumber'];
+            }
+        }
+
+        return $data;
+    }
 }

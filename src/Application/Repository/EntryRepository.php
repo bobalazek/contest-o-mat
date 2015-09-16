@@ -241,4 +241,66 @@ class EntryRepository
 
         return $data;
     }
+
+    /**
+     * @return array
+     */
+    public function getByCities($app)
+    {
+        $data = array(
+            'Undefined' => 0,
+        );
+
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    e.ipCity,
+                    COUNT(e.id) AS countNumber
+                FROM Application\Entity\EntryEntity e
+                GROUP BY e.ipCity"
+            )
+            ->getArrayResult()
+        ;
+
+        if ($databaseResults) {
+            foreach ($databaseResults as $databaseResult) {
+                $ipCity = $databaseResult['ipCity'];
+
+                $data[$ipCity] = $databaseResult['countNumber'];
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getByCountries($app)
+    {
+        $data = array(
+            'Undefined' => 0,
+        );
+
+        $databaseResults = $this->getEntityManager()
+            ->createQuery(
+                "SELECT
+                    e.ipCountry,
+                    COUNT(e.id) AS countNumber
+                FROM Application\Entity\EntryEntity e
+                GROUP BY e.ipCountry"
+            )
+            ->getArrayResult()
+        ;
+
+        if ($databaseResults) {
+            foreach ($databaseResults as $databaseResult) {
+                $ipCountry = $databaseResult['ipCountry'];
+
+                $data[$ipCountry] = $databaseResult['countNumber'];
+            }
+        }
+
+        return $data;
+    }
 }

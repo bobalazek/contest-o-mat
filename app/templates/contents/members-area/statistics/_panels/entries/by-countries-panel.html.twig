@@ -1,0 +1,34 @@
+{% set countries = app['orm.em'].getRepository('Application\\Entity\\EntryEntity').getByCountries(app) %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Entries by Countries' | trans }}</div>
+    <div id="entries-by-countries-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            initializeEntriesByCountriesChart();
+        }
+    );
+
+    var entriesByCountriesChart;
+    function initializeEntriesByCountriesChart() {
+        jQuery('#entries-by-countries-chart').html('');
+        entriesByCountriesChart = new Morris.Bar({
+            element: 'entries-by-countries-chart',
+            resize: true,
+            data: [
+                {% for key, value in countries %}
+                    {
+                        country: '{{ key }}',
+                        count: {{ value }}
+                    }{{ loop.last ? '' : ',' }}
+                {% endfor %}
+            ],
+            xkey: 'country',
+            ykeys: [ 'count' ],
+            labels: [ '{{ 'Count'|trans }}' ],
+        });
+    }
+</script>

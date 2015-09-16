@@ -1,0 +1,34 @@
+{% set cities = app['orm.em'].getRepository('Application\\Entity\\EntryEntity').getByCities(app) %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Entries by Cities' | trans }}</div>
+    <div id="entries-by-cities-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            initializeEntriesByCitiesChart();
+        }
+    );
+
+    var entriesByCitiesChart;
+    function initializeEntriesByCitiesChart() {
+        jQuery('#entries-by-cities-chart').html('');
+        entriesByCitiesChart = new Morris.Bar({
+            element: 'entries-by-cities-chart',
+            resize: true,
+            data: [
+                {% for key, value in cities %}
+                    {
+                        city: '{{ key }}',
+                        count: {{ value }}
+                    }{{ loop.last ? '' : ',' }}
+                {% endfor %}
+            ],
+            xkey: 'city',
+            ykeys: [ 'count' ],
+            labels: [ '{{ 'Count'|trans }}' ],
+        });
+    }
+</script>
