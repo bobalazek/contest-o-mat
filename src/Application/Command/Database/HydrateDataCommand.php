@@ -71,7 +71,7 @@ class HydrateDataCommand
         }
 
         if ($testData) {
-            for ($i = 0; $i < 5000; $i++) {
+            for ($i = 0; $i < 1000; $i++) {
                 $participantEntity = new \Application\Entity\ParticipantEntity();
                 $entryEntity = new \Application\Entity\EntryEntity();
 
@@ -94,6 +94,8 @@ class HydrateDataCommand
                 $app['orm.em']->persist($participantEntity);
                 $app['orm.em']->persist($entryEntity);
             }
+
+            $output->writeln('<info>Participants and Entries were successfully hydrated (with random data)!</info>');
         }
 
         /***** Roles *****/
