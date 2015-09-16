@@ -71,7 +71,7 @@ class HydrateDataCommand
         }
 
         if ($testData) {
-            for($i = 0; $i < 5000; $i++) {
+            for ($i = 0; $i < 5000; $i++) {
                 $participantEntity = new \Application\Entity\ParticipantEntity();
                 $entryEntity = new \Application\Entity\EntryEntity();
 

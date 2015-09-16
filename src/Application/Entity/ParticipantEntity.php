@@ -242,7 +242,7 @@ class ParticipantEntity
         $this->userAgent = $userAgent;
 
         $parser = \UAParser\Parser::create();
-        $detect = new \Mobile_Detect;
+        $detect = new \Mobile_Detect();
         $userAgentInfo = $parser->parse($userAgent);
         $userAgentMobileInfo = $detect->setUserAgent($userAgent);
 
@@ -252,7 +252,7 @@ class ParticipantEntity
 
         if ($detect->isMobile()) {
             $this->userAgentDeviceType = 'Mobile';
-        } elseif($detect->isTablet()) {
+        } elseif ($detect->isTablet()) {
             $this->userAgentDeviceType = 'Tablet';
         }
 

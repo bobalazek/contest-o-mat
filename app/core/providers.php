@@ -160,13 +160,13 @@ if (isset($app['databaseOptions']) &&
             ),
             'orm.custom.functions.string' => array(
                 'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
-                'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat'
+                'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
             ),
             'orm.custom.functions.datetime' => array(
                 'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 'time'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 'timestamp'     => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
-                'convert_tz'    => 'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz'
+                'convert_tz'    => 'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz',
             ),
             'orm.custom.functions.numeric' => array(
                 'timestampdiff' => 'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',

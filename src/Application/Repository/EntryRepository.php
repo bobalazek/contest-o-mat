@@ -48,8 +48,8 @@ class EntryRepository
             $count = 0;
 
             if ($databaseResults) {
-                foreach($databaseResults as $databaseResult) {
-                    if($databaseResult['date'] == $date) {
+                foreach ($databaseResults as $databaseResult) {
+                    if ($databaseResult['date'] == $date) {
                         $count = (int) $databaseResult['countNumber'];
                     }
                 }
@@ -91,8 +91,8 @@ class EntryRepository
             $count = 0;
 
             if ($databaseResults) {
-                foreach($databaseResults as $databaseResult) {
-                    if($databaseResult['date'] == $date) {
+                foreach ($databaseResults as $databaseResult) {
+                    if ($databaseResult['date'] == $date) {
                         $count = (int) $databaseResult['countNumber'];
                     }
                 }
