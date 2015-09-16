@@ -383,7 +383,10 @@ class ParticipantEntity
 
     public function addMeta($key, $value = null)
     {
-        $this->metas[$key] = $value;
+        $this->metas[$key] = is_string($value)
+            ? $value
+            : json_encode($value)
+        ;
 
         return $this;
     }

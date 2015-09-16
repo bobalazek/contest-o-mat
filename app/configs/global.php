@@ -101,11 +101,11 @@ return array(
             'first_name',
             'middle_name',
             'last_name',
+            'cover',
         ),
     ),
 
-    // Default settings (the setting values from the DB
-    //   will override this values)
+    // Default settings
     'settings' => array(
         'registrationEnabled' => false,
         'canParticipateOnlyOnce' => false, // If that is the case, we technically don't need entries, rather save al data in the participant meta

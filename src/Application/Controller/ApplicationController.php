@@ -89,38 +89,11 @@ class ApplicationController
 
                             // Maybe add some other attributes inside the metas?
                             // https://developers.facebook.com/docs/graph-api/reference/user
-                            if (isset($app['facebookUser']->verified)) {
+                            foreach ($app['facebookUser'] as $key => $value) {
                                 $participantEntity
                                     ->addMeta(
-                                        'verified',
-                                        $app['facebookUser']->verified
-                                    )
-                                ;
-                            }
-
-                            if (isset($app['facebookUser']->first_name)) {
-                                $participantEntity
-                                    ->addMeta(
-                                        'first_name',
-                                        $app['facebookUser']->first_name
-                                    )
-                                ;
-                            }
-
-                            if (isset($app['facebookUser']->middle_name)) {
-                                $participantEntity
-                                    ->addMeta(
-                                        'middle_name',
-                                        $app['facebookUser']->middle_name
-                                    )
-                                ;
-                            }
-
-                            if (isset($app['facebookUser']->last_name)) {
-                                $participantEntity
-                                    ->addMeta(
-                                        'last_name',
-                                        $app['facebookUser']->last_name
+                                        $key,
+                                        $value
                                     )
                                 ;
                             }

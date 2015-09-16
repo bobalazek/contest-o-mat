@@ -152,7 +152,15 @@ class EntryMetaEntity
     /********** Magic Methods **********/
     public function __toString()
     {
-        $data[$this->getKey()] = $this->getValue();
+        $key = $this->getKey();
+        $value = $this->getValue();
+
+        // Prevent double encoding
+        if($value[0] == '{' || $value[0] == '[') {
+            $value = json_decode($value);
+        }
+
+        $data[$key] = $value;
 
         return json_encode($data);
     }
