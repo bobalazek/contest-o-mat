@@ -137,6 +137,12 @@ h6 {}
 		border-top: 3px solid #666;
 	}
 
+	.metas-list {}
+
+		.metas-list li {
+			word-wrap: break-word;
+		}
+
 /********** Fixes **********/
 .navbar-brand {
 		line-height: 26px;

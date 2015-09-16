@@ -35,6 +35,13 @@ class UiExtension extends \Twig_Extension
                     'is_safe' => array('html'),
                 )
             ),
+            'json_decode' => new \Twig_Function_Method(
+                $this,
+                'jsonDecode',
+                array(
+                    'is_safe' => array('html'),
+                )
+            ),
         );
     }
 
@@ -56,5 +63,9 @@ class UiExtension extends \Twig_Extension
     public function pagination($output)
     {
         return $output;
+    }
+
+    public function jsonDecode($str) {
+        return json_decode($str);
     }
 }

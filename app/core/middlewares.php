@@ -72,8 +72,16 @@ $app->before(function () use ($app) {
                         '/me?fields='.
                         implode(',', $facebookFields)
                     );
+                    $facebookUserPictureData = $app['facebookSdk']->get(
+                        '/me/picture?type=large&redirect=false'
+                    );
+
                     $app['facebookUser'] = json_decode(
                         $facebookUserData->getGraphUser()->asJson()
+                    );
+
+                    $app['facebookUser']->picture = json_decode(
+                        $facebookUserPictureData->getGraphUser()->asJson()
                     );
 
                     $participant = $participantsRepository->findOneByUid(

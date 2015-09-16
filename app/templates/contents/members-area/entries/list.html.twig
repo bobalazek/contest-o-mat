@@ -43,7 +43,7 @@
 						<td>
 							{% set entryMetas = entry.getEntryMetas() %}
 							{% if entryMetas %}
-								<ul>
+								<ul class="metas-list">
 									{% for entryMeta in entryMetas %}
 										<li>{{ entryMeta }}</li>
 									{% endfor %}
@@ -92,7 +92,6 @@
 						<td>
 							{% set entryUserAgent = entry.getUserAgent() %}
 							{% if entryUserAgent %}
-								{% set uaParserInfo = app['ua.parser'].parse( entryUserAgent ) %}
 								<ul class="list-unstyled">
 									<li class="hidden">
 										<b>{{ 'User Agent' | trans }}:</b>
@@ -100,15 +99,19 @@
 									</li>
 									<li>
 										<b>{{ 'Browser' | trans }}:</b>
-										{{ uaParserInfo.ua }}
+										{{ entry.getUserAgentUa() }}
 									</li>
 									<li>
 										<b>{{ 'Operating system' | trans }}:</b>
-										{{ uaParserInfo.os }}
+										{{ entry.getUserAgentOs() }}
+									</li>
+									<li>
+										<b>{{ 'Device Type' | trans }}:</b>
+										{{ entry.getUserAgentDeviceType() }}
 									</li>
 									<li>
 										<b>{{ 'Device' | trans }}:</b>
-										{{ uaParserInfo.device }}
+										{{ entry.getUserAgentDevice() }}
 									</li>
 								</ul>
 							{% endif %}

@@ -49,12 +49,42 @@
 								{% set participantUidSplitted = participantUid | split(':') %}
 								{{ participantUid }} <br />
 								{% if participantUidSplitted[0] == 'facebook' %}
-									<small>
-										<a href="https://facebook.com/{{ participantUidSplitted[1] }}"
-											target="_blank">
-											Visit Participants Facebook Profile
-										</a>
-									</small>
+									<hr />
+									<div class="media">
+										{% if participant.getMetas('picture') %}
+											<div class="media-left">
+												<a href="https://facebook.com/{{ participantUidSplitted[1] }}"
+													target="_blank">
+													<img class="img-responsive media-object"
+														src="{{ json_decode(participant.getMetas('picture')).url }}"
+														style="margin: 0 auto; max-width: 80px;" />
+												</a>
+											</div>
+										{% endif %}
+										<div class="media-body"
+											style="width: auto;">
+											{% if participant.getMetas('name') %}
+												<h4 class="media-heading">
+													{{ participant.getMetas('name') }}
+												</h4>
+											{% endif %}
+											{% if participant.getMetas('email') %}
+												<b>{{ 'Email' | trans }}:</b>
+												{{ participant.getMetas('email') }}
+												<br />
+											{% endif %}
+											{% if participant.getMetas('locale') %}
+												<b>{{ 'Locale' | trans }}:</b>
+												{{ participant.getMetas('locale') }}
+												<br />
+											{% endif %}
+											{% if participant.getMetas('verified') %}
+												<b>{{ 'Verified' | trans }}:</b>
+												{{ participant.getMetas('verified') }}
+												<br />
+											{% endif %}
+										</div>
+									</div>
 								{% endif %}
 							{% endif %}
 						</td>
@@ -62,14 +92,22 @@
 						<td>{{ participant.getEmail() }}</td>
 						<td>{{ participant.getVia() }}</td>
 						<td>
-							{% set participantMetas = participant.getParticipantMetas() %}
-							{% if participantMetas %}
-								<ul>
-									{% for participantMeta in participantMetas %}
-										<li>{{ participantMeta }}</li>
-									{% endfor %}
-								</ul>
-							{% endif %}
+							<button type="button" class="btn btn-primary btn-sm"
+								data-toggle="modal" data-target="#participant-metas-modal"
+								data-id="{{ participant.getId() }}">
+								{{ 'Show' | trans }}
+							</button>
+							<div id="participant-metas-{{ participant.getId() }}"
+								class="hidden">
+								{% set participantMetas = participant.getParticipantMetas() %}
+								{% if participantMetas %}
+									<ul class="metas-list">
+										{% for participantMeta in participantMetas %}
+											<li>{{ participantMeta }}</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+							</div>
 						</td>
 						<td>
 							{% set participantIp = participant.getIp() %}
@@ -113,7 +151,6 @@
 						<td>
 							{% set participantUserAgent = participant.getUserAgent() %}
 							{% if participantUserAgent %}
-								{% set uaParserInfo = app['ua.parser'].parse( participantUserAgent ) %}
 								<ul class="list-unstyled">
 									<li class="hidden">
 										<b>{{ 'User Agent' | trans }}:</b>
@@ -121,15 +158,19 @@
 									</li>
 									<li>
 										<b>{{ 'Browser' | trans }}:</b>
-										{{ uaParserInfo.ua }}
+										{{ participant.getUserAgentUa() }}
 									</li>
 									<li>
 										<b>{{ 'Operating system' | trans }}:</b>
-										{{ uaParserInfo.os }}
+										{{ participant.getUserAgentOs() }}
+									</li>
+									<li>
+										<b>{{ 'Device Type' | trans }}:</b>
+										{{ participant.getUserAgentDeviceType() }}
 									</li>
 									<li>
 										<b>{{ 'Device' | trans }}:</b>
-										{{ uaParserInfo.device }}
+										{{ participant.getUserAgentDevice() }}
 									</li>
 								</ul>
 							{% endif %}
@@ -163,4 +204,50 @@
 			available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 		</p>
 	{% endif %}
+{% endblock %}
+
+{% block wrapper_after %}
+	<div id="participant-metas-modal" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="participant-metas-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close"
+						data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 id="participant-metas-modal-title" class="modal-title">
+						{{ 'Participant Metas' | trans }}
+					</h4>
+				</div>
+				<div id="participant-metas-modal-body" class="modal-body"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						{{ 'Close' | trans }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block body_javascripts_after %}
+	<script>
+		jQuery(document).ready(function() {
+			jQuery('#participant-metas-modal').on(
+				'show.bs.modal',
+				function (event) {
+					var button = jQuery(event.relatedTarget);
+					var id = button.attr('data-id');
+					var modal = jQuery(this);
+					var content = jQuery('#participant-metas-' + id).html();
+
+					modal.find('.modal-body').html((content
+						? content
+						: '{{ 'No data!' | trans }}'
+					));
+				}
+			);
+		});
+	</script>
 {% endblock %}

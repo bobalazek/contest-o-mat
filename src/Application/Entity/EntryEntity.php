@@ -174,6 +174,38 @@ class EntryEntity
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getUserAgentUa()
+    {
+        return $this->userAgentUa;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentOs()
+    {
+        return $this->userAgentOs;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentDevice()
+    {
+        return $this->userAgentDevice;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgentDeviceType()
+    {
+        return $this->userAgentDeviceType;
+    }
+
     /*** Time created ***/
     public function getTimeCreated()
     {
