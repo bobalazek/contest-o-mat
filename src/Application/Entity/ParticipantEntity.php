@@ -65,6 +65,55 @@ class ParticipantEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="ip_continent", type="string", length=16, nullable=true)
+     */
+    protected $ipContinent;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_country", type="string", length=32, nullable=true)
+     */
+    protected $ipCountry;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_state", type="string", length=32, nullable=true)
+     */
+    protected $ipState;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_region", type="string", length=64, nullable=true)
+     */
+    protected $ipRegion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_city", type="string", length=64, nullable=true)
+     */
+    protected $ipCity;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_latitude", type="string", length=32, nullable=true)
+     */
+    protected $ipLatitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_longitude", type="string", length=32, nullable=true)
+     */
+    protected $ipLongitude;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="user_agent", type="text", nullable=true)
      */
     protected $userAgent;
@@ -219,6 +268,25 @@ class ParticipantEntity
     public function setIp($ip)
     {
         $this->ip = $ip;
+
+        $ipData = json_decode(
+            file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
+        );
+        $converterArray = array(
+            'ipContinent' => 'geoplugin_continentCode',
+            'ipCountry' => 'geoplugin_countryCode',
+            'ipState' => 'geoplugin_state',
+            'ipRegion' => 'geoplugin_region',
+            'ipCity' => 'geoplugin_city',
+            'ipLatitude' => 'geoplugin_latitude',
+            'ipLongitude' => 'geoplugin_longitude',
+        );
+
+        foreach($converterArray as $key => $val) {
+            if(isset($ipData->{$val}) && $ipData->{$val} != '') {
+                $this->{$key} = $ipData->{$val};
+            }
+        }
 
         return $this;
     }

@@ -247,17 +247,26 @@ class ApplicationController
             try {
                 $accessToken = $redirectLoginHelper->getAccessToken();
 
-                $app['session']->set(
-                    'fb_access_token',
-                    (string) $accessToken
-                );
+                if($accessToken) {
+                    $app['session']->set(
+                        'fb_access_token',
+                        (string) $accessToken
+                    );
 
-                $app['flashbag']->add(
-                    'success',
-                    $app['translator']->trans(
-                        'You have successfully authenticated to Facebook.'
-                    )
-                );
+                    $app['flashbag']->add(
+                        'success',
+                        $app['translator']->trans(
+                            'You have successfully authenticated to Facebook.'
+                        )
+                    );
+                } else {
+                    $app['flashbag']->add(
+                        'danger',
+                        $app['translator']->trans(
+                            'Something went wrong. Could not get your access token.'
+                        )
+                    );
+                }
             } catch (\Exception $e) {
                 $app['flashbag']->add(
                     'danger',
