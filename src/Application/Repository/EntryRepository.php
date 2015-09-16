@@ -248,7 +248,7 @@ class EntryRepository
     public function getByCities($app)
     {
         $data = array(
-            'Undefined' => 0,
+            'Unknown' => 0,
         );
 
         $databaseResults = $this->getEntityManager()
@@ -279,7 +279,7 @@ class EntryRepository
     public function getByCountries($app)
     {
         $data = array(
-            'Undefined' => 0,
+            'Unknown' => 0,
         );
 
         $databaseResults = $this->getEntityManager()

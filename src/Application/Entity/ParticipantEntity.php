@@ -67,35 +67,35 @@ class ParticipantEntity
      *
      * @ORM\Column(name="ip_continent", type="string", length=16, nullable=true)
      */
-    protected $ipContinent = 'Undefined';
+    protected $ipContinent = 'Unknown';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_country", type="string", length=32, nullable=true)
      */
-    protected $ipCountry = 'Undefined';
+    protected $ipCountry = 'Unknown';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_state", type="string", length=32, nullable=true)
      */
-    protected $ipState = 'Undefined';
+    protected $ipState = 'Unknown';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_region", type="string", length=64, nullable=true)
      */
-    protected $ipRegion = 'Undefined';
+    protected $ipRegion = 'Unknown';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_city", type="string", length=64, nullable=true)
      */
-    protected $ipCity = 'Undefined';
+    protected $ipCity = 'Unknown';
 
     /**
      * @var string
