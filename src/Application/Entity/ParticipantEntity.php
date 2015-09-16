@@ -67,49 +67,49 @@ class ParticipantEntity
      *
      * @ORM\Column(name="ip_continent", type="string", length=16, nullable=true)
      */
-    protected $ipContinent;
+    protected $ipContinent = 'Undefined';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_country", type="string", length=32, nullable=true)
      */
-    protected $ipCountry;
+    protected $ipCountry = 'Undefined';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_state", type="string", length=32, nullable=true)
      */
-    protected $ipState;
+    protected $ipState = 'Undefined';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_region", type="string", length=64, nullable=true)
      */
-    protected $ipRegion;
+    protected $ipRegion = 'Undefined';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_city", type="string", length=64, nullable=true)
      */
-    protected $ipCity;
+    protected $ipCity = 'Undefined';
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_latitude", type="string", length=32, nullable=true)
      */
-    protected $ipLatitude;
+    protected $ipLatitude = 0;
 
     /**
      * @var string
      *
      * @ORM\Column(name="ip_longitude", type="string", length=32, nullable=true)
      */
-    protected $ipLongitude;
+    protected $ipLongitude = 0;
 
     /**
      * @var string
@@ -269,26 +269,87 @@ class ParticipantEntity
     {
         $this->ip = $ip;
 
-        $ipData = json_decode(
-            file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
-        );
-        $converterArray = array(
-            'ipContinent' => 'geoplugin_continentCode',
-            'ipCountry' => 'geoplugin_countryCode',
-            'ipState' => 'geoplugin_state',
-            'ipRegion' => 'geoplugin_region',
-            'ipCity' => 'geoplugin_city',
-            'ipLatitude' => 'geoplugin_latitude',
-            'ipLongitude' => 'geoplugin_longitude',
-        );
+        // We shall not do requests from the command line
+        // (prevent batch requests when hydrating test data)
+        if(php_sapi_name() !== 'cli') {
+            $ipData = json_decode(
+                file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
+            );
+            $converterArray = array(
+                'ipContinent' => 'geoplugin_continentCode',
+                'ipCountry' => 'geoplugin_countryCode',
+                'ipState' => 'geoplugin_state',
+                'ipRegion' => 'geoplugin_region',
+                'ipCity' => 'geoplugin_city',
+                'ipLatitude' => 'geoplugin_latitude',
+                'ipLongitude' => 'geoplugin_longitude',
+            );
 
-        foreach($converterArray as $key => $val) {
-            if(isset($ipData->{$val}) && $ipData->{$val} != '') {
-                $this->{$key} = $ipData->{$val};
+            foreach($converterArray as $key => $val) {
+                if(isset($ipData->{$val}) && $ipData->{$val} != '') {
+                    $this->{$key} = $ipData->{$val};
+                }
             }
         }
 
+
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpContinent()
+    {
+        return $this->ipContinent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpCountry()
+    {
+        return $this->ipCountry;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpState()
+    {
+        return $this->ipState;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpRegion()
+    {
+        return $this->ipRegion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpCity()
+    {
+        return $this->ipCity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpLatitude()
+    {
+        return $this->ipLatitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpLongitude()
+    {
+        return $this->ipLongitude;
     }
 
     /*** User agent ***/

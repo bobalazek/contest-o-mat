@@ -51,43 +51,37 @@
 							{% endif %}
 						</td>
 						<td>
-							{% set entryIp = entry.getIp() %}
-							{% if entryIp and app['settings']['doIpGeolocation'] %}
-								{% set ipParserInfo = app['ip.parser'].parse( entryIp ) %}
-								<ul class="list-unstyled">
-									<li>
-										<b>{{ 'IP' | trans }}:</b>
-										{{ entryIp }}
-									</li>
-									{% if ipParserInfo.geoplugin_city is defined and ipParserInfo.geoplugin_city %}
-										<li>
-											<b>{{ 'City' | trans }}:</b>
-											{{ ipParserInfo.geoplugin_city }}
-										</li>
-									{% endif %}
-									{% if ipParserInfo.geoplugin_region is defined and ipParserInfo.geoplugin_region %}
-										<li>
-											<b>{{ 'Region' | trans }}:</b>
-											{{ ipParserInfo.geoplugin_region }}
-										</li>
-									{% endif %}
-									{% if ipParserInfo.geoplugin_countryCode is defined and ipParserInfo.geoplugin_countryCode %}
-										<li>
-											<b>{{ 'Country' | trans }}:</b>
-											{{ ipParserInfo.geoplugin_countryCode }} /
-											{{ ipParserInfo.geoplugin_countryName }}
-										</li>
-									{% endif %}
-									{% if ipParserInfo.geoplugin_continentCode is defined and ipParserInfo.geoplugin_continentCode %}
-										<li>
-											<b>{{ 'Country' | trans }}:</b>
-											{{ ipParserInfo.geoplugin_continentCode }}
-										</li>
-									{% endif %}
-								</ul>
-							{% elseif entryIp %}
-								{{ entryIp }}
-							{% endif %}
+							<ul class="list-unstyled">
+								<li>
+									<b>{{ 'IP' | trans }}:</b>
+									{{ entry.getIp() }}
+								</li>
+								<li>
+									<b>{{ 'Continent' | trans }}:</b>
+									{{ entry.getIpContinent() }}
+								</li>
+								<li>
+									<b>{{ 'Country' | trans }}:</b>
+									{{ entry.getIpCountry() }}
+								</li>
+								<li>
+									<b>{{ 'State' | trans }}:</b>
+									{{ entry.getIpState() }}
+								</li>
+								<li>
+									<b>{{ 'Region' | trans }}:</b>
+									{{ entry.getIpRegion() }}
+								</li>
+								<li>
+									<b>{{ 'City' | trans }}:</b>
+									{{ entry.getIpCity() }}
+								</li>
+								<li>
+									<b>{{ 'Coordinates' | trans }}:</b>
+									{{ entry.getIpLatitude() }},
+									{{ entry.getIpLongitude() }}
+								</li>
+							</ul>
 						</td>
 						<td>
 							{% set entryUserAgent = entry.getUserAgent() %}

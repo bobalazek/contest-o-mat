@@ -110,43 +110,37 @@
 							</div>
 						</td>
 						<td>
-							{% set participantIp = participant.getIp() %}
-							{% if participantIp and app['settings']['doIpGeolocation'] %}
-								{% set ipParserInfo = app['ip.parser'].parse( participantIp ) %}
-								<ul class="list-unstyled">
-									<li>
-										<b>{{ 'IP' | trans }}:</b>
-										{{ participantIp }}
-									</li>
-									{% if ipParserInfo.geoplugin_city is defined and ipParserInfo.geoplugin_city %}
-										<li>
-											<b>{{ 'City' | trans }}:</b>
-											{{ ipParserInfo.geoplugin_city }}
-										</li>
-									{% endif %}
-									{% if ipParserInfo.geoplugin_region is defined and ipParserInfo.geoplugin_region %}
-										<li>
-											<b>{{ 'Region' | trans }}:</b>
-											{{ ipParserInfo.geoplugin_region }}
-										</li>
-									{% endif %}
-									{% if ipParserInfo.geoplugin_countryCode is defined and ipParserInfo.geoplugin_countryCode %}
-										<li>
-											<b>{{ 'Country' | trans }}:</b>
-											{{ ipParserInfo.geoplugin_countryCode }} /
-											{{ ipParserInfo.geoplugin_countryName }}
-										</li>
-									{% endif %}
-									{% if ipParserInfo.geoplugin_continentCode is defined and ipParserInfo.geoplugin_continentCode %}
-										<li>
-											<b>{{ 'Country' | trans }}:</b>
-											{{ ipParserInfo.geoplugin_continentCode }}
-										</li>
-									{% endif %}
-								</ul>
-							{% elseif participantIp %}
-								{{ participantIp }}
-							{% endif %}
+							<ul class="list-unstyled">
+								<li>
+									<b>{{ 'IP' | trans }}:</b>
+									{{ participant.getIp() }}
+								</li>
+								<li>
+									<b>{{ 'Continent' | trans }}:</b>
+									{{ participant.getIpContinent() }}
+								</li>
+								<li>
+									<b>{{ 'Country' | trans }}:</b>
+									{{ participant.getIpCountry() }}
+								</li>
+								<li>
+									<b>{{ 'State' | trans }}:</b>
+									{{ participant.getIpState() }}
+								</li>
+								<li>
+									<b>{{ 'Region' | trans }}:</b>
+									{{ participant.getIpRegion() }}
+								</li>
+								<li>
+									<b>{{ 'City' | trans }}:</b>
+									{{ participant.getIpCity() }}
+								</li>
+								<li>
+									<b>{{ 'Coordinates' | trans }}:</b>
+									{{ participant.getIpLatitude() }},
+									{{ participant.getIpLongitude() }}
+								</li>
+							</ul>
 						</td>
 						<td>
 							{% set participantUserAgent = participant.getUserAgent() %}
