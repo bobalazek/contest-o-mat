@@ -32,6 +32,9 @@ $app->before(function () use ($app) {
     // This shall only run when we have a database,
     // or else testing won't work (because there we don't have a database)
     $app['participant'] = false;
+    $app['facebookUser'] = false;
+    $app['facebookLoginUrl'] = false;
+    
     if (isset($app['databaseOptions']) &&
         is_array($app['databaseOptions'])) {
         $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
@@ -63,9 +66,6 @@ $app->before(function () use ($app) {
             } catch (\Exception $e) {
             }
         }
-
-        $app['facebookUser'] = false;
-        $app['facebookLoginUrl'] = false;
 
         if ($app['facebookSdk'] &&
             $app['settings']['useFacebookUserAsParticipantIfPossible']) {
