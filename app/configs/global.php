@@ -4,7 +4,7 @@ return array(
     'environment' => 'development',
     'debug' => true,
     'name' => 'Contest-O-Mat',
-    'version' => '0.8.1',
+    'version' => '0.8.2',
     'author' => 'Borut Balazek',
     // You MUST change the baseUri, in case you'll have multiple instances
     // of this application on the same (sub-)domain.
