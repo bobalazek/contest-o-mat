@@ -186,7 +186,7 @@ class EntryEntity
 
         // We shall not do requests from the command line
         // (prevent batch requests when hydrating test data)
-        if(php_sapi_name() !== 'cli') {
+        if (php_sapi_name() !== 'cli') {
             try {
                 $ipData = json_decode(
                     @file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
@@ -201,12 +201,13 @@ class EntryEntity
                     'ipLongitude' => 'geoplugin_longitude',
                 );
 
-                foreach($converterArray as $key => $val) {
-                    if(isset($ipData->{$val}) && $ipData->{$val} != '') {
+                foreach ($converterArray as $key => $val) {
+                    if (isset($ipData->{$val}) && $ipData->{$val} != '') {
                         $this->{$key} = $ipData->{$val};
                     }
                 }
-            } catch(\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
 
         return $this;

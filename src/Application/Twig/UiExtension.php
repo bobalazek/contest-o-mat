@@ -65,7 +65,8 @@ class UiExtension extends \Twig_Extension
         return $output;
     }
 
-    public function jsonDecode($str) {
+    public function jsonDecode($str)
+    {
         return json_decode($str);
     }
 }

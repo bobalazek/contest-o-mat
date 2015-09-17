@@ -247,7 +247,7 @@ class ApplicationController
             try {
                 $accessToken = $redirectLoginHelper->getAccessToken();
 
-                if($accessToken) {
+                if ($accessToken) {
                     $app['session']->set(
                         'fb_access_token',
                         (string) $accessToken
