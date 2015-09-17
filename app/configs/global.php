@@ -6,6 +6,9 @@ return array(
     'name' => 'Contest-O-Mat',
     'version' => '0.8',
     'author' => 'Borut Balazek',
+    // You MUST change the baseUri, in case you'll have multiple instances
+    // of this application on the same (sub-)domain.
+    'baseUri' => '/',
 
     // Admin email (& name)
     'email' => 'info@bobalazek.com',

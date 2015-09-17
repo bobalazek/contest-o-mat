@@ -129,9 +129,12 @@ class ApplicationController
 
                         if ($app['settings']['useSameParticipantDataAfterFirstEntry']) {
                             $participantCookie = new \Symfony\Component\HttpFoundation\Cookie(
-                                'participant_id',
-                                $participantEntity->getId(),
-                                time() + (DAY_IN_MINUTES * 365)
+                                'participant_data',
+                                ($participantEntity->getId().':'.
+                                md5((string) $participantEntity).':'.
+                                md5($app['baseUrl'])),
+                                time() + (DAY_IN_MINUTES * 365),
+                                $app['baseUri']
                             );
                             $response->headers->setCookie($participantCookie);
                         }

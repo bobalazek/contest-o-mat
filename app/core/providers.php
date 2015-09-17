@@ -44,6 +44,9 @@ if (file_exists(APP_DIR.'/configs/environments/'.$app['environment'].'.php')) {
 /***** Session *****/
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.save_path' => STORAGE_DIR.'/sessions',
+    'session.storage.options' => array(
+        'cookie_path' => $app['baseUri'],
+    ),
 ));
 
 /* Flashbag */

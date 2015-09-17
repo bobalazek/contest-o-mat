@@ -36,65 +36,80 @@ $app->before(function () use ($app) {
         is_array($app['databaseOptions'])) {
         $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
 
-        if ($app['request']->cookies->has('participant_id') &&
+        if ($app['request']->cookies->has('participant_data') &&
             $app['settings']['useSameParticipantDataAfterFirstEntry']) {
-            $participantId = $app['request']->cookies->get('participant_id');
+            try {
+                $participantData = $app['request']->cookies->get('participant_data');
+                $participantDataExploded = explode(':', $participantData);
+                $thisBaseUrlHashed = md5($app['baseUrl']);
 
-            $participant = $participantsRepository->findOneById(
-                $participantId
-            );
+                $participantId = $participantDataExploded[0];
+                $participantStringHashed = $participantDataExploded[1];
+                $baseUrlHashed = $participantDataExploded[2];
 
-            if ($participant) {
-                $app['participant'] = $participant;
-            }
-        }
-    }
-
-    $app['facebookUser'] = false;
-    $app['facebookLoginUrl'] = false;
-
-    if ($app['facebookSdk'] &&
-        $app['settings']['useFacebookUserAsParticipantIfPossible']) {
-        $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
-
-        try {
-            $accessToken = $app['session']->get('fb_access_token');
-
-            if ($accessToken) {
-                $app['facebookSdk']->setDefaultAccessToken(
-                    $accessToken
+                $participant = $participantsRepository->findOneById(
+                    $participantId
                 );
 
-                try {
-                    $facebookFields = $app['facebookSdkOptions']['fields'];
+                $foundParticipantHashed = md5((string) $participant);
 
-                    $facebookUserData = $app['facebookSdk']->get(
-                        '/me?fields='.
-                        implode(',', $facebookFields)
-                    );
-                    $facebookUserPictureData = $app['facebookSdk']->get(
-                        '/me/picture?type=large&redirect=false'
-                    );
-
-                    $app['facebookUser'] = json_decode(
-                        $facebookUserData->getGraphUser()->asJson()
-                    );
-
-                    $app['facebookUser']->picture = json_decode(
-                        $facebookUserPictureData->getGraphUser()->asJson()
-                    );
-
-                    $participant = $participantsRepository->findOneByUid(
-                        'facebook:'.$app['facebookUser']->id
-                    );
-
-                    if ($participant) {
-                        $app['participant']  = $participant;
-                    }
-                } catch (\Exception $e) {
+                if (
+                    $participant &&
+                    $foundParticipantHashed = $participantStringHashed &&
+                    $thisBaseUrlHashed == $baseUrlHashed
+                ) {
+                    $app['participant'] = $participant;
                 }
+            } catch (\Exception $e) {
             }
-        } catch (\Exception $e) {
+        }
+
+        $app['facebookUser'] = false;
+        $app['facebookLoginUrl'] = false;
+
+        if ($app['facebookSdk'] &&
+            $app['settings']['useFacebookUserAsParticipantIfPossible']) {
+            $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
+
+            try {
+                $accessToken = $app['session']->get('fb_access_token');
+
+                if ($accessToken) {
+                    $app['facebookSdk']->setDefaultAccessToken(
+                        $accessToken
+                    );
+
+                    try {
+                        $facebookFields = $app['facebookSdkOptions']['fields'];
+
+                        $facebookUserData = $app['facebookSdk']->get(
+                            '/me?fields='.
+                            implode(',', $facebookFields)
+                        );
+                        $facebookUserPictureData = $app['facebookSdk']->get(
+                            '/me/picture?type=large&redirect=false'
+                        );
+
+                        $app['facebookUser'] = json_decode(
+                            $facebookUserData->getGraphUser()->asJson()
+                        );
+
+                        $app['facebookUser']->picture = json_decode(
+                            $facebookUserPictureData->getGraphUser()->asJson()
+                        );
+
+                        $participant = $participantsRepository->findOneByUid(
+                            'facebook:'.$app['facebookUser']->id
+                        );
+
+                        if ($participant) {
+                            $app['participant']  = $participant;
+                        }
+                    } catch (\Exception $e) {
+                    }
+                }
+            } catch (\Exception $e) {
+            }
         }
     }
 });
