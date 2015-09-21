@@ -98,7 +98,7 @@
 {%- endblock %}
 
 {% block choice_widget_expanded -%}
-    {% set  translation_domain = null %}
+    {% set translation_domain = null %}
     {% if '-inline' in label_attr.class|default('') %}
         <div class="control-group">
             {% for child in form %}
@@ -119,7 +119,7 @@
 {%- endblock choice_widget_expanded %}
 
 {% block choice_widget_options -%}
-    {% set  translation_domain = null %}
+    {% set translation_domain = null %}
     {{- parent() -}}
 {%- endblock choice_widget_options %}
 
@@ -188,6 +188,11 @@
     <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
         {{ form_label(form) }}
         {{ form_widget(form) }}
+        {% for attrname,attrvalue in attr if attrname == 'help_text' %}
+            <span class="help-block">
+                {{ attrvalue | trans({}, translation_domain) }}
+            </span>
+        {% endfor %}
         {{ form_errors(form) }}
     </div>
 {%- endblock form_row %}
@@ -215,6 +220,11 @@
 {% block checkbox_row -%}
     <div class="form-group{% if not valid %} has-error{% endif %}">
         {{ form_widget(form) }}
+        {% for attrname,attrvalue in attr if attrname == 'help_text' %}
+            <span class="help-block">
+                {{ attrvalue | trans({}, translation_domain) }}
+            </span>
+        {% endfor %}
         {{ form_errors(form) }}
     </div>
 {%- endblock checkbox_row %}
@@ -222,9 +232,30 @@
 {% block radio_row -%}
     <div class="form-group{% if not valid %} has-error{% endif %}">
         {{ form_widget(form) }}
+        {% for attrname,attrvalue in attr if attrname == 'help_text' %}
+            <span class="help-block">
+                {{ attrvalue | trans({}, translation_domain) }}
+            </span>
+        {% endfor %}
         {{ form_errors(form) }}
     </div>
 {%- endblock radio_row %}
+
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr if attrname != 'help_text' -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock widget_attributes -%}
 
 {# Errors #}
 

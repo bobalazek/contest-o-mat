@@ -120,6 +120,7 @@ return array(
     ),
 
     // Default settings
+    'settingsFile' => 'settings.json', // the file inside var/database, which will hold the settings
     'settings' => array(
         'registrationEnabled' => false,
         'canParticipateOnlyOnce' => false, // If that is the case, we technically don't need entries, rather save al data in the participant meta

@@ -34,7 +34,7 @@ $app->before(function () use ($app) {
     $app['participant'] = false;
     $app['facebookUser'] = false;
     $app['facebookLoginUrl'] = false;
-    
+
     if (isset($app['databaseOptions']) &&
         is_array($app['databaseOptions'])) {
         $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
@@ -174,6 +174,28 @@ $app->before(function () use ($app) {
         ),
         'strlen'
     );
+
+    try {
+        $settingsFile = STORAGE_DIR.'/database/'.$app['settingsFile'];
+        if(file_exists($settingsFile)) {
+            $settings = json_decode(
+                file_get_contents(
+                    $settingsFile
+                ),
+                true
+            );
+
+            foreach($settings as $key => $value) {
+                if($key != 'texts' && $settings[$key] == '') {
+                    $settings[$key] = false;
+                }
+            }
+
+            $app['settings'] = $settings;
+        }
+    } catch (\Exception $e) {
+    }
+
 }, \Silex\Application::EARLY_EVENT);
 
 /*** Set Logut path ***/

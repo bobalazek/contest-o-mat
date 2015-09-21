@@ -47,7 +47,7 @@
 		</li>
 	{% endif %}
 	{% if is_granted('ROLE_ADMIN') %}
-		<li class="{{ path('members-area.settings') in app.currentUri ? 'active' : '' }} hidden" role="presentation">
+		<li class="{{ path('members-area.settings') in app.currentUri ? 'active' : '' }}" role="presentation">
 			<a href="{{ url('members-area.settings') }}">
 				<i class="fa fa-fw fa-cog"></i>
 				{{ 'Settings'|trans }}
