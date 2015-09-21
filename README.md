@@ -10,7 +10,7 @@ Build status
 
 Requirements & Tools & Helpers
 -------------------
-* PHP > 5.3.9
+* PHP > 5.3.9 OR PHP > 5.4 (if you're going to use the [Facebook SDK](https://github.com/facebook/facebook-php-sdk-v4))
 * [Composer](https://getcomposer.org/) *
 * [Bower](http://bower.io/) *
 * [PHP Coding Standards Fixer](http://cs.sensiolabs.org/)
