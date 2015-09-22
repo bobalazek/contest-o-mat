@@ -106,7 +106,7 @@ class SettingsType extends AbstractType
         $builder->add(
             $builder
                 ->create('texts', 'form', array(
-                    'label' => 'Texts',
+                    'label' => false,
                 ))
                     ->add('alreadyParticipated', 'textarea', array(
                         'data' => $this->app['settings']['texts']['alreadyParticipated'],
