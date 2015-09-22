@@ -126,7 +126,6 @@ return array(
         'canParticipateOnlyOnce' => false, // If that is the case, we technically don't need entries, rather save al data in the participant meta
         'canParticipateOncePerDay' => false,
         'sendEmailToParticipantOnEntry' => false, // Shall the user become a "thanks for the participation" mail?
-        // 'doIpGeolocation' => false, // Depreceated; Now we save the IP data directly on save / persist
         'useSameParticipantDataAfterFirstEntry' => true, // If you want to use the same participant data (that you entered with the first entry) each follow up entry
         'useFacebookUserAsParticipantIfPossible' => true, // Should we use the facebook SDK?
         'onlyFacebookUsersCanParticipate' => false, // If you only want facebook users to participate

@@ -47,15 +47,6 @@ class SettingsType extends AbstractType
             ),
         ));
 
-        $builder->add('doIpGeolocation', 'checkbox', array(
-            'label' => 'Do IP Geolocation?',
-            'required' => false,
-            'data' => $this->app['settings']['doIpGeolocation'],
-            'attr' => array(
-                'help_text' => 'Deprecated; Now we save the IP data directly inside the database, instead of refetching it each time.',
-            ),
-        ));
-
         $builder->add('useSameParticipantDataAfterFirstEntry', 'checkbox', array(
             'label' => 'Use same participant data after first entry?',
             'required' => false,
