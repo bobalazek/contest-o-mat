@@ -41,7 +41,7 @@
 				{% for entry in pagination.getItems() %}
 					<tr>
 						<td>
-							{% set entryMetas = entry.getEntryMetas() %}
+							{% set entryMetas = entry.getEntryMetas().toArray() %}
 							{% if entryMetas %}
 								<ul class="metas-list">
 									{% for entryMeta in entryMetas %}

@@ -1,0 +1,197 @@
+{% extends 'layouts/content/members-area.html.twig' %}
+
+{% block title %}{{ 'Votes'|trans }} | {{ parent() }}{% endblock %}
+
+{% block main %}
+	<h1>
+		{{ 'Votes'|trans }}
+		<a class="btn btn-primary btn-sm"
+			href="{{ url('members-area.votes.new') }}">
+			{{ 'New'|trans }}
+		</a>
+		<a class="btn btn-warning btn-sm"
+			href="{{ url('members-area.votes.export') }}">
+			{{ 'Export to CSV'|trans }}
+		</a>
+	</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="{{ url('members-area') }}">
+				{{ 'Home' | trans }}
+			</a>
+		</li>
+		<li class="active">
+			{{ 'Votes' | trans }}
+		</li>
+	</ol>
+	{{ paginator_top_render(pagination) }}
+	<div class="table-responsive">
+		<table class="table table-striped table-condensed">
+			<thead>
+				<tr>
+					<th>{{ paginator_sortable(pagination, 'Voter UID', 'v.voterUid') }}</th>
+					<th>{{ 'Metas' | trans }}</th>
+					<th>{{ paginator_sortable(pagination, 'IP', 'v.ip') }}</th>
+					<th>{{ paginator_sortable(pagination, 'User Agent', 'v.userAgent') }}</th>
+					<th width="160">{{ paginator_sortable(pagination, 'Time Created', 'v.timeCreated') }}</th>
+					<th width="100">{{ 'Actions' | trans }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for vote in pagination.getItems() %}
+					<tr>
+						<td>{{ vote.getVoterUid() }}</td>
+						<td>
+							<button type="button" class="btn btn-primary btn-sm"
+								data-toggle="modal" data-target="#vote-metas-modal"
+								data-id="{{ vote.getId() }}">
+								{{ 'Show' | trans }}
+							</button>
+							<div id="vote-metas-{{ vote.getId() }}"
+								class="hidden">
+								{% set voteMetas = vote.getVoteMetas().toArray() %}
+								{% if voteMetas %}
+									<ul class="metas-list">
+										{% for voteMeta in voteMetas %}
+											<li>{{ voteMeta }}</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+							</div>
+						</td>
+						<td>
+							<ul class="list-unstyled">
+								<li>
+									<b>{{ 'IP' | trans }}:</b>
+									{{ vote.getIp() }}
+								</li>
+								<li>
+									<b>{{ 'Continent' | trans }}:</b>
+									{{ vote.getIpContinent() }}
+								</li>
+								<li>
+									<b>{{ 'Country' | trans }}:</b>
+									{{ vote.getIpCountry() }}
+								</li>
+								<li>
+									<b>{{ 'State' | trans }}:</b>
+									{{ vote.getIpState() }}
+								</li>
+								<li>
+									<b>{{ 'Region' | trans }}:</b>
+									{{ vote.getIpRegion() }}
+								</li>
+								<li>
+									<b>{{ 'City' | trans }}:</b>
+									{{ vote.getIpCity() }}
+								</li>
+								<li>
+									<b>{{ 'Coordinates' | trans }}:</b>
+									{{ vote.getIpLatitude() }},
+									{{ vote.getIpLongitude() }}
+								</li>
+							</ul>
+						</td>
+						<td>
+							{% set voteUserAgent = vote.getUserAgent() %}
+							{% if voteUserAgent %}
+								<ul class="list-unstyled">
+									<li class="hidden">
+										<b>{{ 'User Agent' | trans }}:</b>
+										{{ vote.getUserAgent() }}
+									</li>
+									<li>
+										<b>{{ 'Browser' | trans }}:</b>
+										{{ vote.getUserAgentUa() }}
+									</li>
+									<li>
+										<b>{{ 'Operating system' | trans }}:</b>
+										{{ vote.getUserAgentOs() }}
+									</li>
+									<li>
+										<b>{{ 'Device Type' | trans }}:</b>
+										{{ vote.getUserAgentDeviceType() }}
+									</li>
+									<li>
+										<b>{{ 'Device' | trans }}:</b>
+										{{ vote.getUserAgentDevice() }}
+									</li>
+								</ul>
+							{% endif %}
+						</td>
+						<td>{{ vote.getTimeCreated()|date(app.dateTimeFormat) }}</td>
+						<td>
+							<a class="btn btn-sm btn-default margin-bottom"
+								data-toggle="tooltip" title="{{ 'Edit'|trans }}"
+								href="{{ url('members-area.votes.edit', { id : vote.getId() }) }}">
+								<i class="fa fa-fw fa-cog"></i>
+							</a>
+							<a class="btn btn-sm btn-default margin-bottom"
+								data-toggle="tooltip" title="{{ 'Remove'|trans }}"
+								href="{{ url('members-area.votes.remove', { id : vote.getId() }) }}">
+								<i class="fa fa-fw fa-times"></i>
+							</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="99">{{ 'No votes yet'|trans }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	{{ paginator_bottom_render(pagination) }}
+	{% if app['settings']['doIpGeolocation'] %}
+		<p>
+			Some of the returned data includes GeoLite data created by MaxMind,
+			available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+		</p>
+	{% endif %}
+{% endblock %}
+
+{% block wrapper_after %}
+	<div id="vote-metas-modal" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="vote-metas-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close"
+						data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 id="vote-metas-modal-title" class="modal-title">
+						{{ 'Vote Metas' | trans }}
+					</h4>
+				</div>
+				<div id="vote-metas-modal-body" class="modal-body"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						{{ 'Close' | trans }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block body_javascripts_after %}
+	<script>
+		jQuery(document).ready(function() {
+			jQuery('#vote-metas-modal').on(
+				'show.bs.modal',
+				function (event) {
+					var button = jQuery(event.relatedTarget);
+					var id = button.attr('data-id');
+					var modal = jQuery(this);
+					var content = jQuery('#vote-metas-' + id).html().trim();
+
+					modal.find('.modal-body').html((content
+						? content
+						: '{{ 'No data!' | trans }}'
+					));
+				}
+			);
+		});
+	</script>
+{% endblock %}

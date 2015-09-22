@@ -38,6 +38,14 @@
 			</a>
 		</li>
 	{% endif %}
+	{% if is_granted('ROLE_VOTES_EDITOR') or is_granted('ROLE_ADMIN') %}
+		<li class="{{ path('members-area.votes') in app.currentUri ? 'active' : '' }}" role="presentation">
+			<a href="{{ url('members-area.votes') }}">
+				<i class="fa fa-fw fa-thumbs-up"></i>
+				{{ 'Votes'|trans }}
+			</a>
+		</li>
+	{% endif %}
 	{% if is_granted('ROLE_ADMIN') %}
 		<li class="{{ path('members-area.statistics') in app.currentUri ? 'active' : '' }}" role="presentation">
 			<a href="{{ url('members-area.statistics') }}">

@@ -6,23 +6,27 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ParticipantType extends AbstractType
+class VoteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('uid', 'text', array(
+        $builder->add('voterUid', 'text', array(
             'required' => false,
+            'label' => 'Voter UID',
         ));
-        $builder->add('name', 'text');
-        $builder->add('email', 'email');
-        $builder->add('via', 'choice', array(
-            'choices' => array(
-                'administration' => 'Administration',
-                'application' => 'Application',
+
+        $builder->add('entry', 'entity', array(
+            'required' => false,
+            'empty_value' => false,
+            'class' => 'Application\Entity\EntryEntity',
+            'attr' => array(
+                'class' => 'select-picker',
+                'data-live-search' => 'true',
             ),
         ));
-        $builder->add('participantMetas', 'collection', array(
-            'type' => new \Application\Form\Type\ParticipantMetaType(),
+
+        $builder->add('voteMetas', 'collection', array(
+            'type' => new \Application\Form\Type\VoteMetaType(),
             'allow_add' => true,
             'allow_delete' => true,
             'delete_empty' => true,
@@ -42,7 +46,7 @@ class ParticipantType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Application\Entity\ParticipantEntity',
+            'data_class' => 'Application\Entity\VoteEntity',
             'validation_groups' => array('newAndEdit'),
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
@@ -51,6 +55,6 @@ class ParticipantType extends AbstractType
 
     public function getName()
     {
-        return 'participant';
+        return 'vote';
     }
 }

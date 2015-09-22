@@ -59,7 +59,6 @@ class ParticipantsController
 
     public function exportAction(Request $request, Application $app)
     {
-        // WIP
         $response = new StreamedResponse();
         $response->setCallback(function () use ($app) {
             $handle = fopen('php://output', 'w+');

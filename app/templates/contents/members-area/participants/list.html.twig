@@ -99,7 +99,7 @@
 							</button>
 							<div id="participant-metas-{{ participant.getId() }}"
 								class="hidden">
-								{% set participantMetas = participant.getParticipantMetas() %}
+								{% set participantMetas = participant.getParticipantMetas().toArray() %}
 								{% if participantMetas %}
 									<ul class="metas-list">
 										{% for participantMeta in participantMetas %}
@@ -234,7 +234,7 @@
 					var button = jQuery(event.relatedTarget);
 					var id = button.attr('data-id');
 					var modal = jQuery(this);
-					var content = jQuery('#participant-metas-' + id).html();
+					var content = jQuery('#participant-metas-' + id).html().trim();
 
 					modal.find('.modal-body').html((content
 						? content

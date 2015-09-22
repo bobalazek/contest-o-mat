@@ -1,29 +1,27 @@
 {{ form_start(form) }}
-    {{ form_row(form.uid) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.via) }}
-    <div id="participant-meta-wrapper">
-        {% do form.participantMetas.setRendered %}
+    {{ form_row(form.voterUid) }}
+    {{ form_row(form.entry) }}
+    <div id="vote-meta-wrapper">
+        {% do form.voteMetas.setRendered %}
         <div class="clearfix">
             <div class="pull-left">
-                {{ form_label(form.participantMetas) }}
+                {{ form_label(form.voteMetas) }}
             </div>
             <div class="pull-right">
-                <a id="new-participant-meta"
+                <a id="new-vote-meta"
                     class="btn btn-xs btn-primary"
                     href="#">
                     Add new Meta
                 </a>
             </div>
         </div>
-        {{ form_errors(form.participantMetas) }}
-        <ul id="participantMetas-fields-list"
-            data-prototype="{{ form_widget(form.participantMetas.vars.prototype)|e }}">
-            {% for participantMeta in form.participantMetas %}
+        {{ form_errors(form.voteMetas) }}
+        <ul id="voteMetas-fields-list"
+            data-prototype="{{ form_widget(form.voteMetas.vars.prototype)|e }}">
+            {% for voteMeta in form.voteMetas %}
                 <li>
-                    {{ form_errors(participantMeta) }}
-                    {{ form_widget(participantMeta) }}
+                    {{ form_errors(voteMeta) }}
+                    {{ form_widget(voteMeta) }}
                     <div class="clearfix">
                         <div class="pull-right">
                             <a class="btn btn-xs btn-danger remove-meta-button"
@@ -39,16 +37,16 @@
 {{ form_end(form) }}
 
 <script>
-    var participantMetasCount = {{ form.participantMetas|length }};
+    var voteMetasCount = {{ form.voteMetas|length }};
 
     jQuery(document).ready(function() {
-        jQuery('#new-participant-meta').on('click', function(e) {
+        jQuery('#new-vote-meta').on('click', function(e) {
             e.preventDefault();
 
-            var participantMetas = jQuery('#participantMetas-fields-list');
-            var newWidget = participantMetas.attr('data-prototype');
-            newWidget = newWidget.replace(/__name__/g, participantMetasCount);
-            participantMetasCount++;
+            var voteMetas = jQuery('#voteMetas-fields-list');
+            var newWidget = voteMetas.attr('data-prototype');
+            newWidget = newWidget.replace(/__name__/g, voteMetasCount);
+            voteMetasCount++;
 
             var newLi = jQuery('<li></li>').html(
                 newWidget+
@@ -61,7 +59,7 @@
                     '</div>' +
                 '</div>'
             );
-            newLi.appendTo(participantMetas);
+            newLi.appendTo(voteMetas);
 
             initializeRemoveMetaButton();
         });
@@ -72,7 +70,7 @@
 
                 jQuery(this).closest('li').remove();
 
-                participantMetasCount--;
+                voteMetasCount--;
             });
         }
         initializeRemoveMetaButton();

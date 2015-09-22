@@ -5,13 +5,13 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Entry Entity
+ * Vote Entity
  *
- * @ORM\Table(name="entries")
- * @ORM\Entity(repositoryClass="Application\Repository\EntryRepository")
+ * @ORM\Table(name="votes")
+ * @ORM\Entity(repositoryClass="Application\Repository\VoteRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class EntryEntity
+class VoteEntity
 {
     /*************** Variables ***************/
     /********** General Variables **********/
@@ -23,6 +23,16 @@ class EntryEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
+
+    /**
+     * Useful if you are building an application with external API,
+     * so you can save the user's ID like facebook:123456, twitter:123456, ...
+     *
+     * @var string
+     *
+     * @ORM\Column(name="voter_uid", type="string", length=255, nullable=true)
+     */
+    protected $voterUid;
 
     /**
      * @var string
@@ -131,23 +141,16 @@ class EntryEntity
 
     /***** Relationship Variables *****/
     /**
-     * @ORM\ManyToOne(targetEntity="Application\Entity\ParticipantEntity", inversedBy="entries")
+     * @ORM\ManyToOne(targetEntity="Application\Entity\EntryEntity", inversedBy="votes")
      */
-    protected $participant;
+    protected $entry;
 
     /**
      * @var Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Application\Entity\VoteEntity", mappedBy="entry", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Application\Entity\VoteMetaEntity", mappedBy="vote", cascade={"all"})
      */
-    protected $votes;
-
-    /**
-     * @var Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Application\Entity\EntryMetaEntity", mappedBy="entry", cascade={"all"})
-     */
-    protected $entryMetas;
+    protected $voteMetas;
 
     protected $metas;
 
@@ -155,7 +158,7 @@ class EntryEntity
     /********** Contructor **********/
     public function __construct()
     {
-        $this->entryMetas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->voteMetas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /********** General Methods **********/
@@ -169,6 +172,19 @@ class EntryEntity
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /*** Voter Uid ***/
+    public function getVoterUid()
+    {
+        return $this->voterUid;
+    }
+
+    public function setVoterUid($voterUid)
+    {
+        $this->voterUid = $voterUid;
 
         return $this;
     }
@@ -370,53 +386,53 @@ class EntryEntity
         return $this;
     }
 
-    /*** Participant ***/
-    public function getParticipant()
+    /*** Entry ***/
+    public function getEntry()
     {
-        return $this->participant;
+        return $this->entry;
     }
 
-    public function setParticipant(\Application\Entity\ParticipantEntity $participant)
+    public function setEntry(\Application\Entity\EntryEntity $entry)
     {
-        $this->participant = $participant;
+        $this->entry = $entry;
 
         return $this;
     }
 
-    /*** Entry Metas ***/
-    public function getEntryMetas()
+    /*** Vote Metas ***/
+    public function getVoteMetas()
     {
-        return $this->entryMetas;
+        return $this->voteMetas;
     }
 
-    public function setEntryMetas($entryMetas)
+    public function setVoteMetas($voteMetas)
     {
-        if ($entryMetas) {
-            foreach ($entryMetas as $entryMeta) {
-                $entryMeta->setEntry($this);
+        if ($voteMetas) {
+            foreach ($voteMetas as $voteMeta) {
+                $voteMeta->setVote($this);
             }
 
-            $this->entryMetas = $entryMetas;
+            $this->voteMetas = $voteMetas;
         }
 
         return $this;
     }
 
-    public function addEntryMeta(\Application\Entity\EntryMetaEntity $entryMeta)
+    public function addVoteMeta(\Application\Entity\VoteMetaEntity $voteMeta)
     {
-        if (! $this->entryMetas->contains($entryMeta)) {
-            $entryMeta->setEntry($this);
+        if (! $this->voteMetas->contains($voteMeta)) {
+            $voteMeta->setVote($this);
 
-            $this->entryMetas->add($entryMeta);
+            $this->voteMetas->add($voteMeta);
         }
 
         return $this;
     }
 
-    public function removeEntryMeta(\Application\Entity\EntryMetaEntity $entryMeta)
+    public function removeVoteMeta(\Application\Entity\VoteMetaEntity $voteMeta)
     {
-        $entryMeta->setEntry(null);
-        $this->entryMetas->removeElement($entryMeta);
+        $voteMeta->setVote(null);
+        $this->voteMetas->removeElement($voteMeta);
 
         return $this;
     }
@@ -439,15 +455,15 @@ class EntryEntity
         return $this;
     }
 
-    public function hydrateEntryMetas()
+    public function hydrateVoteMetas()
     {
-        $entryMetas = $this->getEntryMetas()->toArray();
+        $voteMetas = $this->getVoteMetas()->toArray();
 
-        if (count($entryMetas)) {
+        if (count($voteMetas)) {
             $metas = array();
 
-            foreach ($entryMetas as $entryMeta) {
-                $metas[$entryMeta->getKey()] = $entryMeta->getValue();
+            foreach ($voteMetas as $voteMeta) {
+                $metas[$voteMeta->getKey()] = $voteMeta->getValue();
             }
 
             $this->setMetas($metas);
@@ -467,7 +483,7 @@ class EntryEntity
     /********** Magic Methods **********/
     public function __toString()
     {
-        return 'Entry #'.$this->getId();
+        return 'Vote #'.$this->getId();
     }
 
     /********** Callback Methods **********/
@@ -476,7 +492,7 @@ class EntryEntity
      */
     public function postLoad()
     {
-        $this->hydrateEntryMetas();
+        $this->hydrateVoteMetas();
     }
 
     /**

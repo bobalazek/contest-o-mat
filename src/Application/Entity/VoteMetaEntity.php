@@ -5,13 +5,13 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Participant Metas Entity
+ * Vote Meta Entity
  *
- * @ORM\Table(name="participant_metas")
- * @ORM\Entity(repositoryClass="Application\Repository\ParticipantMetaRepository")
+ * @ORM\Table(name="vote_metas")
+ * @ORM\Entity(repositoryClass="Application\Repository\VoteMetaRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class ParticipantMetaEntity
+class VoteMetaEntity
 {
     /*************** Variables ***************/
     /********** General Variables **********/
@@ -54,9 +54,9 @@ class ParticipantMetaEntity
 
     /***** Relationship Variables *****/
     /**
-     * @ORM\ManyToOne(targetEntity="Application\Entity\ParticipantEntity", inversedBy="participantMetas")
+     * @ORM\ManyToOne(targetEntity="Application\Entity\VoteEntity", inversedBy="voteMetas")
      */
-    protected $participant;
+    protected $vote;
 
     /*************** Methods ***************/
     /********** General Methods **********/
@@ -130,14 +130,14 @@ class ParticipantMetaEntity
         return $this;
     }
 
-    /*** Participant ***/
-    public function getParticipant()
+    /*** Vote ***/
+    public function getVote()
     {
-        return $this->participant;
+        return $this->vote;
     }
-    public function setParticipant($participant)
+    public function setVote($vote)
     {
-        $this->participant = $participant;
+        $this->vote = $vote;
 
         return $this;
     }
