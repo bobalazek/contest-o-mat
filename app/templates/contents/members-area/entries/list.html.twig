@@ -30,9 +30,9 @@
 			<thead>
 				<tr>
 					<th>{{ 'Metas' | trans }}</th>
+					<th>{{ paginator_sortable(pagination, 'Participant', 'p.email') }}</th>
 					<th>{{ paginator_sortable(pagination, 'IP', 'e.ip') }}</th>
 					<th>{{ paginator_sortable(pagination, 'User Agent', 'e.userAgent') }}</th>
-					<th>{{ paginator_sortable(pagination, 'Participant', 'p.email') }}</th>
 					<th width="160">{{ paginator_sortable(pagination, 'Time Created', 'e.timeCreated') }}</th>
 					<th width="100">{{ 'Actions'|trans }}</th>
 				</tr>
@@ -50,6 +50,7 @@
 								</ul>
 							{% endif %}
 						</td>
+						<td>{{ entry.getParticipant() }}</td>
 						<td>
 							<ul class="list-unstyled">
 								<li>
@@ -110,7 +111,6 @@
 								</ul>
 							{% endif %}
 						</td>
-						<td>{{ entry.getParticipant() }}</td>
 						<td>{{ entry.getTimeCreated()|date(app.dateTimeFormat) }}</td>
 						<td>
 							<a class="btn btn-sm btn-default filter-submit margin-bottom"

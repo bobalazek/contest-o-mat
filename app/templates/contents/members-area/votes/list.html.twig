@@ -31,6 +31,7 @@
 				<tr>
 					<th>{{ paginator_sortable(pagination, 'Voter UID', 'v.voterUid') }}</th>
 					<th>{{ 'Metas' | trans }}</th>
+					<th>{{ paginator_sortable(pagination, 'Entry', 'e.id') }}</th>
 					<th>{{ paginator_sortable(pagination, 'IP', 'v.ip') }}</th>
 					<th>{{ paginator_sortable(pagination, 'User Agent', 'v.userAgent') }}</th>
 					<th width="160">{{ paginator_sortable(pagination, 'Time Created', 'v.timeCreated') }}</th>
@@ -59,6 +60,7 @@
 								{% endif %}
 							</div>
 						</td>
+						<td>{{ vote.getEntry() }}</td>
 						<td>
 							<ul class="list-unstyled">
 								<li>

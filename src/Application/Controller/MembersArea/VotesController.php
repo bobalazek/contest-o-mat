@@ -26,6 +26,7 @@ class VotesController
             ->select('v')
             ->from('Application\Entity\VoteEntity', 'v')
             ->leftJoin('v.voteMetas', 'vm')
+            ->leftJoin('v.entry', 'e')
         ;
 
         $pagination = $app['paginator']->paginate(
