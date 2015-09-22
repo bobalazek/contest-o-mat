@@ -192,12 +192,10 @@
 		</table>
 	</div>
 	{{ paginator_bottom_render(pagination) }}
-	{% if app['settings']['doIpGeolocation'] %}
-		<p>
-			Some of the returned data includes GeoLite data created by MaxMind,
-			available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
-		</p>
-	{% endif %}
+	<p>
+		Some of the returned data includes GeoLite data created by MaxMind,
+		available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+	</p>
 {% endblock %}
 
 {% block wrapper_after %}
