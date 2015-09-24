@@ -89,6 +89,9 @@ class DefaultType extends AbstractType
                                 ->add('answer', 'text', array(
                                     'label' => 'What is the meaning of life?',
                                 ))
+                                ->add('me_and_hulk_image', 'file', array(
+                                    'label' => 'An image of yourself an the Hulk!',
+                                ))
                     )
         );
 

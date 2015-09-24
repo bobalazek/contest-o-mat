@@ -454,6 +454,45 @@ class EntryEntity
         }
     }
 
+    public function convertMetasToEntryMetas($uploadPath, $uploadDir)
+    {
+        $slugify = new \Cocur\Slugify\Slugify();
+        $metas = $this->getMetas();
+
+        if (! empty($metas)) {
+            foreach ($metas as $metaKey => $metaValue) {
+                $metaEntity = new \Application\Entity\EntryMetaEntity();
+
+                // Chek if it's a file!
+                if($metaValue instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
+                    $filename = $slugify->slugify(
+                        $metaValue->getClientOriginalName()
+                    );
+
+                    $filename .= '_'.sha1(uniqid(mt_rand(), true)).'.'.
+                        $metaValue->guessExtension()
+                    ;
+
+                    $metaValue->move(
+                        $uploadDir,
+                        $filename
+                    );
+
+                    $metaValue = $uploadPath.$filename;
+                }
+
+                $metaEntity
+                    ->setKey($metaKey)
+                    ->setValue($metaValue)
+                ;
+
+                $this
+                    ->addEntryMeta($metaEntity)
+                ;
+            }
+        }
+    }
+
     /********** API ***********/
     public function toArray()
     {

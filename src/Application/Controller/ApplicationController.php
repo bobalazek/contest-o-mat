@@ -109,21 +109,10 @@ class ApplicationController
                             }
                         }
 
-                        $metas = $participantEntity->getMetas();
-                        if (! empty($metas)) {
-                            foreach ($metas as $metaKey => $metaValue) {
-                                $metaEntity = new \Application\Entity\ParticipantMetaEntity();
-
-                                $metaEntity
-                                    ->setKey($metaKey)
-                                    ->setValue($metaValue)
-                                ;
-
-                                $participantEntity
-                                    ->addParticipantMeta($metaEntity)
-                                ;
-                            }
-                        }
+                        $participantEntity->convertMetasToEntryMetas(
+                            $uploadPath = $app['baseUrl'].'/assets/uploads/',
+                            $uploadDir = WEB_DIR.'/assets/uploads/'
+                        );
 
                         $app['orm.em']->persist($participantEntity);
                         $app['orm.em']->flush();
@@ -162,21 +151,10 @@ class ApplicationController
                             ;
                         }
 
-                        $metas = $entryEntity->getMetas();
-                        if (! empty($metas)) {
-                            foreach ($metas as $metaKey => $metaValue) {
-                                $metaEntity = new \Application\Entity\EntryMetaEntity();
-
-                                $metaEntity
-                                    ->setKey($metaKey)
-                                    ->setValue($metaValue)
-                                ;
-
-                                $entryEntity
-                                    ->addEntryMeta($metaEntity)
-                                ;
-                            }
-                        }
+                        $entryEntity->convertMetasToEntryMetas(
+                            $uploadPath = $app['baseUrl'].'/assets/uploads/',
+                            $uploadDir = WEB_DIR.'/assets/uploads/'
+                        );
 
                         $app['orm.em']->persist($entryEntity);
                         $app['orm.em']->flush();
