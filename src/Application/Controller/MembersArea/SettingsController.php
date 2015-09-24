@@ -26,17 +26,26 @@ class SettingsController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                file_put_contents(
-                    STORAGE_DIR.'/database/'.$app['settingsFile'],
-                    json_encode($data)
-                );
+                try {
+                    file_put_contents(
+                        STORAGE_DIR.'/database/'.$app['settingsFile'],
+                        json_encode($data)
+                    );
 
-                $app['flashbag']->add(
-                    'success',
-                    $app['translator']->trans(
-                        'members-area.settings.save.successText'
-                    )
-                );
+                    $app['flashbag']->add(
+                        'success',
+                        $app['translator']->trans(
+                            'members-area.settings.save.successText'
+                        )
+                    );
+                } catch(\Exception $e) {
+                    $app['flashbag']->add(
+                        'warning',
+                        $app['translator']->trans(
+                            'members-area.settings.save.warningText'
+                        )
+                    );
+                }
 
                 // So the new settings will apply in the same request
                 return $app->redirect(
