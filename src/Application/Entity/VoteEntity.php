@@ -513,7 +513,7 @@ class VoteEntity
                 ;
 
                 $this
-                    ->addEntryMeta($metaEntity)
+                    ->addVoteMeta($metaEntity)
                 ;
             }
         }

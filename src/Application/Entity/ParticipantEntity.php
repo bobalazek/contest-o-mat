@@ -602,7 +602,7 @@ class ParticipantEntity
                 ;
 
                 $this
-                    ->addEntryMeta($metaEntity)
+                    ->addParticipantMeta($metaEntity)
                 ;
             }
         }
