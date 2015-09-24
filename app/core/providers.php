@@ -11,7 +11,18 @@ $app->register(
     )
 );
 
-if (file_exists(APP_DIR.'/configs/global-local.php')) {
+// This local file should only work on localhost
+if (
+    file_exists(APP_DIR.'/configs/global-local.php')
+    && in_array(
+        @$_SERVER['REMOTE_ADDR'],
+        array(
+            '127.0.0.1',
+            'fe80::1',
+            '::1'
+        )
+    )
+) {
     $app->register(
         new Igorw\Silex\ConfigServiceProvider(
                 APP_DIR.'/configs/global-local.php'
