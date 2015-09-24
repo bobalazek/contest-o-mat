@@ -113,6 +113,9 @@ Preview
 ### Members Area - Statistics - Visits ###
 ![Members Area - Statistics - Visits](doc/images/members-area-statistics-visits.png)
 
+### Members Area - Settings ###
+![Members Area - Settings](doc/images/members-area-settings.png)
+
 License
 ----------------------
 Contest-O-Mat is licensed under the MIT license.
