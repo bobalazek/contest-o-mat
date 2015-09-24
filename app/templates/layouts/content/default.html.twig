@@ -31,6 +31,9 @@
 					var currentUri = '{{ app.currentUri }}';
 					var participant = {{ app.participant ? (app.participant.toArray() | json_encode | raw) : 'false' }};
 					var facebookUser = {{ app.facebookUser ? (app.facebookUser | json_encode | raw) : 'false' }};
+					var doJavascriptFacebookLogin = true;
+					var facebookApplicationScope = '{{ app.facebookSdkOptions.permissions | join(',') }}';
+					var facebookAuthenticatedUrl = '{{ url('application.facebook-authenticated') }}';
 				</script>
 				{% if app.facebookSdkOptions.id %}
 					<script>
@@ -38,6 +41,7 @@
 							FB.init({
 								appId: '{{ app.facebookSdkOptions.id }}',
 								xfbml: true,
+								cookie: true,
 								version: '{{ app.facebookSdkOptions.version }}',
 							});
 						};

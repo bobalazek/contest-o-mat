@@ -244,6 +244,19 @@ class ApplicationController
             try {
                 $accessToken = $redirectLoginHelper->getAccessToken();
 
+                if (
+                    $request->query->has('via_javascript')
+                    && $request->query->has('facebook_access_token')
+                    && ! $accessToken
+                ) {
+                    $facebookAccessToken =  $request->query->get(
+                        'facebook_access_token',
+                        false
+                    );
+
+                    $accessToken = $facebookAccessToken;
+                }
+
                 if ($accessToken) {
                     $app['session']->set(
                         'fb_access_token',

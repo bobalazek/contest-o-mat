@@ -9,12 +9,36 @@ var Application = function () {
 				Application.tooltipsInitialize();
 				Application.timeAgoInitialize();
 				Application.paginatorInitialize();
+				Application.facebookLoginInitialize();
 
                 jQuery('#preloader').fadeOut(); // Hide preloader, when everything is ready...
 
                 initialized = true;
                 console.log('Application Initialized');
             });
+		},
+		facebookLoginInitialize: function() {
+			if(doJavascriptFacebookLogin) {
+				jQuery('.btn-facebook-authenticate').on('click', function() {
+					FB.login( function(response) {
+                        if (response.authResponse) {
+							var url = facebookAuthenticatedUrl+
+								'?via_javascript=true&facebook_access_token='+
+								response.authResponse.accessToken
+							;
+
+                            self.location.href = url;
+                        } else {
+                            alert('Whops, login was NOT successful!')
+                        }
+                    },
+					{
+						scope: facebookApplicationScope,
+					});
+
+                    return false;
+				});
+			}
 		},
 		paginatorInitialize: function() {
 			var currentUrl = window.location.href;
