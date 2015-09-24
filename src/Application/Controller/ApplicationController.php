@@ -222,7 +222,7 @@ class ApplicationController
         if ($app['facebookSdk']) {
             $redirectUrl = $request->headers->get('referer');
 
-            if($request->query->has('redirect_url')) {
+            if ($request->query->has('redirect_url')) {
                 $redirectUrl = $request->query->get('redirect_url');
             }
 
@@ -297,7 +297,7 @@ class ApplicationController
 
             $redirectUrl = $request->query->get('redirect_url', false);
 
-            if($redirectUrl) {
+            if ($redirectUrl) {
                 return $app->redirect(urldecode($redirectUrl));
             }
 
@@ -322,7 +322,7 @@ class ApplicationController
     {
         $data = array();
 
-        if(! $app['settings']['entriesArePublic']) {
+        if (! $app['settings']['entriesArePublic']) {
             $app->abort(404);
         }
 
@@ -362,7 +362,7 @@ class ApplicationController
     {
         $data = array();
 
-        if(! $app['settings']['entriesArePublic']) {
+        if (! $app['settings']['entriesArePublic']) {
             $app->abort(404);
         }
 
@@ -389,7 +389,7 @@ class ApplicationController
     {
         $data = array();
 
-        if(! $app['settings']['entriesArePublic']) {
+        if (! $app['settings']['entriesArePublic']) {
             $app->abort(404);
         }
 
@@ -427,7 +427,7 @@ class ApplicationController
                 ))
             ;
 
-            if($lastVoteByUid) {
+            if ($lastVoteByUid) {
                 $currentTime = new \Datetime();
                 $lastVoteTime = $lastVoteByUid->getTimeCreated();
 
@@ -436,7 +436,7 @@ class ApplicationController
                 }
             }
 
-            if($app['settings']['canVoteOnlyOnce']
+            if ($app['settings']['canVoteOnlyOnce']
                 && $alreadyVoted) {
                 $app['flashbag']->add(
                     'info',
@@ -444,7 +444,7 @@ class ApplicationController
                         'You have already voted!'
                     )
                 );
-            } elseif($app['settings']['canVoteOncePerDay']
+            } elseif ($app['settings']['canVoteOncePerDay']
                 && $alreadyVotedToday) {
                 $app['flashbag']->add(
                     'info',

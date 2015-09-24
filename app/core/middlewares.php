@@ -177,7 +177,7 @@ $app->before(function () use ($app) {
 
     try {
         $settingsFile = STORAGE_DIR.'/database/'.$app['settingsFile'];
-        if(file_exists($settingsFile)) {
+        if (file_exists($settingsFile)) {
             $settings = json_decode(
                 file_get_contents(
                     $settingsFile
@@ -185,8 +185,8 @@ $app->before(function () use ($app) {
                 true
             );
 
-            foreach($settings as $key => $value) {
-                if($key != 'texts' && $settings[$key] == '') {
+            foreach ($settings as $key => $value) {
+                if ($key != 'texts' && $settings[$key] == '') {
                     $settings[$key] = false;
                 }
             }
