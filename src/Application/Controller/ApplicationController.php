@@ -411,54 +411,96 @@ class ApplicationController
             $uid = 'facebook:'.$app['facebookUser']->id;
         }
 
-        if($uid) {
-            $voteEntity = new \Application\Entity\VoteEntity();
+        if ($uid) {
+            $alreadyVoted = $app['orm.em']
+                ->getRepository('Application\Entity\VoteEntity')
+                ->findByVoterUid($uid)
+            ;
+            $alreadyVotedToday = false;
 
-            $voteEntity
-                ->setVoterUid($uid)
-                ->setEntry($entry)
-                ->setIp($request->getClientIp())
-                ->setUserAgent($request->headers->get('User-Agent'))
+            $lastVoteByUid = $app['orm.em']
+                ->getRepository('Application\Entity\VoteEntity')
+                ->findOneBy(array(
+                    'voterUid' => $uid,
+                ), array(
+                    'timeCreated' => 'DESC',
+                ))
             ;
 
-            if ($app['facebookUser']) {
-                // Maybe add some other attributes inside the metas?
-                // https://developers.facebook.com/docs/graph-api/reference/user
-                foreach ($app['facebookUser'] as $key => $value) {
-                    $voteEntity
-                        ->addMeta(
-                            $key,
-                            $value
-                        )
-                    ;
+            if($lastVoteByUid) {
+                $currentTime = new \Datetime();
+                $lastVoteTime = $lastVoteByUid->getTimeCreated();
+
+                if ($currentTime->format('Y-m-d') == $lastVoteTime->format('Y-m-d')) {
+                    $alreadyVotedToday = true;
                 }
             }
 
-            $metas = $voteEntity->getMetas();
-            if (! empty($metas)) {
-                foreach ($metas as $metaKey => $metaValue) {
-                    $metaEntity = new \Application\Entity\VoteMetaEntity();
+            if($app['settings']['canVoteOnlyOnce']
+                && $alreadyVoted) {
+                $app['flashbag']->add(
+                    'info',
+                    $app['translator']->trans(
+                        'You have already voted!'
+                    )
+                );
+            } elseif($app['settings']['canVoteOncePerDay']
+                && $alreadyVotedToday) {
+                $app['flashbag']->add(
+                    'info',
+                    $app['translator']->trans(
+                        'You have already voted today!'
+                    )
+                );
+            } else {
+                $voteEntity = new \Application\Entity\VoteEntity();
 
-                    $metaEntity
-                        ->setKey($metaKey)
-                        ->setValue($metaValue)
-                    ;
+                $voteEntity
+                    ->setVoterUid($uid)
+                    ->setEntry($entry)
+                    ->setIp($request->getClientIp())
+                    ->setUserAgent($request->headers->get('User-Agent'))
+                ;
 
-                    $voteEntity
-                        ->addVoteMeta($metaEntity)
-                    ;
+                if ($app['facebookUser']) {
+                    // Maybe add some other attributes inside the metas?
+                    // https://developers.facebook.com/docs/graph-api/reference/user
+                    foreach ($app['facebookUser'] as $key => $value) {
+                        $voteEntity
+                            ->addMeta(
+                                $key,
+                                $value
+                            )
+                        ;
+                    }
                 }
+
+                $metas = $voteEntity->getMetas();
+                if (! empty($metas)) {
+                    foreach ($metas as $metaKey => $metaValue) {
+                        $metaEntity = new \Application\Entity\VoteMetaEntity();
+
+                        $metaEntity
+                            ->setKey($metaKey)
+                            ->setValue($metaValue)
+                        ;
+
+                        $voteEntity
+                            ->addVoteMeta($metaEntity)
+                        ;
+                    }
+                }
+
+                $app['orm.em']->persist($voteEntity);
+                $app['orm.em']->flush();
+
+                $app['flashbag']->add(
+                    'success',
+                    $app['translator']->trans(
+                        'You have successfully voted!'
+                    )
+                );
             }
-
-            $app['orm.em']->persist($voteEntity);
-            $app['orm.em']->flush();
-
-            $app['flashbag']->add(
-                'success',
-                $app['translator']->trans(
-                    'You have successfully voted!'
-                )
-            );
         } else {
             $facebookAuthenticateUrl = $app['url_generator']->generate('application.facebook-authenticate');
 
