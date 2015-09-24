@@ -37,6 +37,24 @@ class ApplicationControllerProvider
         ->bind('application.facebook-authenticated');
 
         $controllers->match(
+            '/entries',
+            'Application\Controller\ApplicationController::entriesAction'
+        )
+        ->bind('application.entries');
+
+        $controllers->match(
+            '/entries/{id}',
+            'Application\Controller\ApplicationController::entriesDetailAction'
+        )
+        ->bind('application.entries.detail');
+
+        $controllers->match(
+            '/entries/{id}/vote',
+            'Application\Controller\ApplicationController::entriesVoteAction'
+        )
+        ->bind('application.entries.vote');
+
+        $controllers->match(
             '/terms',
             'Application\Controller\ApplicationController::termsAction'
         )

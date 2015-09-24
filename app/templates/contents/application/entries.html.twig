@@ -1,0 +1,31 @@
+{% extends 'layouts/content/application.html.twig' %}
+
+{% set isContainerFluid = false %}
+
+{% block main %}
+	<h2>{{ 'Entries' | trans }}</h2>
+    {% set entries = pagination.getItems() %}
+    {% if entries %}
+        <div id="entries">
+            <div class="row">
+                {% for entry in entries %}
+                    <div class="col-md-4">
+                        <div class="entry">
+                            <h4>{{ entry }}</h4>
+                            {# Here we can output more entity data #}
+                            <a class="btn btn-block btn-primary btn-sm"
+                                href="{{ url('application.entries.detail', { id : entry.getId() }) }}">
+                                {{ 'Detail' | trans }}
+                            </a>
+                        </div> <!-- /.entry -->
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {{ paginator_render(pagination) }}
+    {% else %}
+        <div class="alert alert-info">
+            {{ 'No entries found!' | trans }}
+        </div>
+    {% endif %}
+{% endblock %}

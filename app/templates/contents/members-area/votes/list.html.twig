@@ -41,7 +41,51 @@
 			<tbody>
 				{% for vote in pagination.getItems() %}
 					<tr>
-						<td>{{ vote.getVoterUid() }}</td>
+						<td>
+							{% set voterUid = vote.getVoterUid() %}
+							{% if voterUid %}
+								{% set voterUidSplitted = voterUid | split(':') %}
+								{{ voterUid }} <br />
+								{% if voterUidSplitted[0] == 'facebook' %}
+									<hr />
+									<div class="media">
+										{% if vote.getMetas('picture') %}
+											<div class="media-left">
+												<a href="https://facebook.com/{{ voterUidSplitted[1] }}"
+													target="_blank">
+													<img class="img-responsive media-object"
+														src="{{ json_decode(vote.getMetas('picture')).url }}"
+														style="margin: 0 auto; max-width: 80px;" />
+												</a>
+											</div>
+										{% endif %}
+										<div class="media-body"
+											style="width: auto;">
+											{% if vote.getMetas('name') %}
+												<h4 class="media-heading">
+													{{ vote.getMetas('name') }}
+												</h4>
+											{% endif %}
+											{% if vote.getMetas('email') %}
+												<b>{{ 'Email' | trans }}:</b>
+												{{ vote.getMetas('email') }}
+												<br />
+											{% endif %}
+											{% if vote.getMetas('locale') %}
+												<b>{{ 'Locale' | trans }}:</b>
+												{{ vote.getMetas('locale') }}
+												<br />
+											{% endif %}
+											{% if vote.getMetas('verified') %}
+												<b>{{ 'Verified' | trans }}:</b>
+												{{ vote.getMetas('verified') }}
+												<br />
+											{% endif %}
+										</div>
+									</div>
+								{% endif %}
+							{% endif %}
+						</td>
 						<td>
 							<button type="button" class="btn btn-primary btn-sm"
 								data-toggle="modal" data-target="#vote-metas-modal"

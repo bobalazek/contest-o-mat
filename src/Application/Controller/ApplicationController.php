@@ -5,6 +5,7 @@ namespace Application\Controller;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Application\Entity\VoteEntity;
 
 class ApplicationController
 {
@@ -85,8 +86,8 @@ class ApplicationController
                         $participantEntity = $data['participant'];
                         $participantEntity
                             ->setVia('application')
-                            ->setIp($app['request']->getClientIp())
-                            ->setUserAgent($app['request']->headers->get('User-Agent'))
+                            ->setIp($request->getClientIp())
+                            ->setUserAgent($request->headers->get('User-Agent'))
                         ;
 
                         if ($app['facebookUser']) {
@@ -144,8 +145,8 @@ class ApplicationController
                         is_a($data['entry'], 'Application\Entity\EntryEntity')) {
                         $entryEntity = $data['entry'];
                         $entryEntity
-                            ->setIp($app['request']->getClientIp())
-                            ->setUserAgent($app['request']->headers->get('User-Agent'))
+                            ->setIp($request->getClientIp())
+                            ->setUserAgent($request->headers->get('User-Agent'))
                         ;
 
                         $participant = $app['participant']
@@ -219,11 +220,19 @@ class ApplicationController
     public function facebookAuthenticateAction(Request $request, Application $app)
     {
         if ($app['facebookSdk']) {
+            $redirectUrl = $request->headers->get('referer');
+
+            if($request->query->has('redirect_url')) {
+                $redirectUrl = $request->query->get('redirect_url');
+            }
+
             $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
+
             $url = $app['baseUrl'].str_replace(
                     $app['baseUri'],
                     '',
-                    $app['url_generator']->generate('application.facebook-authenticated')
+                    $app['url_generator']->generate('application.facebook-authenticated').
+                    ($redirectUrl ? '?redirect_url='.urlencode($redirectUrl) : '')
                 )
             ;
 
@@ -236,6 +245,13 @@ class ApplicationController
                 $loginUrl
             );
         } else {
+            $app['flashbag']->add(
+                'warning',
+                $app['translator']->trans(
+                    'Facebook SDK is not set up yet.'
+                )
+            );
+
             return $app->redirect(
                 $app['url_generator']->generate('application')
             );
@@ -279,14 +295,191 @@ class ApplicationController
                 );
             }
 
+            $redirectUrl = $request->query->get('redirect_url', false);
+
+            if($redirectUrl) {
+                return $app->redirect(urldecode($redirectUrl));
+            }
+
             return $app->redirect(
                 $app['url_generator']->generate('application.participate')
             );
         } else {
+            $app['flashbag']->add(
+                'warning',
+                $app['translator']->trans(
+                    'Facebook SDK is not set up yet.'
+                )
+            );
+
             return $app->redirect(
                 $app['url_generator']->generate('application')
             );
         }
+    }
+
+    public function entriesAction(Request $request, Application $app)
+    {
+        $data = array();
+
+        if(! $app['settings']['entriesArePublic']) {
+            $app->abort(404);
+        }
+
+        $limitPerPage = 9;
+        $currentPage = $request->query->get('page');
+
+        $entryResults = $app['orm.em']
+            ->createQueryBuilder()
+            ->select('e')
+            ->from('Application\Entity\EntryEntity', 'e')
+            ->leftJoin('e.entryMetas', 'em')
+            ->leftJoin('e.participant', 'p')
+        ;
+
+        $pagination = $app['paginator']->paginate(
+            $entryResults,
+            $currentPage,
+            $limitPerPage,
+            array(
+                'route' => 'application.entries',
+                'defaultSortFieldName' => 'e.timeCreated',
+                'defaultSortDirection' => 'desc',
+            )
+        );
+
+        $data['pagination'] = $pagination;
+
+        return new Response(
+            $app['twig']->render(
+                'contents/application/entries.html.twig',
+                $data
+            )
+        );
+    }
+
+    public function entriesDetailAction($id, Request $request, Application $app)
+    {
+        $data = array();
+
+        if(! $app['settings']['entriesArePublic']) {
+            $app->abort(404);
+        }
+
+        $entry = $app['orm.em']->find(
+            'Application\Entity\EntryEntity',
+            $id
+        );
+
+        if (! $entry) {
+            $app->abort(404);
+        }
+
+        $data['entry'] = $entry;
+
+        return new Response(
+            $app['twig']->render(
+                'contents/application/entries/detail.html.twig',
+                $data
+            )
+        );
+    }
+
+    public function entriesVoteAction($id, Request $request, Application $app)
+    {
+        $data = array();
+
+        if(! $app['settings']['entriesArePublic']) {
+            $app->abort(404);
+        }
+
+        $entry = $app['orm.em']->find(
+            'Application\Entity\EntryEntity',
+            $id
+        );
+
+        if (! $entry) {
+            $app->abort(404);
+        }
+
+        $uid = false;
+
+        // Here you shall set the user UID. Normally that is via facebook id,
+        // but you can set that however you want. The main thing is, that it's
+        // always the same for the same voter.
+        if ($app['facebookUser']) {
+            $uid = 'facebook:'.$app['facebookUser']->id;
+        }
+
+        if($uid) {
+            $voteEntity = new \Application\Entity\VoteEntity();
+
+            $voteEntity
+                ->setVoterUid($uid)
+                ->setEntry($entry)
+                ->setIp($request->getClientIp())
+                ->setUserAgent($request->headers->get('User-Agent'))
+            ;
+
+            if ($app['facebookUser']) {
+                // Maybe add some other attributes inside the metas?
+                // https://developers.facebook.com/docs/graph-api/reference/user
+                foreach ($app['facebookUser'] as $key => $value) {
+                    $voteEntity
+                        ->addMeta(
+                            $key,
+                            $value
+                        )
+                    ;
+                }
+            }
+
+            $metas = $voteEntity->getMetas();
+            if (! empty($metas)) {
+                foreach ($metas as $metaKey => $metaValue) {
+                    $metaEntity = new \Application\Entity\VoteMetaEntity();
+
+                    $metaEntity
+                        ->setKey($metaKey)
+                        ->setValue($metaValue)
+                    ;
+
+                    $voteEntity
+                        ->addVoteMeta($metaEntity)
+                    ;
+                }
+            }
+
+            $app['orm.em']->persist($voteEntity);
+            $app['orm.em']->flush();
+
+            $app['flashbag']->add(
+                'success',
+                $app['translator']->trans(
+                    'You have successfully voted!'
+                )
+            );
+        } else {
+            $facebookAuthenticateUrl = $app['url_generator']->generate('application.facebook-authenticate');
+
+            $app['flashbag']->add(
+                'info',
+                $app['translator']->trans(
+                    'You must be authorized to vote. Please
+                    <a href="'.$facebookAuthenticateUrl.'">login first</a>.
+                    Thank you.'
+                )
+            );
+        }
+
+        return $app->redirect(
+            $app['url_generator']->generate(
+                'application.entries.detail',
+                array(
+                    'id' => $entry->getId(),
+                )
+            )
+        );
     }
 
     public function termsAction(Request $request, Application $app)

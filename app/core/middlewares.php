@@ -191,7 +191,10 @@ $app->before(function () use ($app) {
                 }
             }
 
-            $app['settings'] = $settings;
+            $app['settings'] = array_merge(
+                $app['settings'],
+                $settings
+            );
         }
     } catch (\Exception $e) {
     }

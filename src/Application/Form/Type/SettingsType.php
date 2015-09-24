@@ -74,6 +74,15 @@ class SettingsType extends AbstractType
             ),
         ));
 
+        $builder->add('entriesArePublic', 'checkbox', array(
+            'label' => 'Entries are public?',
+            'required' => false,
+            'data' => $this->app['settings']['entriesArePublic'],
+            'attr' => array(
+                'help_text' => 'Should the entries be public?',
+            ),
+        ));
+
         $builder->add('startDate', 'datetime', array(
             'label' => 'Start date?',
             'required' => false,

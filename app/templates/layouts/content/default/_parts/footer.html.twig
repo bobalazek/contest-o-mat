@@ -24,6 +24,13 @@
 									{{ 'Home'|trans }}
 								</a>
 							</li>
+							{% if app.settings.entriesArePublic %}
+								<li>
+									<a href="{{ url('application.entries') }}">
+										{{ 'Entries'|trans }}
+									</a>
+								</li>
+							{% endif %}
 							<li>
 								<a href="{{ url('application.terms') }}">
 									{{ 'Terms'|trans }}

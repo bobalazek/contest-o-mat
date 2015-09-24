@@ -455,6 +455,16 @@ class VoteEntity
         return $this;
     }
 
+    public function addMeta($key, $value = null)
+    {
+        $this->metas[$key] = is_string($value)
+            ? $value
+            : json_encode($value)
+        ;
+
+        return $this;
+    }
+
     public function hydrateVoteMetas()
     {
         $voteMetas = $this->getVoteMetas()->toArray();

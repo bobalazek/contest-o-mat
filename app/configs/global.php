@@ -129,6 +129,7 @@ return array(
         'useSameParticipantDataAfterFirstEntry' => true, // If you want to use the same participant data (that you entered with the first entry) each follow up entry
         'useFacebookUserAsParticipantIfPossible' => true, // Should we use the facebook SDK?
         'onlyFacebookUsersCanParticipate' => false, // If you only want facebook users to participate
+        'entriesArePublic' => true, // Shall the entries be public?
         'startDate' => false, // or enter a time like '2015-10-01 08:00:00'
         'endDate' => false, // or enter a time like '2015-11-01 00:00:00'
         'texts' => array(
