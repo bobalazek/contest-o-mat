@@ -37,6 +37,11 @@ class SettingsController
                         'members-area.settings.save.successText'
                     )
                 );
+
+                // So the new settings will apply in the same request
+                return $app->redirect(
+                    $app['url_generator']->generate('members-area.settings')
+                );
             }
         }
 
