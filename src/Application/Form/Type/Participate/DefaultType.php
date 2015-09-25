@@ -91,6 +91,9 @@ class DefaultType extends AbstractType
                                 ))
                                 ->add('me_and_hulk_image', 'file', array(
                                     'label' => 'An image of yourself an the Hulk!',
+                                    'constraints' => array(
+                                        new \Symfony\Component\Validator\Constraints\Image(),
+                                    ),
                                 ))
                     )
         );
