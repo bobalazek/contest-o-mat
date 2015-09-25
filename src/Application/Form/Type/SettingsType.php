@@ -84,7 +84,7 @@ class SettingsType extends AbstractType
         ));
 
         $builder->add('canVoteOnlyOnce', 'checkbox', array(
-            'label' => 'Can participate only once?',
+            'label' => 'Can vote only once?',
             'required' => false,
             'data' => $this->app['settings']['canVoteOnlyOnce'],
             'attr' => array(
@@ -93,7 +93,7 @@ class SettingsType extends AbstractType
         ));
 
         $builder->add('canVoteOncePerDay', 'checkbox', array(
-            'label' => 'Can participate once per day?',
+            'label' => 'Can vote once per day?',
             'required' => false,
             'data' => $this->app['settings']['canVoteOncePerDay'],
             'attr' => array(
