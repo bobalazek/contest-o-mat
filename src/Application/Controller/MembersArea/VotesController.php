@@ -57,17 +57,17 @@ class VotesController
 
     public function exportAction(Request $request, Application $app)
     {
+        $exportOptions = $app['exportOptions']['votes'];
+        $exportOptionsKeys = array_keys($exportOptions['fields']);
+        $exportOptionsValues = array_values($exportOptions['fields']);
+
         $response = new StreamedResponse();
-        $response->setCallback(function () use ($app) {
+        $response->setCallback(function () use ($app, $exportOptionsKeys, $exportOptionsValues) {
             $handle = fopen('php://output', 'w+');
 
             fputcsv(
                 $handle,
-                array(
-                    'ID',
-                    'Entry',
-                    'Time',
-                ),
+                $exportOptionsKeys,
                 ';'
             );
 
@@ -76,14 +76,24 @@ class VotesController
                 ->findAll()
             ;
 
+            $twig = clone $app['twig'];
+            $twig->setLoader(new \Twig_Loader_String());
+
             foreach ($votes as $vote) {
+                $finalExportOptionsValues = array();
+
+                foreach($exportOptionsValues as $singleValue) {
+                    $finalExportOptionsValues[] = $twig->render(
+                        $singleValue,
+                        array(
+                            'vote' => $vote,
+                        )
+                    );
+                }
+
                 fputcsv(
                     $handle,
-                    array(
-                        $vote->getId(),
-                        $vote->getEntry(),
-                        $vote->getTimeCreated()->format(DATE_ATOM),
-                    ),
+                    $finalExportOptionsValues,
                     ';'
                  );
             }

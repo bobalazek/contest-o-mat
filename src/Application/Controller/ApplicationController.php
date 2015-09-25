@@ -499,7 +499,7 @@ class ApplicationController
                 'info',
                 $app['translator']->trans(
                     'You must be authorized to vote. Please
-                    <a href="'.$facebookAuthenticateUrl.'">login first</a>.
+                    <a class="btn-facebook-authenticate" href="'.$facebookAuthenticateUrl.'">login first</a>.
                     Thank you.'
                 )
             );

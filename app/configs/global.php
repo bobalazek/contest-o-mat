@@ -111,6 +111,34 @@ return array(
         ),
     ),
 
+    // Export Options
+    'exportOptions' => array(
+        'participants' => array(
+            'fields' => array( // The values will be rendered via twig!
+                'ID' => '{{ participant.getId() }}',
+                'Name' => '{{ participant.getName() }}',
+                'Email' => '{{ participant.getEmail() }}',
+                'Via' => '{{ participant.getVia() }}',
+                'Time' => '{{ participant.getTimeCreated().format("Y-m-d H:i:s") }}',
+            ),
+        ),
+        'entries' => array(
+            'fields' => array( // The values will be rendered via twig!
+                'ID' => '{{ entry.getId() }}',
+                'Participant' => '{{ entry.getParticipant() | raw }}',
+                'Answer' => '{{ entry.getMetas("answer") }}', // Example on how to use the metas (works for all - participants, entries and votes. Just call the xxx.getMetas("myAttr") method)
+                'Time' => '{{ entry.getTimeCreated().format("Y-m-d H:i:s") }}',
+            ),
+        ),
+        'votes' => array(
+            'fields' => array( // The values will be rendered via twig!
+                'ID' => '{{ vote.getId() }}',
+                'Voter UID' => '{{ vote.getVoterUid() }}',
+                'Time' => '{{ vote.getTimeCreated().format("Y-m-d H:i:s") }}',
+            ),
+        ),
+    ),
+
     // Piwik Options
     'piwikOptions' => array(
         'enabled' => false,

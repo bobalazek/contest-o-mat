@@ -59,18 +59,17 @@ class EntriesController
 
     public function exportAction(Request $request, Application $app)
     {
+        $exportOptions = $app['exportOptions']['entries'];
+        $exportOptionsKeys = array_keys($exportOptions['fields']);
+        $exportOptionsValues = array_values($exportOptions['fields']);
+
         $response = new StreamedResponse();
-        $response->setCallback(function () use ($app) {
+        $response->setCallback(function () use ($app, $exportOptionsKeys, $exportOptionsValues) {
             $handle = fopen('php://output', 'w+');
 
             fputcsv(
                 $handle,
-                array(
-                    'ID',
-                    'Participant',
-                    // 'Answer', // Example on how to use the metas
-                    'Time',
-                ),
+                $exportOptionsKeys,
                 ';'
             );
 
@@ -79,15 +78,24 @@ class EntriesController
                 ->findAll()
             ;
 
+            $twig = clone $app['twig'];
+            $twig->setLoader(new \Twig_Loader_String());
+
             foreach ($entries as $entry) {
+                $finalExportOptionsValues = array();
+
+                foreach($exportOptionsValues as $singleValue) {
+                    $finalExportOptionsValues[] = $twig->render(
+                        $singleValue,
+                        array(
+                            'entry' => $entry,
+                        )
+                    );
+                }
+
                 fputcsv(
                     $handle,
-                    array(
-                        $entry->getId(),
-                        (string) $entry->getParticipant(),
-                        // $entry->getMetas('answer'), // Example on how to use the metas
-                        $entry->getTimeCreated()->format(DATE_ATOM),
-                    ),
+                    $finalExportOptionsValues,
                     ';'
                  );
             }

@@ -59,19 +59,17 @@ class ParticipantsController
 
     public function exportAction(Request $request, Application $app)
     {
+        $exportOptions = $app['exportOptions']['participants'];
+        $exportOptionsKeys = array_keys($exportOptions['fields']);
+        $exportOptionsValues = array_values($exportOptions['fields']);
+
         $response = new StreamedResponse();
-        $response->setCallback(function () use ($app) {
+        $response->setCallback(function () use ($app, $exportOptionsKeys, $exportOptionsValues) {
             $handle = fopen('php://output', 'w+');
 
             fputcsv(
                 $handle,
-                array(
-                    'ID',
-                    'Name',
-                    'Email',
-                    'Via',
-                    'Time',
-                ),
+                $exportOptionsKeys,
                 ';'
             );
 
@@ -80,16 +78,24 @@ class ParticipantsController
                 ->findAll()
             ;
 
+            $twig = clone $app['twig'];
+            $twig->setLoader(new \Twig_Loader_String());
+
             foreach ($participants as $participant) {
+                $finalExportOptionsValues = array();
+
+                foreach($exportOptionsValues as $singleValue) {
+                    $finalExportOptionsValues[] = $twig->render(
+                        $singleValue,
+                        array(
+                            'participant' => $participant,
+                        )
+                    );
+                }
+
                 fputcsv(
                     $handle,
-                    array(
-                        $participant->getId(),
-                        $participant->getName(),
-                        $participant->getEmail(),
-                        $participant->getVia(),
-                        $participant->getTimeCreated()->format(DATE_ATOM),
-                    ),
+                    $finalExportOptionsValues,
                     ';'
                  );
             }
