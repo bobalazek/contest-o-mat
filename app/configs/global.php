@@ -151,15 +151,13 @@ return array(
     'settingsFile' => 'settings.json', // the file inside var/database, which will hold the settings
     'settings' => array(
         'registrationEnabled' => false,
-        'canParticipateOnlyOnce' => false, // If that is the case, we technically don't need entries, rather save al data in the participant meta
-        'canParticipateOncePerDay' => false,
+        'participateInterval' => false, // options: false, 'only_once' or 'once_per_day'
         'sendEmailToParticipantOnEntry' => false, // Shall the user become a "thanks for the participation" mail?
         'useSameParticipantDataAfterFirstEntry' => true, // If you want to use the same participant data (that you entered with the first entry) each follow up entry
         'useFacebookUserAsParticipantIfPossible' => true, // Should we use the facebook SDK?
         'onlyFacebookUsersCanParticipate' => false, // If you only want facebook users to participate
         'entriesArePublic' => false, // Shall the entries be public?
-        'canVoteOnlyOnce' => false, // If the user can vote only once (per entry)?
-        'canVoteOncePerDay' => false, // If the user can vote only once per day (per entry)?
+        'voteInterval' => false, // options: false, 'only_once' or 'once_per_day'
         'startDate' => false, // or enter a time like '2015-10-01 08:00:00'
         'endDate' => false, // or enter a time like '2015-11-01 00:00:00'
         'texts' => array(

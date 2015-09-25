@@ -61,12 +61,12 @@ class ApplicationController
             '</a>';
         } elseif ($app['participant'] &&
             $app['participant']->hasAlreadyParticipatedToday() &&
-            $app['settings']['canParticipateOncePerDay']) {
+            $app['settings']['participateInterval'] == 'once_per_day') {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['alreadyParticipatedToday'];
         } elseif ($app['participant'] &&
-            $app['settings']['canParticipateOnlyOnce']) {
+            $app['settings']['participateInterval'] == 'only_once') {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['alreadyParticipated'];
@@ -427,20 +427,20 @@ class ApplicationController
                 }
             }
 
-            if ($app['settings']['canVoteOnlyOnce']
-                && $alreadyVoted) {
-                $app['flashbag']->add(
-                    'info',
-                    $app['translator']->trans(
-                        'You have already voted!'
-                    )
-                );
-            } elseif ($app['settings']['canVoteOncePerDay']
+            if ($app['settings']['voteInterval'] == 'once_per_day'
                 && $alreadyVotedToday) {
                 $app['flashbag']->add(
                     'info',
                     $app['translator']->trans(
                         'You have already voted today!'
+                    )
+                );
+            } elseif ($app['settings']['voteInterval'] == 'only_once'
+                && $alreadyVoted) {
+                $app['flashbag']->add(
+                    'info',
+                    $app['translator']->trans(
+                        'You have already voted!'
                     )
                 );
             } else {

@@ -29,21 +29,17 @@ class SettingsType extends AbstractType
             ),
         ));
 
-        $builder->add('canParticipateOnlyOnce', 'checkbox', array(
-            'label' => 'Can participate only once?',
+        $builder->add('participateInterval', 'choice', array(
+            'label' => 'Participate interval',
             'required' => false,
-            'data' => $this->app['settings']['canParticipateOnlyOnce'],
-            'attr' => array(
-                'help_text' => 'If that is the case, we technically do not need entries, rather save al data in the participant meta.',
+            'choices' => array(
+                '' => 'Always (no restrictions)',
+                'only_once' => 'Only Once',
+                'once_per_day' => 'Once per Day',
             ),
-        ));
-
-        $builder->add('canParticipateOncePerDay', 'checkbox', array(
-            'label' => 'Can participate once per day?',
-            'required' => false,
-            'data' => $this->app['settings']['canParticipateOncePerDay'],
+            'data' => $this->app['settings']['participateInterval'],
             'attr' => array(
-                'help_text' => 'Shall the user become a "thanks for the participation" mail?',
+                'help_text' => 'How often can someone participate?',
             ),
         ));
 
@@ -52,7 +48,7 @@ class SettingsType extends AbstractType
             'required' => false,
             'data' => $this->app['settings']['useSameParticipantDataAfterFirstEntry'],
             'attr' => array(
-                'help_text' => 'If you want to use the same participant data (that you entered with the first entry) each follow up entry.',
+                'help_text' => 'If you want to use the same participant data (that was entered with the first entry) each follow up entry. When un-checked, the cookie will NOT be saved and the participant will be saved over and over again. Exception for this is, if you force the user to use facebook login. Then it will rather look by it\'s Facebook ID (and not the created cookie).',
             ),
         ));
 
@@ -70,7 +66,7 @@ class SettingsType extends AbstractType
             'required' => false,
             'data' => $this->app['settings']['onlyFacebookUsersCanParticipate'],
             'attr' => array(
-                'help_text' => 'Force users to use the facebook SDK.',
+                'help_text' => 'Force users to login via Facebook!',
             ),
         ));
 
@@ -83,21 +79,17 @@ class SettingsType extends AbstractType
             ),
         ));
 
-        $builder->add('canVoteOnlyOnce', 'checkbox', array(
-            'label' => 'Can vote only once?',
+        $builder->add('voteInterval', 'choice', array(
+            'label' => 'Vote interval',
             'required' => false,
-            'data' => $this->app['settings']['canVoteOnlyOnce'],
-            'attr' => array(
-                'help_text' => 'The voter can vote only once (per entry)?',
+            'choices' => array(
+                '' => 'Always (no restrictions)',
+                'only_once' => 'Only Once',
+                'once_per_day' => 'Once per Day',
             ),
-        ));
-
-        $builder->add('canVoteOncePerDay', 'checkbox', array(
-            'label' => 'Can vote once per day?',
-            'required' => false,
-            'data' => $this->app['settings']['canVoteOncePerDay'],
+            'data' => $this->app['settings']['voteInterval'],
             'attr' => array(
-                'help_text' => 'The voter can vote only once per day (per entry)?',
+                'help_text' => 'How often can someone vote?',
             ),
         ));
 
