@@ -29,7 +29,7 @@
                         {% include 'contents/members-area/statistics/_panels/participants-panel.html.twig' %}
                     </div> <!-- /.col-md-3 -->
                     <div class="col-md-3">
-                        {% include 'contents/members-area/statistics/_panels/entries-panel.html.twig' %}
+                        {% include 'contents/members-area/statistics/_panels/votes-panel.html.twig' %}
                     </div> <!-- /.col-md-3 -->
                 </div> <!-- /.row -->
             </div> <!-- /.col-md-12 -->
@@ -58,6 +58,14 @@
                             Entries
                         </a>
                     </li>
+                    <li role="presentation">
+                        <a href="#votes-tab"
+                            aria-controls="entries"
+                            role="tab"
+                            data-toggle="tab">
+                            Votes
+                        </a>
+                    </li>
                     {% if app.piwikOptions.enabled %}
                         <li role="presentation">
                             <a href="#visits-tab"
@@ -73,6 +81,7 @@
                 <div class="tab-content">
                     {% include 'contents/members-area/statistics/_participants-tab.html.twig' %}
                     {% include 'contents/members-area/statistics/_entries-tab.html.twig' %}
+                    {% include 'contents/members-area/statistics/_votes-tab.html.twig' %}
                     {% if app.piwikOptions.enabled %}
                         {% include 'contents/members-area/statistics/_visits-tab.html.twig' %}
                     {% endif %}
@@ -105,6 +114,16 @@
             initializeEntriesByDevicesChart();
             initializeEntriesByCitiesChart();
             initializeEntriesByCountriesChart();
+
+            // Votes
+            initializeVotesByDaysChart();
+            initializeVotesByHoursChart();
+            initializeVotesByBrowsersChart();
+            initializeVotesByOperatingSystemsChart();
+            initializeVotesByDeviceTypesChart();
+            initializeVotesByDevicesChart();
+            initializeVotesByCitiesChart();
+            initializeVotesByCountriesChart();
 
             // Visits
             jQuery('#visits-tab iframe').each(function() {

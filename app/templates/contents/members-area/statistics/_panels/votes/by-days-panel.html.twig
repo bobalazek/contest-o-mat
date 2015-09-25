@@ -1,0 +1,38 @@
+{% set votes = app['orm.em'].getRepository('Application\\Entity\\VoteEntity').getByDays() %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Votes by days' | trans }}</div>
+    <div id="votes-by-days-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            initializeVotesByDaysChart();
+        }
+    );
+
+    var votesByDaysChart;
+    function initializeVotesByDaysChart() {
+        jQuery('#votes-by-days-chart').html('');
+        votesByDaysChart = new Morris.Line({
+            element: 'votes-by-days-chart',
+            resize: true,
+            data: [
+                {% for vote in votes %}
+                    {
+                        date: '{{ vote.date }}',
+                        count: {{ vote.count }}
+                    }{{ loop.last ? '' : ',' }}
+                {% endfor %}
+            ],
+            parseTime: false,
+            xkey: 'date',
+            ykeys: [ 'count' ],
+            labels: [ '{{ 'Votes'|trans }}' ],
+            yLabelFormat: function(y){
+                return y != Math.round(y) ? '' : y;
+            },
+        });
+    }
+</script>
