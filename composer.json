@@ -2,7 +2,7 @@
     "type": "project",
     "name": "bobalazek/contest-o-mat",
     "description": "An simple starter kit for contest applications.",
-    "version": "0.9.3",
+    "version": "0.9.4",
     "license": "MIT",
     "authors": [
         {
