@@ -12,10 +12,10 @@
         }
     );
 
-    var initializeVotesByOperatingSystemsChart;
+    var votesByOperatingSystemsChart;
     function initializeVotesByOperatingSystemsChart() {
         jQuery('#votes-by-operating-systems-chart').html('');
-        initializeVotesByOperatingSystemsChart = new Morris.Bar({
+        votesByOperatingSystemsChart = new Morris.Bar({
             element: 'votes-by-operating-systems-chart',
             resize: true,
             data: [

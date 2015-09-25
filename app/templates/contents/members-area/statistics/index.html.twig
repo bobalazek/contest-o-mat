@@ -132,9 +132,10 @@
             jQuery('#visits-tab iframe').each(function() {
                 var src = jQuery(this).attr('src');
 
-                jQuery(this).attr('src', '');
-
-                jQuery(this).attr('src', src);
+                jQuery(this)
+                    .attr('src', '')
+                    .attr('src', src)
+                ;
             })
         });
     </script>
