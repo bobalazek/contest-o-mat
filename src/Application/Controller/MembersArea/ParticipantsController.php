@@ -84,7 +84,7 @@ class ParticipantsController
             foreach ($participants as $participant) {
                 $finalExportOptionsValues = array();
 
-                foreach($exportOptionsValues as $singleValue) {
+                foreach ($exportOptionsValues as $singleValue) {
                     $finalExportOptionsValues[] = $twig->render(
                         $singleValue,
                         array(

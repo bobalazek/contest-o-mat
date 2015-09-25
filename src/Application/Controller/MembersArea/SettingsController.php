@@ -38,7 +38,7 @@ class SettingsController
                             'members-area.settings.save.successText'
                         )
                     );
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     $app['flashbag']->add(
                         'warning',
                         $app['translator']->trans(

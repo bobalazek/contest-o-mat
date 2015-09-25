@@ -490,7 +490,7 @@ class VoteEntity
                 $metaEntity = new \Application\Entity\VoteMetaEntity();
 
                 // Chek if it's a file!
-                if($metaValue instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
+                if ($metaValue instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
                     $filename = $slugify->slugify(
                         $metaValue->getClientOriginalName()
                     );

@@ -22,15 +22,16 @@
                         <h3>{{ 'General' | trans }}</h3>
                         {{ form_row(form.registrationEnabled) }}
                         <hr />
-                        {{ form_row(form.participateInterval) }}
-                        <hr />
                         {{ form_row(form.useSameParticipantDataAfterFirstEntry) }}
                         {{ form_row(form.useFacebookUserAsParticipantIfPossible) }}
                         {{ form_row(form.onlyFacebookUsersCanParticipate) }}
                         {{ form_row(form.entriesArePublic) }}
                         <hr />
+                        <h3>{{ 'Intervals' | trans }}</h3>
+                        {{ form_row(form.participateInterval) }}
                         {{ form_row(form.voteInterval) }}
                         <hr />
+                        <h3>{{ 'Dates' | trans }}</h3>
                         {{ form_row(form.startDate) }}
                         {{ form_row(form.endDate) }}
                     </div>

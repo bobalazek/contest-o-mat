@@ -29,20 +29,6 @@ class SettingsType extends AbstractType
             ),
         ));
 
-        $builder->add('participateInterval', 'choice', array(
-            'label' => 'Participate interval',
-            'required' => false,
-            'choices' => array(
-                '' => 'Always (no restrictions)',
-                'only_once' => 'Only Once',
-                'once_per_day' => 'Once per Day',
-            ),
-            'data' => $this->app['settings']['participateInterval'],
-            'attr' => array(
-                'help_text' => 'How often can someone participate?',
-            ),
-        ));
-
         $builder->add('useSameParticipantDataAfterFirstEntry', 'checkbox', array(
             'label' => 'Use same participant data after first entry?',
             'required' => false,
@@ -79,6 +65,20 @@ class SettingsType extends AbstractType
             ),
         ));
 
+        $builder->add('participateInterval', 'choice', array(
+            'label' => 'Participate interval',
+            'required' => false,
+            'choices' => array(
+                '' => 'Always (no restrictions)',
+                'only_once' => 'Only Once',
+                'once_per_day' => 'Once per Day',
+            ),
+            'data' => $this->app['settings']['participateInterval'],
+            'attr' => array(
+                'help_text' => 'How often can someone participate?',
+            ),
+        ));
+
         $builder->add('voteInterval', 'choice', array(
             'label' => 'Vote interval',
             'required' => false,
@@ -86,6 +86,8 @@ class SettingsType extends AbstractType
                 '' => 'Always (no restrictions)',
                 'only_once' => 'Only Once',
                 'once_per_day' => 'Once per Day',
+                'only_once_per_entry' => 'Only Once per Entry (allows you still to vote on other entries)',
+                'once_per_day_per_entry' => 'Once per Day per Entry (allows you still to vote on other entries)',
             ),
             'data' => $this->app['settings']['voteInterval'],
             'attr' => array(
@@ -158,6 +160,30 @@ class SettingsType extends AbstractType
                         'data' => $this->app['settings']['texts']['onlyFacebookUsersCanParticipateButton'],
                         'attr' => array(
                             'help_text' => 'Original text: "'.$originalTexts['onlyFacebookUsersCanParticipateButton'].'"',
+                        ),
+                    ))
+                    ->add('alreadyVoted', 'textarea', array(
+                        'data' => $this->app['settings']['texts']['alreadyVoted'],
+                        'attr' => array(
+                            'help_text' => 'Original text: "'.$originalTexts['alreadyVoted'].'"',
+                        ),
+                    ))
+                    ->add('alreadyVotedToday', 'textarea', array(
+                        'data' => $this->app['settings']['texts']['alreadyVotedToday'],
+                        'attr' => array(
+                            'help_text' => 'Original text: "'.$originalTexts['alreadyVotedToday'].'"',
+                        ),
+                    ))
+                    ->add('alreadyVotedForThisEntry', 'textarea', array(
+                        'data' => $this->app['settings']['texts']['alreadyVotedForThisEntry'],
+                        'attr' => array(
+                            'help_text' => 'Original text: "'.$originalTexts['alreadyVotedForThisEntry'].'"',
+                        ),
+                    ))
+                    ->add('alreadyVotedForThisEntryToday', 'textarea', array(
+                        'data' => $this->app['settings']['texts']['alreadyVotedForThisEntryToday'],
+                        'attr' => array(
+                            'help_text' => 'Original text: "'.$originalTexts['alreadyVotedForThisEntryToday'].'"',
                         ),
                     ))
         );

@@ -84,7 +84,7 @@ class EntriesController
             foreach ($entries as $entry) {
                 $finalExportOptionsValues = array();
 
-                foreach($exportOptionsValues as $singleValue) {
+                foreach ($exportOptionsValues as $singleValue) {
                     $finalExportOptionsValues[] = $twig->render(
                         $singleValue,
                         array(

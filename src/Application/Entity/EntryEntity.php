@@ -464,7 +464,7 @@ class EntryEntity
                 $metaEntity = new \Application\Entity\EntryMetaEntity();
 
                 // Chek if it's a file!
-                if($metaValue instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
+                if ($metaValue instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
                     $filename = $slugify->slugify(
                         $metaValue->getClientOriginalName()
                     );

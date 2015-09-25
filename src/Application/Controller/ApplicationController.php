@@ -403,11 +403,11 @@ class ApplicationController
         }
 
         if ($uid) {
-            $alreadyVoted = $app['orm.em']
-                ->getRepository('Application\Entity\VoteEntity')
-                ->findByVoterUid($uid)
-            ;
+            $currentTime = new \Datetime();
+            $alreadyVoted = false;
             $alreadyVotedToday = false;
+            $alreadyVotedPerEntry = false;
+            $alreadyVotedPerEntryToday = false;
 
             $lastVoteByUid = $app['orm.em']
                 ->getRepository('Application\Entity\VoteEntity')
@@ -417,13 +417,32 @@ class ApplicationController
                     'timeCreated' => 'DESC',
                 ))
             ;
+            $lastVoteByUidPerEntry = $app['orm.em']
+                ->getRepository('Application\Entity\VoteEntity')
+                ->findOneBy(array(
+                    'entry' => $entry,
+                    'voterUid' => $uid,
+                ), array(
+                    'timeCreated' => 'DESC',
+                ))
+            ;
 
             if ($lastVoteByUid) {
-                $currentTime = new \Datetime();
-                $lastVoteTime = $lastVoteByUid->getTimeCreated();
+                // If we found an entry, that means that the user has already participated
+                $alreadyVoted = true;
 
+                $lastVoteTime = $lastVoteByUid->getTimeCreated();
                 if ($currentTime->format('Y-m-d') == $lastVoteTime->format('Y-m-d')) {
                     $alreadyVotedToday = true;
+                }
+            }
+            if ($lastVoteByUidPerEntry) {
+                // If we found an entry, that means that the user has already participated
+                $alreadyVotedPerEntry = true;
+
+                $lastVoteTime = $lastVoteByUid->getTimeCreated();
+                if ($currentTime->format('Y-m-d') == $lastVoteTime->format('Y-m-d')) {
+                    $alreadyVotedPerEntryToday = true;
                 }
             }
 
@@ -431,17 +450,25 @@ class ApplicationController
                 && $alreadyVotedToday) {
                 $app['flashbag']->add(
                     'info',
-                    $app['translator']->trans(
-                        'You have already voted today!'
-                    )
+                    $app['settings']['texts']['alreadyVotedToday']
                 );
             } elseif ($app['settings']['voteInterval'] == 'only_once'
                 && $alreadyVoted) {
                 $app['flashbag']->add(
                     'info',
-                    $app['translator']->trans(
-                        'You have already voted!'
-                    )
+                    $app['settings']['texts']['alreadyVoted']
+                );
+            } elseif ($app['settings']['voteInterval'] == 'once_per_day_per_entry'
+                && $alreadyVotedPerEntryToday) {
+                $app['flashbag']->add(
+                    'info',
+                    $app['settings']['texts']['alreadyVotedForThisEntryToday']
+                );
+            } elseif ($app['settings']['voteInterval'] == 'only_once_per_entry'
+                && $alreadyVotedPerEntry) {
+                $app['flashbag']->add(
+                    'info',
+                    $app['settings']['texts']['alreadyVotedForThisEntry']
                 );
             } else {
                 $voteEntity = new \Application\Entity\VoteEntity();

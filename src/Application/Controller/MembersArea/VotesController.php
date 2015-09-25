@@ -82,7 +82,7 @@ class VotesController
             foreach ($votes as $vote) {
                 $finalExportOptionsValues = array();
 
-                foreach($exportOptionsValues as $singleValue) {
+                foreach ($exportOptionsValues as $singleValue) {
                     $finalExportOptionsValues[] = $twig->render(
                         $singleValue,
                         array(

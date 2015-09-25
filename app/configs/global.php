@@ -151,13 +151,13 @@ return array(
     'settingsFile' => 'settings.json', // the file inside var/database, which will hold the settings
     'settings' => array(
         'registrationEnabled' => false,
-        'participateInterval' => false, // options: false, 'only_once' or 'once_per_day'
         'sendEmailToParticipantOnEntry' => false, // Shall the user become a "thanks for the participation" mail?
         'useSameParticipantDataAfterFirstEntry' => true, // If you want to use the same participant data (that you entered with the first entry) each follow up entry
         'useFacebookUserAsParticipantIfPossible' => true, // Should we use the facebook SDK?
         'onlyFacebookUsersCanParticipate' => false, // If you only want facebook users to participate
         'entriesArePublic' => false, // Shall the entries be public?
-        'voteInterval' => false, // options: false, 'only_once' or 'once_per_day'
+        'participateInterval' => false, // options: false, 'only_once' or 'once_per_day'
+        'voteInterval' => false, // options: false, 'only_once', 'once_per_day', 'only_once_per_entry', 'once_per_day_per_entry'
         'startDate' => false, // or enter a time like '2015-10-01 08:00:00'
         'endDate' => false, // or enter a time like '2015-11-01 00:00:00'
         'texts' => array(
@@ -168,6 +168,10 @@ return array(
             'hasEnded' => 'The contest has closed. Thanks everybody for participation!',
             'onlyFacebookUsersCanParticipate' => 'This contest only allows facebook users to participate.',
             'onlyFacebookUsersCanParticipateButton' => 'Login into Facebook',
+            'alreadyVoted' => 'You have already voted. Thanks!',
+            'alreadyVotedToday' => 'You have already voted today. Come back tomorrow. Thanks!',
+            'alreadyVotedForThisEntry' => 'You have already voted for this entry. Thanks!',
+            'alreadyVotedForThisEntryToday' => 'You have already voted for this entry today. Come back tomorrow. Thanks!',
         ),
     ),
 );
