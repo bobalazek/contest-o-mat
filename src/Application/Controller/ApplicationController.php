@@ -440,8 +440,8 @@ class ApplicationController
                 // If we found an entry, that means that the user has already participated
                 $alreadyVotedPerEntry = true;
 
-                $lastVoteTime = $lastVoteByUid->getTimeCreated();
-                if ($currentTime->format('Y-m-d') == $lastVoteTime->format('Y-m-d')) {
+                $lastVoteByEntryTime = $lastVoteByUidPerEntry->getTimeCreated();
+                if ($currentTime->format('Y-m-d') == $lastVoteByEntryTime->format('Y-m-d')) {
                     $alreadyVotedPerEntryToday = true;
                 }
             }
