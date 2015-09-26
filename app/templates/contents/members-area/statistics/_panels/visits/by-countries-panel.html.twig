@@ -1,0 +1,48 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Visits by Countries' | trans }}</div>
+    <div id="visits-by-countries-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            initializeVisitsByCountriesChart();
+        }
+    );
+
+    var visitsByCountriesChart;
+    function initializeVisitsByCountriesChart() {
+        jQuery.ajax({
+            url: piwikUrl+'?module=API&format=JSON&idSite='+piwikSiteId+'&token_auth='+piwikTokenAuth+
+                '&date=2000-01-01,today&period=range&method=UserCountry.getCountry',
+            success: function(response) {
+                jQuery('#visits-by-countries-chart').html('');
+
+                if(response.result != 'error') {
+                    var data = [];
+
+                    for(var i = 0; i < response.length; i++) {
+                        var country = response[i];
+
+                        data.push({
+                            country: country.code.toUpperCase(),
+                            count: country.bounce_count,
+                        });
+                    }
+
+                    visitsByCountriesChart = new Morris.Bar({
+                        element: 'visits-by-countries-chart',
+                        resize: true,
+                        data: data,
+                        xkey: 'country',
+                        ykeys: [ 'count' ],
+                        labels: [ '{{ 'Count'|trans }}' ],
+                    });
+                } else {
+                    console.log(response);
+                }
+            },
+        });
+    }
+</script>

@@ -23,7 +23,7 @@
                     {
                         deviceType: '{{ key }}',
                         count: {{ value }}
-                    }{{ loop.last ? '' : ',' }}
+                    },
                 {% endfor %}
             ],
             xkey: 'deviceType',

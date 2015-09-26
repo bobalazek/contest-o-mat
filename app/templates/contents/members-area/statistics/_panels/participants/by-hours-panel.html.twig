@@ -23,7 +23,7 @@
                     {
                         date: '{{ participant.date }}',
                         count: {{ participant.count }}
-                    }{{ loop.last ? '' : ',' }}
+                    },
                 {% endfor %}
             ],
             parseTime: false,

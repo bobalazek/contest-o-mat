@@ -1,0 +1,53 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Visits by days' | trans }}</div>
+    <div id="visits-by-days-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            initializeVisitsByDaysChart();
+        }
+    );
+
+    var visitsByDaysChart;
+    function initializeVisitsByDaysChart() {
+        jQuery.ajax({
+            url: piwikUrl+'?module=API&format=JSON&idSite='+piwikSiteId+'&token_auth='+piwikTokenAuth+
+                '&date=last28&period=day&method=VisitsSummary.getVisits',
+            success: function(response) {
+                jQuery('#visits-by-days-chart').html('');
+
+                if(response.result != 'error') {
+                    var data = [];
+
+                    for(key in response) {
+                        var date = key;
+                        var count = response[key];
+
+                        data.push({
+                            date: date,
+                            count: count,
+                        });
+                    }
+
+                    visitsByDaysChart = new Morris.Line({
+                        element: 'visits-by-days-chart',
+                        resize: true,
+                        data: data,
+                        parseTime: false,
+                        xkey: 'date',
+                        ykeys: [ 'count' ],
+                        labels: [ '{{ 'Visits'|trans }}' ],
+                        yLabelFormat: function(y){
+                            return y != Math.round(y) ? '' : y;
+                        },
+                    });
+                } else {
+                    console.log(response);
+                }
+            },
+        });
+    }
+</script>

@@ -1,0 +1,48 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Visits by Cities' | trans }}</div>
+    <div id="visits-by-cities-chart" style="height: 200px; width: 100%;"></div>
+</div> <!-- /.panel -->
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function(event) {
+            initializeVisitsByCitiesChart();
+        }
+    );
+
+    var visitsByCitiesChart;
+    function initializeVisitsByCitiesChart() {
+        jQuery.ajax({
+            url: piwikUrl+'?module=API&format=JSON&idSite='+piwikSiteId+'&token_auth='+piwikTokenAuth+
+                '&date=2000-01-01,today&period=range&method=UserCountry.getCity',
+            success: function(response) {
+                jQuery('#visits-by-cities-chart').html('');
+
+                if(response.result != 'error') {
+                    var data = [];
+
+                    for(var i = 0; i < response.length; i++) {
+                        var city = response[i];
+
+                        data.push({
+                            city: city.city_name,
+                            count: city.bounce_count,
+                        });
+                    }
+
+                    visitsByCitiesChart = new Morris.Bar({
+                        element: 'visits-by-cities-chart',
+                        resize: true,
+                        data: data,
+                        xkey: 'city',
+                        ykeys: [ 'count' ],
+                        labels: [ '{{ 'Count'|trans }}' ],
+                    });
+                } else {
+                    console.log(response);
+                }
+            },
+        });
+    }
+</script>

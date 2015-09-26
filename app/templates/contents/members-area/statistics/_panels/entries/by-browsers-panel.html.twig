@@ -23,7 +23,7 @@
                     {
                         browser: '{{ key }}',
                         count: {{ value }}
-                    }{{ loop.last ? '' : ',' }}
+                    },
                 {% endfor %}
             ],
             xkey: 'browser',

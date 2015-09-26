@@ -23,7 +23,7 @@
                     {
                         country: '{{ key }}',
                         count: {{ value }}
-                    }{{ loop.last ? '' : ',' }}
+                    },
                 {% endfor %}
             ],
             xkey: 'country',

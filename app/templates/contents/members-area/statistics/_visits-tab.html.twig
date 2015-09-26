@@ -1,3 +1,8 @@
+<script>
+    var piwikUrl = '{{ app.piwikOptions.url }}';
+    var piwikSiteId = '{{ app.piwikOptions.site_id }}';
+    var piwikTokenAuth = '{{ app.piwikOptions.token_auth }}';
+</script>
 <div id="visits-tab"
     class="tab-pane fade in"
     role="tabpanel">
@@ -5,10 +10,20 @@
         <div class="col-md-12">
             <h3>{{ 'Visits' | trans }}</h3>
         </div> <!-- /.col-md-12 -->
-        <div class="col-md-12">
-            <iframe width="100%" height="250" src="{{ app.piwikOptions.url }}index.php?module=Widgetize&action=iframe&columns[]=nb_visits&widget=1&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph&idSite={{ app.piwikOptions.site_id }}&period=day&date=today&disableLink=1&widget=1&token_auth={{ app.piwikOptions.token_auth }}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
-            <iframe width="100%" height="350" src="{{ app.piwikOptions.url }}index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=UserCountryMap&actionToWidgetize=realtimeMap&idSite={{ app.piwikOptions.site_id }}&period=day&date=today&disableLink=1&widget=1&token_auth={{ app.piwikOptions.token_auth }}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
-            <iframe width="100%" height="200" src="{{ app.piwikOptions.url }}index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Live&actionToWidgetize=getSimpleLastVisitCount&idSite={{ app.piwikOptions.site_id }}&period=day&date=today&disableLink=1&widget=1&token_auth={{ app.piwikOptions.token_auth }}" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
-        </div> <!-- /.col-md-12 -->
+        {% if app.piwikOptions.enabled %}
+            <div class="col-md-12">
+                {% include 'contents/members-area/statistics/_panels/visits/by-days-panel.html.twig' %}
+            </div> <!-- /.col-md-12 -->
+            <div class="col-md-12">
+                {% include 'contents/members-area/statistics/_panels/visits/by-cities-panel.html.twig' %}
+            </div> <!-- /.col-md-12 -->
+            <div class="col-md-12">
+                {% include 'contents/members-area/statistics/_panels/visits/by-countries-panel.html.twig' %}
+            </div> <!-- /.col-md-12 -->
+        {% else %}
+            <div class="alert alert-info">
+                {{ 'For this functionality to work, you need to enable and configure piwik inside your app/configs/global.php file' | trans }}
+            </div>
+        {% endif %}
     </div> <!-- /.row -->
 </div> <!-- #participants-tab -->

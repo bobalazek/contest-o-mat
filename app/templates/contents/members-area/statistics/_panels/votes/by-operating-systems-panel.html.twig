@@ -23,7 +23,7 @@
                     {
                         operatingSystem: '{{ key }}',
                         count: {{ value }}
-                    }{{ loop.last ? '' : ',' }}
+                    },
                 {% endfor %}
             ],
             xkey: 'operatingSystem',

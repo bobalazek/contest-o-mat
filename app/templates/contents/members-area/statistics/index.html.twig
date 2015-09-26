@@ -63,31 +63,27 @@
                     </li>
                     <li role="presentation">
                         <a href="#votes-tab"
-                            aria-controls="entries"
+                            aria-controls="votes"
                             role="tab"
                             data-toggle="tab">
                             Votes
                         </a>
                     </li>
-                    {% if app.piwikOptions.enabled %}
-                        <li role="presentation">
-                            <a href="#visits-tab"
-                                aria-controls="visits"
-                                role="tab"
-                                data-toggle="tab">
-                                Visits
-                            </a>
-                        </li>
-                    {% endif %}
+                    <li role="presentation">
+                        <a href="#visits-tab"
+                            aria-controls="visits"
+                            role="tab"
+                            data-toggle="tab">
+                            Visits
+                        </a>
+                    </li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     {% include 'contents/members-area/statistics/_participants-tab.html.twig' %}
                     {% include 'contents/members-area/statistics/_entries-tab.html.twig' %}
                     {% include 'contents/members-area/statistics/_votes-tab.html.twig' %}
-                    {% if app.piwikOptions.enabled %}
-                        {% include 'contents/members-area/statistics/_visits-tab.html.twig' %}
-                    {% endif %}
+                    {% include 'contents/members-area/statistics/_visits-tab.html.twig' %}
                 </div>
             </div> <!-- /.col-md-12 -->
         </div> <!-- /.row -->
@@ -98,45 +94,50 @@
     {{ parent() }}
     <script>
         jQuery('#detailed-nav li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            // Participants
-            initializeParticipantsByDaysChart();
-            initializeParticipantsByHoursChart();
-            initializeParticipantsByBrowsersChart();
-            initializeParticipantsByOperatingSystemsChart();
-            initializeParticipantsByDeviceTypesChart();
-            initializeParticipantsByDevicesChart();
-            initializeParticipantsByCitiesChart();
-            initializeParticipantsByCountriesChart();
+            var tab = jQuery(e.target).attr('aria-controls');
 
-            // Entries
-            initializeEntriesByDaysChart();
-            initializeEntriesByHoursChart();
-            initializeEntriesByBrowsersChart();
-            initializeEntriesByOperatingSystemsChart();
-            initializeEntriesByDeviceTypesChart();
-            initializeEntriesByDevicesChart();
-            initializeEntriesByCitiesChart();
-            initializeEntriesByCountriesChart();
+            if(tab == 'participants') {
+                // Participants
+                initializeParticipantsByHoursChart();
+                initializeParticipantsByDaysChart();
+                initializeParticipantsByBrowsersChart();
+                initializeParticipantsByOperatingSystemsChart();
+                initializeParticipantsByDeviceTypesChart();
+                initializeParticipantsByDevicesChart();
+                initializeParticipantsByCitiesChart();
+                initializeParticipantsByCountriesChart();
+            }
 
-            // Votes
-            initializeVotesByDaysChart();
-            initializeVotesByHoursChart();
-            initializeVotesByBrowsersChart();
-            initializeVotesByOperatingSystemsChart();
-            initializeVotesByDeviceTypesChart();
-            initializeVotesByDevicesChart();
-            initializeVotesByCitiesChart();
-            initializeVotesByCountriesChart();
+            if(tab == 'entries') {
+                // Entries
+                initializeEntriesByHoursChart();
+                initializeEntriesByDaysChart();
+                initializeEntriesByBrowsersChart();
+                initializeEntriesByOperatingSystemsChart();
+                initializeEntriesByDeviceTypesChart();
+                initializeEntriesByDevicesChart();
+                initializeEntriesByCitiesChart();
+                initializeEntriesByCountriesChart();
+            }
 
-            // Visits
-            jQuery('#visits-tab iframe').each(function() {
-                var src = jQuery(this).attr('src');
+            if(tab == 'votes') {
+                // Votes
+                initializeVotesByHoursChart();
+                initializeVotesByDaysChart();
+                initializeVotesByBrowsersChart();
+                initializeVotesByOperatingSystemsChart();
+                initializeVotesByDeviceTypesChart();
+                initializeVotesByDevicesChart();
+                initializeVotesByCitiesChart();
+                initializeVotesByCountriesChart();
+            }
 
-                jQuery(this)
-                    .attr('src', '')
-                    .attr('src', src)
-                ;
-            })
+            if(tab == 'visits') {
+                // Visits
+                initializeVisitsByDaysChart();
+                initializeVisitsByCitiesChart();
+                initializeVisitsByCountriesChart();
+            }
         });
     </script>
 {% endblock %}

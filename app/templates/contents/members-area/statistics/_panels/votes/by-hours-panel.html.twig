@@ -23,7 +23,7 @@
                     {
                         date: '{{ vote.date }}',
                         count: {{ vote.count }}
-                    }{{ loop.last ? '' : ',' }}
+                    },
                 {% endfor %}
             ],
             parseTime: false,
