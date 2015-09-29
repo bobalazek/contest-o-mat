@@ -2,68 +2,68 @@ Application\Entity\ParticipantEntity:
     properties:
         name:
             - NotBlank:
-                message: errors.participant.name.notBlank
+                message: 'Name cannot be blank!'
                 groups: [ newAndEdit ]
         email:
             - NotBlank:
-                message: errors.participant.email.notBlank
+                message: 'Email cannot be blank!'
                 groups: [ newAndEdit ]
             - Email:
-                message: errors.participant.email.invalid
+                message: 'Invalid email address!'
                 groups: [ newAndEdit ]
         via:
             - NotBlank:
-                message: errors.participant.via.notBlank
+                message: 'Via cannot be blank!'
                 groups: [ newAndEdit ]
 
 Application\Entity\ProfileEntity:
     properties:
         firstName:
             - NotBlank:
-                message: errors.profile.name.notBlank
+                message: 'First name cannot be blank!'
                 groups: [ newAndEdit ]
 
 Application\Entity\RoleEntity:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: role
-            message: errors.role.role.alreadyInUse
+            message: 'This role already exists!'
             groups: [ newAndEdit ]
     properties:
         name:
             - NotBlank:
-                message: errors.role.name.notBlank
+                message: 'Name cannot be blank!'
                 groups: [ newAndEdit ]
         role:
             - NotBlank:
-                message: errors.role.role.notBlank
+                message: 'Role cannot be blank!'
                 groups: [ newAndEdit ]
 
 Application\Entity\UserEntity:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: email
-            message: errors.user.email.alreadyInUse
+            message: 'An user with this email already exists!'
             groups: [ new, edit, settings ]
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: username
-            message: errors.user.username.alreadyInUse
+            message: 'An user with this username already exists!'
             groups: [ new, edit, settings ]
     properties:
         username:
             - NotBlank:
-                message: errors.user.username.notBlank
+                message: 'Username cannot be blank!'
                 groups: [ new, edit, settings ]
         email:
             - NotBlank:
-                message: errors.user.email.notBlank
+                message: 'Email cannot be blank!'
                 groups: [ new, edit, settings, resetPasswordRequest ]
             - Email:
-                message: errors.user.email.invalid
+                message: 'Invalid email address'
                 groups: [ new, edit, settings, resetPasswordRequest ]
         plainPassword:
             - NotBlank:
-                message: errors.user.password.notBlank
+                message: 'Password cannot be blank!'
                 groups: [ new, settingsPassword, resetPasswordReset ]
         profile:
             - Valid: ~
@@ -72,14 +72,14 @@ Application\Entity\WinnerEntity:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: participant
-            message: errors.winner.participant.alreadyInUse
+            message: 'This participant is already an winner!'
             groups: [ newAndEdit ]
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: entry
-            message: errors.winner.entry.alreadyInUse
+            message: 'This entry is already an winner!'
             groups: [ newAndEdit ]
     properties:
         place:
             - NotBlank:
-                message: errors.winner.place.notBlank
+                message: 'Place cannot be blank!'
                 groups: [ newAndEdit ]

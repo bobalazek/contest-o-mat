@@ -140,7 +140,7 @@ class EntriesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.entries.new.successText'
+                        'The entry has been added!'
                     )
                 );
 
@@ -197,7 +197,7 @@ class EntriesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.entries.edit.successText'
+                        'The entry has been edited!'
                     )
                 );
 
@@ -250,7 +250,7 @@ class EntriesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.entries.remove.successText'
+                        'The entry has been removed!'
                     )
                 );
             } catch (\Exception $e) {

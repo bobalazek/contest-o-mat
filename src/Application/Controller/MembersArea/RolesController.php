@@ -73,7 +73,7 @@ class RolesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.roles.new.successText'
+                        'The roles has been added!'
                     )
                 );
 
@@ -133,7 +133,7 @@ class RolesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.roles.edit.successText'
+                        'The roles has been edited!'
                     )
                 );
 
@@ -189,7 +189,7 @@ class RolesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.roles.remove.successText'
+                        'The role has been removed!'
                     )
                 );
             } catch (\Exception $e) {

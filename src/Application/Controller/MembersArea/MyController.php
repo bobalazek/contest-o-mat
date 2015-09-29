@@ -73,7 +73,7 @@ class MyController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.my.profile.settings.successText'
+                        'Your profile settings had been saved!'
                     )
                 );
             }
@@ -119,7 +119,7 @@ class MyController
                     $app['flashbag']->add(
                         'success',
                         $app['translator']->trans(
-                            'members-area.my.profile.settings.password.successText'
+                            'You password has been successfully changed!'
                         )
                     );
                 }

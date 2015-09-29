@@ -88,7 +88,7 @@ class UsersController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.users.new.successText'
+                        'The user has been added!'
                     )
                 );
 
@@ -177,7 +177,7 @@ class UsersController
                     $app['flashbag']->add(
                         'danger',
                         $app['translator']->trans(
-                            'members-area.users.edit.superAdminLockedText'
+                            'You can not lock an user with the super admin role!'
                         )
                     );
 
@@ -213,7 +213,7 @@ class UsersController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.users.edit.successText'
+                        'The user has been edited!'
                     )
                 );
 
@@ -265,7 +265,7 @@ class UsersController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.users.remove.successText'
+                        'The user has been removed!'
                     )
                 );
             } catch (\Exception $e) {

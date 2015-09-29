@@ -35,14 +35,15 @@ class SettingsController
                     $app['flashbag']->add(
                         'success',
                         $app['translator']->trans(
-                            'members-area.settings.save.successText'
+                            'The settings has been saved!'
                         )
                     );
                 } catch (\Exception $e) {
                     $app['flashbag']->add(
                         'warning',
                         $app['translator']->trans(
-                            'members-area.settings.save.warningText'
+                            'Whops, something went wrong while saving. Could not save the data inside the "'.
+                            STORAGE_DIR.'/database/'.$app['settingsFile'].'" file. Please check, if the file has the right premissions (and if it exists).'
                         )
                     );
                 }

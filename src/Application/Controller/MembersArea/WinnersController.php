@@ -131,7 +131,7 @@ class WinnersController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.winners.new.successText'
+                        'The winner has been saved!'
                     )
                 );
 
@@ -188,7 +188,7 @@ class WinnersController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.winners.edit.successText'
+                        'The winnes has been edited!'
                     )
                 );
 
@@ -241,7 +241,7 @@ class WinnersController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.winners.remove.successText'
+                        'The winner has been removed!'
                     )
                 );
             } catch (\Exception $e) {

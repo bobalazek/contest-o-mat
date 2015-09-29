@@ -138,7 +138,7 @@ class VotesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.votes.new.successText'
+                        'The vote has been added!'
                     )
                 );
 
@@ -195,7 +195,7 @@ class VotesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.votes.edit.successText'
+                        'The vote has been edited!'
                     )
                 );
 
@@ -248,7 +248,7 @@ class VotesController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'members-area.votes.remove.successText'
+                        'The vote has been removed!'
                     )
                 );
             } catch (\Exception $e) {
