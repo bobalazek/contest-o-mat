@@ -46,6 +46,14 @@
 			</a>
 		</li>
 	{% endif %}
+	{% if is_granted('ROLE_WINNERS_EDITOR') or is_granted('ROLE_ADMIN') %}
+		<li class="{{ path('members-area.winners') in app.currentUri ? 'active' : '' }}" role="presentation">
+			<a href="{{ url('members-area.winners') }}">
+				<i class="fa fa-fw fa-trophy"></i>
+				{{ 'Winners'|trans }}
+			</a>
+		</li>
+	{% endif %}
 	{% if is_granted('ROLE_ADMIN') %}
 		<li class="{{ path('members-area.statistics') in app.currentUri ? 'active' : '' }}" role="presentation">
 			<a href="{{ url('members-area.statistics') }}">

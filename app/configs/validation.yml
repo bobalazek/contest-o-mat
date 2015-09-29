@@ -67,3 +67,19 @@ Application\Entity\UserEntity:
                 groups: [ new, settingsPassword, resetPasswordReset ]
         profile:
             - Valid: ~
+
+Application\Entity\WinnerEntity:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: participant
+            message: errors.winner.participant.alreadyInUse
+            groups: [ newAndEdit ]
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: entry
+            message: errors.winner.entry.alreadyInUse
+            groups: [ newAndEdit ]
+    properties:
+        place:
+            - NotBlank:
+                message: errors.winner.place.notBlank
+                groups: [ newAndEdit ]

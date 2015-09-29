@@ -10,12 +10,16 @@ var Application = function () {
 				Application.timeAgoInitialize();
 				Application.paginatorInitialize();
 				Application.facebookLoginInitialize();
+				Application.selectsInitialize();
 
                 jQuery('#preloader').fadeOut(); // Hide preloader, when everything is ready...
 
                 initialized = true;
                 console.log('Application Initialized');
             });
+		},
+		selectsInitialize: function() {
+			jQuery('.select-picker').selectpicker();
 		},
 		facebookLoginInitialize: function() {
 			if(doJavascriptFacebookLogin) {

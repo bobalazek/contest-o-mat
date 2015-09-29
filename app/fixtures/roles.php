@@ -10,5 +10,6 @@ return array(
     array( 6, 'Posts Editor', 'The role for the users, that are able to edit the posts', 'ROLE_POSTS_EDITOR', 5000 ),
     array( 7, 'Participants Editor', 'The role for the users, that are able to edit the participants', 'ROLE_PARTICIPANTS_EDITOR', 5000 ),
     array( 8, 'Entries Editor', 'The role for the users, that are able to edit the entries', 'ROLE_ENTRIES_EDITOR', 5000 ),
-    array( 8, 'Votes Editor', 'The role for the users, that are able to edit the votes', 'ROLE_VOTES_EDITOR', 5000 ),
+    array( 9, 'Votes Editor', 'The role for the users, that are able to edit the votes', 'ROLE_VOTES_EDITOR', 5000 ),
+    array( 10, 'Winners Editor', 'The role for the users, that are able to edit the winners', 'ROLE_WINNERS_EDITOR', 5000 ),
 );

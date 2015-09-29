@@ -137,6 +137,15 @@ return array(
                 'Time' => '{{ vote.getTimeCreated().format("Y-m-d H:i:s") }}',
             ),
         ),
+        'winners' => array(
+            'fields' => array( // The values will be rendered via twig!
+                'ID' => '{{ winner.getId() }}',
+                'Place' => '{{ winner.getPlace() }}',
+                'Participant' => '{{ winner.getParticipant() | raw }}',
+                'Entry' => '{{ winner.getEntry() | raw }}',
+                'Time' => '{{ winner.getTimeCreated().format("Y-m-d H:i:s") }}',
+            ),
+        ),
     ),
 
     // Piwik Options

@@ -62,6 +62,12 @@ $app->mount(
     new Application\ControllerProvider\MembersArea\VotesControllerProvider()
 );
 
+/******** Winners ********/
+$app->mount(
+    '/members-area/winners',
+    new Application\ControllerProvider\MembersArea\WinnersControllerProvider()
+);
+
 /******** Statistics ********/
 $app->mount(
     '/members-area/statistics',
