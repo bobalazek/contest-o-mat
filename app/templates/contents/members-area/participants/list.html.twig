@@ -29,6 +29,7 @@
 		<table class="table table-striped table-condensed">
 			<thead>
 				<tr>
+					<th>{{ paginator_sortable(pagination, 'ID', 'p.id') }}</th>
 					<th>{{ paginator_sortable(pagination, 'UID', 'p.uid') }}</th>
 					<th>{{ paginator_sortable(pagination, 'Name', 'p.name') }}</th>
 					<th>{{ paginator_sortable(pagination, 'Email', 'p.email') }}</th>
@@ -43,6 +44,7 @@
 			<tbody>
 				{% for participant in pagination.getItems() %}
 					<tr>
+						<td>{{ participant.getId() }}</td>
 						<td>
 							{% set participantUid = participant.getUid() %}
 							{% if participantUid %}

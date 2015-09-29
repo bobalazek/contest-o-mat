@@ -29,6 +29,7 @@
 		<table class="table table-striped table-condensed">
 			<thead>
 				<tr>
+					<th>{{ paginator_sortable(pagination, 'ID', 'v.id') }}</th>
 					<th>{{ paginator_sortable(pagination, 'Voter UID', 'v.voterUid') }}</th>
 					<th>{{ 'Metas' | trans }}</th>
 					<th>{{ paginator_sortable(pagination, 'Entry', 'e.id') }}</th>
@@ -41,6 +42,7 @@
 			<tbody>
 				{% for vote in pagination.getItems() %}
 					<tr>
+						<td>{{ vote.getId() }}</td>
 						<td>
 							{% set voterUid = vote.getVoterUid() %}
 							{% if voterUid %}
