@@ -1,0 +1,46 @@
+{% extends 'layouts/content/application.html.twig' %}
+
+{% block title %}{{ 'Winners'|trans }} | {{ parent() }}{% endblock %}
+
+{% set isContainerFluid = false %}
+
+{% block main %}
+	<h2>{{ 'Winners' | trans }}</h2>
+    {% set winners = pagination.getItems() %}
+    {% if winners %}
+        <div id="winners">
+            <div class="row">
+                {% for winner in winners %}
+                    <div class="col-md-4">
+                        <div class="winner">
+                            <h3>Place #{{ winner.getPlace() }}</h3>
+							{% if winner.getPrize() %}
+								<p>
+									<b>{{ 'Prize' | trans }}:</b> <br />
+									{{ winner.getPrize() }}
+								</p>
+							{% endif %}
+							{% if winner.getParticipant() %}
+								<p>
+									<b>{{ 'Participant' | trans }}:</b> <br />
+									{{ winner.getParticipant().getName() }}
+								</p>
+							{% endif %}
+							{% if winner.getEntry() %}
+								<p>
+									<b>{{ 'Entry' | trans }}:</b> <br />
+									{{ winner.getEntry() }}
+								</p>
+							{% endif %}
+                        </div> <!-- /.winner -->
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {{ paginator_render(pagination) }}
+    {% else %}
+        <div class="alert alert-info">
+            {{ 'No winners found!' | trans }}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -542,6 +542,44 @@ class ApplicationController
         );
     }
 
+    public function winnersAction(Request $request, Application $app)
+    {
+        $data = array();
+
+        if (! $app['settings']['showWinners']) {
+            $app->abort(404);
+        }
+
+        $limitPerPage = 9;
+        $currentPage = $request->query->get('page');
+
+        $winnerResults = $app['orm.em']
+            ->createQueryBuilder()
+            ->select('w')
+            ->from('Application\Entity\WinnerEntity', 'w')
+        ;
+
+        $pagination = $app['paginator']->paginate(
+            $winnerResults,
+            $currentPage,
+            $limitPerPage,
+            array(
+                'route' => 'application.winners',
+                'defaultSortFieldName' => 'w.place',
+                'defaultSortDirection' => 'asc',
+            )
+        );
+
+        $data['pagination'] = $pagination;
+
+        return new Response(
+            $app['twig']->render(
+                'contents/application/winners.html.twig',
+                $data
+            )
+        );
+    }
+
     public function termsAction(Request $request, Application $app)
     {
         $data = array();

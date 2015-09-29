@@ -165,6 +165,7 @@ return array(
         'useFacebookUserAsParticipantIfPossible' => true, // Should we use the facebook SDK?
         'onlyFacebookUsersCanParticipate' => false, // If you only want facebook users to participate
         'entriesArePublic' => false, // Shall the entries be public?
+        'showWinners' => false, // Show winners
         'participateInterval' => false, // options: false, 'only_once' or 'once_per_day'
         'voteInterval' => false, // options: false, 'only_once', 'once_per_day', 'only_once_per_entry', 'once_per_day_per_entry'
         'startDate' => false, // or enter a time like '2015-10-01 08:00:00'

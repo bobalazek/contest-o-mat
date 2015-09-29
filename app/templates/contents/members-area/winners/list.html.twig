@@ -30,6 +30,7 @@
 			<thead>
 				<tr>
 					<th>{{ paginator_sortable(pagination, 'Place', 'w.place') }}</th>
+					<th>{{ 'Prize' | trans }}</th>
 					<th>{{ 'Participant' | trans }}</th>
 					<th>{{ 'Entry' | trans }}</th>
 					<th width="160">{{ paginator_sortable(pagination, 'Time Created', 'w.timeCreated') }}</th>
@@ -40,6 +41,7 @@
 				{% for winner in pagination.getItems() %}
 					<tr>
 						<td>{{ winner.getPlace() }}</td>
+						<td>{{ winner.getPrize() }}</td>
 						<td>{{ winner.getParticipant() }}</td>
 						<td>{{ winner.getEntry() }}</td>
 						<td>{{ winner.getTimeCreated()|date(app.dateTimeFormat) }}</td>

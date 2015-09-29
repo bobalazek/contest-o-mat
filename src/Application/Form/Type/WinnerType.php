@@ -12,6 +12,10 @@ class WinnerType extends AbstractType
     {
         $builder->add('place', 'number');
 
+        $builder->add('prize', 'textarea', array(
+            'required' => false,
+        ));
+
         $builder->add('participant', 'entity', array(
             'required' => false,
             'class' => 'Application\Entity\ParticipantEntity',

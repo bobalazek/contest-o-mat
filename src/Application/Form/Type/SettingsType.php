@@ -65,6 +65,15 @@ class SettingsType extends AbstractType
             ),
         ));
 
+        $builder->add('showWinners', 'checkbox', array(
+            'label' => 'Show winners?',
+            'required' => false,
+            'data' => $this->app['settings']['showWinners'],
+            'attr' => array(
+                'help_text' => 'Shall the winners (link) be shown?',
+            ),
+        ));
+
         $builder->add('participateInterval', 'choice', array(
             'label' => 'Participate interval',
             'required' => false,

@@ -34,6 +34,13 @@ class WinnerEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="prize", type="text", nullable=true)
+     */
+    protected $prize;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="ip", type="string", length=255, nullable=true)
      */
     protected $ip;
@@ -147,8 +154,6 @@ class WinnerEntity
      */
     protected $participant;
 
-    protected $metas;
-
     /*************** Methods ***************/
     /********** General Methods **********/
     /***** Getters, Setters and Other stuff *****/
@@ -174,6 +179,19 @@ class WinnerEntity
     public function setPlace($place)
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    /*** Prize ***/
+    public function getPrize()
+    {
+        return $this->prize;
+    }
+
+    public function setPrize($prize)
+    {
+        $this->prize = $prize;
 
         return $this;
     }
