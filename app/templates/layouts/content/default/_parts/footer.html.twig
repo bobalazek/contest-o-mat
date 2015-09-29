@@ -24,14 +24,14 @@
 									{{ 'Home'|trans }}
 								</a>
 							</li>
-							{% if app.settings.entriesArePublic %}
+							{% if app.settings.entriesArePublic or is_granted('ROLE_ADMIN') %}
 								<li>
 									<a href="{{ url('application.entries') }}">
 										{{ 'Entries'|trans }}
 									</a>
 								</li>
 							{% endif %}
-							{% if app.settings.showWinners %}
+							{% if app.settings.showWinners or is_granted('ROLE_ADMIN') %}
 								<li>
 									<a href="{{ url('application.winners') }}">
 										{{ 'Winners'|trans }}

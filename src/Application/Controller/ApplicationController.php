@@ -313,7 +313,10 @@ class ApplicationController
     {
         $data = array();
 
-        if (! $app['settings']['entriesArePublic']) {
+        if (
+            ! $app['settings']['entriesArePublic'] && 
+            ! $app['security']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(404);
         }
 
@@ -353,7 +356,10 @@ class ApplicationController
     {
         $data = array();
 
-        if (! $app['settings']['entriesArePublic']) {
+        if (
+            ! $app['settings']['entriesArePublic'] &&
+            ! $app['security']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(404);
         }
 
@@ -380,7 +386,10 @@ class ApplicationController
     {
         $data = array();
 
-        if (! $app['settings']['entriesArePublic']) {
+        if (
+            ! $app['settings']['entriesArePublic'] &&
+            ! $app['security']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(404);
         }
 
@@ -546,7 +555,10 @@ class ApplicationController
     {
         $data = array();
 
-        if (! $app['settings']['showWinners']) {
+        if (
+            ! $app['settings']['showWinners'] &&
+            ! $app['security']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(404);
         }
 

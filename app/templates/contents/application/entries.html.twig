@@ -5,6 +5,11 @@
 {% set isContainerFluid = false %}
 
 {% block main %}
+	{% if app.settings.entriesArePublic == false and is_granted('ROLE_ADMIN') %}
+		<div class="alert alert-info">
+			{{ 'Currently only the admin can view the entries. If you want to enable the entries for all users, go to: Members area > Settings and check the "Entries are public?" checkbox.' | trans }}
+		</div>
+	{% endif %}
 	<h2>{{ 'Entries' | trans }}</h2>
     {% set entries = pagination.getItems() %}
     {% if entries %}

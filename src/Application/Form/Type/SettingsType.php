@@ -61,7 +61,7 @@ class SettingsType extends AbstractType
             'required' => false,
             'data' => $this->app['settings']['entriesArePublic'],
             'attr' => array(
-                'help_text' => 'Should the entries be public?',
+                'help_text' => 'Should the entries be public? If disabled / un-checked, only admin can view the entries.',
             ),
         ));
 
@@ -70,7 +70,7 @@ class SettingsType extends AbstractType
             'required' => false,
             'data' => $this->app['settings']['showWinners'],
             'attr' => array(
-                'help_text' => 'Shall the winners (link) be shown?',
+                'help_text' => 'Shall the winners (link) be shown? If disabled / un-checked, only admin can view the entries.',
             ),
         ));
 
