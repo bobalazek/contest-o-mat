@@ -26,6 +26,12 @@ $app->mount(
     new Application\ControllerProvider\MembersAreaControllerProvider()
 );
 
+/******** API ********/
+$app->mount(
+    '/members-area/api',
+    new Application\ControllerProvider\MembersArea\ApiControllerProvider()
+);
+
 /******** My ********/
 $app->mount(
     '/members-area/my',

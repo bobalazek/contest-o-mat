@@ -19,6 +19,7 @@ class WinnerType extends AbstractType
         $builder->add('participant', 'entity', array(
             'required' => false,
             'class' => 'Application\Entity\ParticipantEntity',
+            // 'choices' => array(), // Prevent to render any. We will do that by ajax!
             'attr' => array(
                 'class' => 'select-picker',
                 'data-live-search' => 'true',
@@ -28,6 +29,7 @@ class WinnerType extends AbstractType
         $builder->add('entry', 'entity', array(
             'required' => false,
             'class' => 'Application\Entity\EntryEntity',
+            // 'choices' => array(), // Prevent to render any. We will do that by ajax!
             'attr' => array(
                 'class' => 'select-picker',
                 'data-live-search' => 'true',
