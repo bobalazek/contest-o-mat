@@ -188,7 +188,7 @@ class WinnersController
                 $app['flashbag']->add(
                     'success',
                     $app['translator']->trans(
-                        'The winnes has been edited!'
+                        'The winner has been edited!'
                     )
                 );
 
