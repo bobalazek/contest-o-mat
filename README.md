@@ -4,6 +4,24 @@ README
 
 An simple contest / prize game application starter kit.
 
+Features
+-------------------
+* **Users System**: You and your client (owner of the prizegame) can create unlimited users and each user can have separate permissions for each functionality (to view, create or edit users, roles, participants, entries, votes, winners and statistics). Each user can also register by themselves (if enabled). The system has also already integrated the reset password functionality for users.
+* **Participants**: Each visitor that participates in your prize game / sweepstakes.
+* **Entries**: If the participant can participate multiple times in the prize game / contest then the participant is entered only once and for each participation an "entry" is created (because it does not make sense to always create a new participant for each time the visitor participates).
+* **Votes**: In case you want the visitors to enable voting on the entries.
+* **Winners**: You can hand pick the winning participants and entries which will then be shown on a separate page.
+* **Statistics**: To have the complete overview of your application. You are able to see the participants, entries, votes and visits (if Piwik is enabled) by:
+    * last 48 hours,
+    * last 30 days,
+    * browsers,
+    * operating systems,
+    * device types,
+    * devices,
+    * cities and
+    * countries.
+* **Settings**: Most of the settings can be edit via the administration.
+
 Build status
 -------------------
 [![Build Status](https://travis-ci.org/bobalazek/contest-o-mat.svg?branch=master)](https://travis-ci.org/bobalazek/contest-o-mat)
