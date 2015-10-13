@@ -93,51 +93,67 @@
 {% block body_javascripts %}
     {{ parent() }}
     <script>
-        jQuery('#detailed-nav li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            var tab = jQuery(e.target).attr('aria-controls');
+        function initializeParticipantCharts() {
+            initializeParticipantsByHoursChart();
+            initializeParticipantsByDaysChart();
+            initializeParticipantsByBrowsersChart();
+            initializeParticipantsByOperatingSystemsChart();
+            initializeParticipantsByDeviceTypesChart();
+            initializeParticipantsByDevicesChart();
+            initializeParticipantsByCitiesChart();
+            initializeParticipantsByCountriesChart();
+        }
 
-            if(tab == 'participants') {
-                // Participants
-                initializeParticipantsByHoursChart();
-                initializeParticipantsByDaysChart();
-                initializeParticipantsByBrowsersChart();
-                initializeParticipantsByOperatingSystemsChart();
-                initializeParticipantsByDeviceTypesChart();
-                initializeParticipantsByDevicesChart();
-                initializeParticipantsByCitiesChart();
-                initializeParticipantsByCountriesChart();
-            }
+        function initializeEntryCharts() {
+            initializeEntriesByHoursChart();
+            initializeEntriesByDaysChart();
+            initializeEntriesByBrowsersChart();
+            initializeEntriesByOperatingSystemsChart();
+            initializeEntriesByDeviceTypesChart();
+            initializeEntriesByDevicesChart();
+            initializeEntriesByCitiesChart();
+            initializeEntriesByCountriesChart();
+        }
 
-            if(tab == 'entries') {
-                // Entries
-                initializeEntriesByHoursChart();
-                initializeEntriesByDaysChart();
-                initializeEntriesByBrowsersChart();
-                initializeEntriesByOperatingSystemsChart();
-                initializeEntriesByDeviceTypesChart();
-                initializeEntriesByDevicesChart();
-                initializeEntriesByCitiesChart();
-                initializeEntriesByCountriesChart();
-            }
+        function initializeVoteCharts() {
+            initializeVotesByHoursChart();
+            initializeVotesByDaysChart();
+            initializeVotesByBrowsersChart();
+            initializeVotesByOperatingSystemsChart();
+            initializeVotesByDeviceTypesChart();
+            initializeVotesByDevicesChart();
+            initializeVotesByCitiesChart();
+            initializeVotesByCountriesChart();
+        }
 
-            if(tab == 'votes') {
-                // Votes
-                initializeVotesByHoursChart();
-                initializeVotesByDaysChart();
-                initializeVotesByBrowsersChart();
-                initializeVotesByOperatingSystemsChart();
-                initializeVotesByDeviceTypesChart();
-                initializeVotesByDevicesChart();
-                initializeVotesByCitiesChart();
-                initializeVotesByCountriesChart();
-            }
+        function initializeVisitCharts() {
+            initializeVisitsByDaysChart();
+            initializeVisitsByCitiesChart();
+            initializeVisitsByCountriesChart();
+        }
 
-            if(tab == 'visits') {
-                // Visits
-                initializeVisitsByDaysChart();
-                initializeVisitsByCitiesChart();
-                initializeVisitsByCountriesChart();
-            }
+        jQuery(document).ready( function() {
+            initializeParticipantCharts();
+
+            jQuery('#detailed-nav li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var tab = jQuery(e.target).attr('aria-controls');
+
+                if(tab == 'participants') {
+                    initializeParticipantCharts();
+                }
+
+                if(tab == 'entries') {
+                    initializeEntryCharts();
+                }
+
+                if(tab == 'votes') {
+                    initializeVoteCharts();
+                }
+
+                if(tab == 'visits') {
+                    initializeVisitCharts();
+                }
+            });
         });
     </script>
 {% endblock %}
