@@ -44,27 +44,27 @@ Application\Entity\UserEntity:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: email
             message: 'An user with this email already exists!'
-            groups: [ new, edit, settings ]
+            groups: [ new, edit, register, settings ]
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: username
             message: 'An user with this username already exists!'
-            groups: [ new, edit, settings ]
+            groups: [ new, edit, register, settings ]
     properties:
         username:
             - NotBlank:
                 message: 'Username cannot be blank!'
-                groups: [ new, edit, settings ]
+                groups: [ new, edit, register, settings ]
         email:
             - NotBlank:
                 message: 'Email cannot be blank!'
-                groups: [ new, edit, settings, resetPasswordRequest ]
+                groups: [ new, edit, register, settings, resetPasswordRequest ]
             - Email:
                 message: 'Invalid email address'
-                groups: [ new, edit, settings, resetPasswordRequest ]
+                groups: [ new, edit, register, settings, resetPasswordRequest ]
         plainPassword:
             - NotBlank:
                 message: 'Password cannot be blank!'
-                groups: [ new, settingsPassword, resetPasswordReset ]
+                groups: [ new, register, settingsPassword, resetPasswordReset ]
         profile:
             - Valid: ~
 
