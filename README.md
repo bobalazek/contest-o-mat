@@ -101,6 +101,12 @@ Preview
 ### Members Area - Participants - Edit ###
 ![Members Area - Participants - Edit](doc/images/members-area-participants-edit.png)
 
+### Members Area - Votes ###
+![Members Area - Votes](doc/images/members-area-votes.png)
+
+### Members Area - Winners ###
+![Members Area - Winners](doc/images/members-area-winners.png)
+
 ### Members Area - Statistics ###
 ![Members Area - Statistics](doc/images/members-area-statistics.png)
 

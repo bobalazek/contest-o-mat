@@ -8,7 +8,10 @@
     role="tabpanel">
     <div class="row">
         <div class="col-md-12">
-            <h3>{{ 'Visits' | trans }}</h3>
+            <h3>
+                {{ 'Visits' | trans }}
+                <small>({{ 'by Piwik' | trans }})</small>
+            </h3>
         </div> <!-- /.col-md-12 -->
         {% if app.piwikOptions.enabled %}
             <div class="col-md-12">
