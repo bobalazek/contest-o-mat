@@ -195,6 +195,12 @@ class SettingsType extends AbstractType
                             'help_text' => 'Original text: "'.$originalTexts['alreadyVotedForThisEntryToday'].'"',
                         ),
                     ))
+                    ->add('terms', 'textarea', array(
+                        'data' => $this->app['settings']['texts']['terms'],
+                        'attr' => array(
+                            'help_text' => 'Original text: "'.$originalTexts['terms'].'". Also accepts HTML.',
+                        ),
+                    ))
         );
 
         $builder->add('Save', 'submit', array(

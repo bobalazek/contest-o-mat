@@ -182,6 +182,7 @@ return array(
             'alreadyVotedToday' => 'You have already voted today. Come back tomorrow. Thanks!',
             'alreadyVotedForThisEntry' => 'You have already voted for this entry. Thanks!',
             'alreadyVotedForThisEntryToday' => 'You have already voted for this entry today. Come back tomorrow. Thanks!',
+            'terms' => 'Terms text.',
         ),
     ),
 );

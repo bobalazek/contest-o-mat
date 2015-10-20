@@ -6,7 +6,5 @@
 
 {% block main %}
 	<h1>Terms</h1>
-    <p>
-    	Our terms text.
-    </p>
+    {{ app.settings.texts.terms | raw }}
 {% endblock %}

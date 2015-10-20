@@ -5,11 +5,11 @@
 {% set isContainerFluid = false %}
 
 {% block main %}
-{% if app.settings.showWinners == false and is_granted('ROLE_ADMIN') %}
-	<div class="alert alert-info">
-		{{ 'Currently only the admin can view the winners. If you want to enable the entries for all users, go to: Members area > Settings and check the "Show winners?" checkbox.' | trans }}
-	</div>
-{% endif %}
+	{% if app.settings.showWinners == false and is_granted('ROLE_ADMIN') %}
+		<div class="alert alert-info">
+			{{ 'Currently only the admin can view the winners. If you want to enable the entries for all users, go to: Members area > Settings and check the "Show winners?" checkbox.' | trans }}
+		</div>
+	{% endif %}
 	<h2>{{ 'Winners' | trans }}</h2>
     {% set winners = pagination.getItems() %}
     {% if winners %}
