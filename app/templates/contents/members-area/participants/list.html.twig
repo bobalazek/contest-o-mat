@@ -49,44 +49,13 @@
 							{% set participantUid = participant.getUid() %}
 							{% if participantUid %}
 								{% set participantUidSplitted = participantUid | split(':') %}
-								{{ participantUid }} <br />
+								{{ participantUid }}
 								{% if participantUidSplitted[0] == 'facebook' %}
 									<hr />
-									<div class="media">
-										{% if participant.getMetas('picture') %}
-											<div class="media-left">
-												<a href="https://facebook.com/{{ participantUidSplitted[1] }}"
-													target="_blank">
-													<img class="img-responsive media-object"
-														src="{{ json_decode(participant.getMetas('picture')).url }}"
-														style="margin: 0 auto; max-width: 80px;" />
-												</a>
-											</div>
-										{% endif %}
-										<div class="media-body"
-											style="width: auto;">
-											{% if participant.getMetas('name') %}
-												<h4 class="media-heading">
-													{{ participant.getMetas('name') }}
-												</h4>
-											{% endif %}
-											{% if participant.getMetas('email') %}
-												<b>{{ 'Email' | trans }}:</b>
-												{{ participant.getMetas('email') }}
-												<br />
-											{% endif %}
-											{% if participant.getMetas('locale') %}
-												<b>{{ 'Locale' | trans }}:</b>
-												{{ participant.getMetas('locale') }}
-												<br />
-											{% endif %}
-											{% if participant.getMetas('verified') %}
-												<b>{{ 'Verified' | trans }}:</b>
-												{{ participant.getMetas('verified') }}
-												<br />
-											{% endif %}
-										</div>
-									</div>
+									{% include 'contents/members-area/_parts/facebook-metadata.html.twig' with {
+										object: participant,
+										facebookId: participantUidSplitted[1],
+									} %}
 								{% endif %}
 							{% endif %}
 						</td>

@@ -1,0 +1,35 @@
+<div class="media">
+    {% if object.getMetas('facebook_picture') %}
+        <div class="media-left">
+            <a href="https://facebook.com/{{ facebookId }}"
+                target="_blank">
+                <img class="img-responsive media-object"
+                    src="{{ json_decode(object.getMetas('facebook_picture')).url }}"
+                    style="margin: 0 auto; max-width: 80px;" />
+            </a>
+        </div>
+    {% endif %}
+    <div class="media-body"
+        style="width: auto;">
+        {% if object.getMetas('facebook_name') %}
+            <h4 class="media-heading">
+                {{ object.getMetas('facebook_name') }}
+            </h4>
+        {% endif %}
+        {% if object.getMetas('facebook_email') %}
+            <b>{{ 'Email' | trans }}:</b>
+            {{ object.getMetas('facebook_email') }}
+            <br />
+        {% endif %}
+        {% if object.getMetas('facebook_locale') %}
+            <b>{{ 'Locale' | trans }}:</b>
+            {{ object.getMetas('facebook_locale') }}
+            <br />
+        {% endif %}
+        {% if object.getMetas('facebook_verified') %}
+            <b>{{ 'Verified' | trans }}:</b>
+            {{ object.getMetas('facebook_verified') }}
+            <br />
+        {% endif %}
+    </div>
+</div>

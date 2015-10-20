@@ -102,7 +102,7 @@ class ApplicationController
                             foreach ($app['facebookUser'] as $key => $value) {
                                 $participantEntity
                                     ->addMeta(
-                                        $key,
+                                        'facebook_'.$key,
                                         $value
                                     )
                                 ;
@@ -314,7 +314,7 @@ class ApplicationController
         $data = array();
 
         if (
-            ! $app['settings']['entriesArePublic'] && 
+            ! $app['settings']['entriesArePublic'] &&
             ! $app['security']->isGranted('ROLE_ADMIN')
         ) {
             $app->abort(404);
@@ -495,7 +495,7 @@ class ApplicationController
                     foreach ($app['facebookUser'] as $key => $value) {
                         $voteEntity
                             ->addMeta(
-                                $key,
+                                'facebook_'.$key,
                                 $value
                             )
                         ;
