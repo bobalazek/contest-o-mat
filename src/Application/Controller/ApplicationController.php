@@ -245,9 +245,9 @@ class ApplicationController
                 $accessToken = $redirectLoginHelper->getAccessToken();
 
                 if (
-                    $request->query->has('via_javascript')
-                    && $request->query->has('facebook_access_token')
-                    && ! $accessToken
+                    $request->query->has('via_javascript') &&
+                    $request->query->has('facebook_access_token') &&
+                    ! $accessToken
                 ) {
                     $facebookAccessToken =  $request->query->get(
                         'facebook_access_token',
@@ -529,13 +529,33 @@ class ApplicationController
                 );
             }
         } else {
-            $facebookAuthenticateUrl = $app['url_generator']->generate('application.facebook-authenticate');
+            $redirectUrl = $app['baseUrl'].str_replace(
+                $app['baseUri'],
+                '',
+                $app['url_generator']->generate(
+                    'application.entries.detail',
+                    array(
+                        'id' => $entry->getId(),
+                    )
+                )
+            );
+
+            $facebookAuthenticateUrl = $app['url_generator']
+                ->generate(
+                    'application.facebook-authenticate',
+                    array(
+                        'redirect_url' => $redirectUrl,
+                    )
+                )
+            ;
 
             $app['flashbag']->add(
                 'info',
                 $app['translator']->trans(
                     'You must be authorized to vote. Please
-                    <a class="btn-facebook-authenticate" href="'.$facebookAuthenticateUrl.'">login first</a>.
+                    <a class="btn-facebook-authenticate"
+                        href="'.$facebookAuthenticateUrl.'"
+                        data-redirect-url="'.$redirectUrl.'">login first</a>.
                     Thank you.'
                 )
             );

@@ -24,12 +24,18 @@ var Application = function () {
 		facebookLoginInitialize: function() {
 			if(doJavascriptFacebookLogin) {
 				jQuery('.btn-facebook-authenticate').on('click', function() {
+					var redirectUrl = jQuery(this).attr('data-redirect-url');
+
 					FB.login( function(response) {
                         if (response.authResponse) {
 							var url = facebookAuthenticatedUrl+
 								'?via_javascript=true&facebook_access_token='+
 								response.authResponse.accessToken
 							;
+
+							if (redirectUrl) {
+								url = url+'&redirect_url='+redirectUrl;
+							}
 
                             self.location.href = url;
                         } else {
