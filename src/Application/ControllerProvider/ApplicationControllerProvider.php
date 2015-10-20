@@ -49,12 +49,6 @@ class ApplicationControllerProvider
         ->bind('application.entries.detail');
 
         $controllers->match(
-            '/entries/{id}/vote',
-            'Application\Controller\ApplicationController::entriesVoteAction'
-        )
-        ->bind('application.entries.vote');
-
-        $controllers->match(
             '/winners',
             'Application\Controller\ApplicationController::winnersAction'
         )

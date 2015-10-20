@@ -18,8 +18,14 @@
         </a>
     </h2>
     {# some entry data #}
-    <a class="btn btn-block btn-primary btn-lg"
-        href="{{ url('application.entries.vote', { id : entry.getId() }) }}">
-        {{ 'Vote' | trans }}
-    </a>
+	{% if canVote %}
+	    <a class="btn btn-block btn-primary btn-lg"
+	        href="{{ url('application.entries.detail', { id: entry.getId(), action: 'vote' }) }}">
+	        {{ 'Vote' | trans }}
+	    </a>
+	{% else %}
+		<div class="alert alert-info">
+			{{ canNotVoteMessage | trans }}
+		</div>
+	{% endif %}
 {% endblock %}

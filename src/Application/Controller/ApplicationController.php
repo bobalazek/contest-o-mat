@@ -355,6 +355,13 @@ class ApplicationController
     public function entriesDetailAction($id, Request $request, Application $app)
     {
         $data = array();
+        $currentTime = new \Datetime();
+        $alreadyVoted = false;
+        $alreadyVotedToday = false;
+        $alreadyVotedPerEntry = false;
+        $alreadyVotedPerEntryToday = false;
+        $canVote = false;
+        $canNotVoteMessage = null;
 
         if (
             ! $app['settings']['entriesArePublic'] &&
@@ -372,51 +379,14 @@ class ApplicationController
             $app->abort(404);
         }
 
-        $data['entry'] = $entry;
+        $voteAction = $request->query->has('action') &&
+            $request->query->get('action') == 'vote'
+        ;
 
-        return new Response(
-            $app['twig']->render(
-                'contents/application/entries/detail.html.twig',
-                $data
-            )
-        );
-    }
-
-    public function entriesVoteAction($id, Request $request, Application $app)
-    {
-        $data = array();
-
-        if (
-            ! $app['settings']['entriesArePublic'] &&
-            ! $app['security']->isGranted('ROLE_ADMIN')
-        ) {
-            $app->abort(404);
-        }
-
-        $entry = $app['orm.em']->find(
-            'Application\Entity\EntryEntity',
-            $id
-        );
-
-        if (! $entry) {
-            $app->abort(404);
-        }
-
-        $uid = false;
-
-        // Here you shall set the user UID. Normally that is via facebook id,
-        // but you can set that however you want. The main thing is, that it's
-        // always the same for the same voter.
-        if ($app['facebookUser']) {
-            $uid = 'facebook:'.$app['facebookUser']->id;
-        }
+        $uid = $app['userUid'];
 
         if ($uid) {
-            $currentTime = new \Datetime();
-            $alreadyVoted = false;
-            $alreadyVotedToday = false;
-            $alreadyVotedPerEntry = false;
-            $alreadyVotedPerEntryToday = false;
+            $canVote = true;
 
             $lastVoteByUid = $app['orm.em']
                 ->getRepository('Application\Entity\VoteEntity')
@@ -457,76 +427,100 @@ class ApplicationController
 
             if ($app['settings']['voteInterval'] == 'once_per_day'
                 && $alreadyVotedToday) {
-                $app['flashbag']->add(
-                    'info',
-                    $app['settings']['texts']['alreadyVotedToday']
-                );
+                    $canVote = false;
+                    $canNotVoteMessage = $app['settings']['texts']['alreadyVotedToday'];
+
+                if ($voteAction) {
+                    $app['flashbag']->add(
+                        'info',
+                        $canNotVoteMessage
+                    );
+                }
             } elseif ($app['settings']['voteInterval'] == 'only_once'
                 && $alreadyVoted) {
-                $app['flashbag']->add(
-                    'info',
-                    $app['settings']['texts']['alreadyVoted']
-                );
+                    $canVote = false;
+                    $canNotVoteMessage = $app['settings']['texts']['alreadyVoted'];
+
+                if ($voteAction) {
+                    $app['flashbag']->add(
+                        'info',
+                        $canNotVoteMessage
+                    );
+                }
             } elseif ($app['settings']['voteInterval'] == 'once_per_day_per_entry'
                 && $alreadyVotedPerEntryToday) {
-                $app['flashbag']->add(
-                    'info',
-                    $app['settings']['texts']['alreadyVotedForThisEntryToday']
-                );
+                $canVote = false;
+                $canNotVoteMessage = $app['settings']['texts']['alreadyVotedForThisEntryToday'];
+
+                if ($voteAction) {
+                    $app['flashbag']->add(
+                        'info',
+                        $canNotVoteMessage
+                    );
+                }
             } elseif ($app['settings']['voteInterval'] == 'only_once_per_entry'
                 && $alreadyVotedPerEntry) {
-                $app['flashbag']->add(
-                    'info',
-                    $app['settings']['texts']['alreadyVotedForThisEntry']
-                );
+                $canVote = false;
+                $canNotVoteMessage = $app['settings']['texts']['alreadyVotedForThisEntry'];
+
+                if ($voteAction) {
+                    $app['flashbag']->add(
+                        'info',
+                        $canNotVoteMessage
+                    );
+                }
             } else {
-                $voteEntity = new \Application\Entity\VoteEntity();
+                $canVote = true;
 
-                $voteEntity
-                    ->setVoterUid($uid)
-                    ->setEntry($entry)
-                    ->setIp($request->getClientIp())
-                    ->setUserAgent($request->headers->get('User-Agent'))
-                ;
+                if ($voteAction) {
+                    $voteEntity = new \Application\Entity\VoteEntity();
 
-                if ($app['facebookUser']) {
-                    // Maybe add some other attributes inside the metas?
-                    // https://developers.facebook.com/docs/graph-api/reference/user
-                    foreach ($app['facebookUser'] as $key => $value) {
-                        $voteEntity
-                            ->addMeta(
-                                'facebook_'.$key,
-                                $value
-                            )
-                        ;
+                    $voteEntity
+                        ->setVoterUid($uid)
+                        ->setEntry($entry)
+                        ->setIp($request->getClientIp())
+                        ->setUserAgent($request->headers->get('User-Agent'))
+                    ;
+
+                    if ($app['facebookUser']) {
+                        // Maybe add some other attributes inside the metas?
+                        // https://developers.facebook.com/docs/graph-api/reference/user
+                        foreach ($app['facebookUser'] as $key => $value) {
+                            $voteEntity
+                                ->addMeta(
+                                    'facebook_'.$key,
+                                    $value
+                                )
+                            ;
+                        }
                     }
-                }
 
-                $metas = $voteEntity->getMetas();
-                if (! empty($metas)) {
-                    foreach ($metas as $metaKey => $metaValue) {
-                        $metaEntity = new \Application\Entity\VoteMetaEntity();
+                    $metas = $voteEntity->getMetas();
+                    if (! empty($metas)) {
+                        foreach ($metas as $metaKey => $metaValue) {
+                            $metaEntity = new \Application\Entity\VoteMetaEntity();
 
-                        $metaEntity
-                            ->setKey($metaKey)
-                            ->setValue($metaValue)
-                        ;
+                            $metaEntity
+                                ->setKey($metaKey)
+                                ->setValue($metaValue)
+                            ;
 
-                        $voteEntity
-                            ->addVoteMeta($metaEntity)
-                        ;
+                            $voteEntity
+                                ->addVoteMeta($metaEntity)
+                            ;
+                        }
                     }
+
+                    $app['orm.em']->persist($voteEntity);
+                    $app['orm.em']->flush();
+
+                    $app['flashbag']->add(
+                        'success',
+                        $app['translator']->trans(
+                            'You have successfully voted!'
+                        )
+                    );
                 }
-
-                $app['orm.em']->persist($voteEntity);
-                $app['orm.em']->flush();
-
-                $app['flashbag']->add(
-                    'success',
-                    $app['translator']->trans(
-                        'You have successfully voted!'
-                    )
-                );
             }
         } else {
             $redirectUrl = $app['baseUrl'].str_replace(
@@ -549,24 +543,45 @@ class ApplicationController
                 )
             ;
 
-            $app['flashbag']->add(
-                'info',
-                $app['translator']->trans(
-                    'You must be authorized to vote. Please
-                    <a class="btn-facebook-authenticate"
-                        href="'.$facebookAuthenticateUrl.'"
-                        data-redirect-url="'.$redirectUrl.'">login first</a>.
-                    Thank you.'
+            $canNotVoteMessage = $app['translator']->trans(
+                'You must be authorized to vote. Please
+                <a class="btn-facebook-authenticate"
+                    href="'.$facebookAuthenticateUrl.'"
+                    data-redirect-url="'.$redirectUrl.'">login first</a>.
+                Thank you.'
+            );
+
+            if ($voteAction) {
+                $app['flashbag']->add(
+                    'info',
+                    $canNotVoteMessage
+                );
+            }
+        }
+
+        $data['entry'] = $entry;
+        $data['alreadyVoted'] = $alreadyVoted;
+        $data['alreadyVotedToday'] = $alreadyVotedToday;
+        $data['alreadyVotedPerEntry'] = $alreadyVotedPerEntry;
+        $data['alreadyVotedPerEntryToday'] = $alreadyVotedPerEntryToday;
+        $data['canVote'] = $canVote;
+        $data['canNotVoteMessage'] = $canNotVoteMessage;
+
+        if ($voteAction) {
+            return $app->redirect(
+                $app['url_generator']->generate(
+                    'application.entries.detail',
+                    array(
+                        'id' => $entry->getId(),
+                    )
                 )
             );
         }
 
-        return $app->redirect(
-            $app['url_generator']->generate(
-                'application.entries.detail',
-                array(
-                    'id' => $entry->getId(),
-                )
+        return new Response(
+            $app['twig']->render(
+                'contents/application/entries/detail.html.twig',
+                $data
             )
         );
     }
@@ -614,12 +629,9 @@ class ApplicationController
 
     public function termsAction(Request $request, Application $app)
     {
-        $data = array();
-
         return new Response(
             $app['twig']->render(
-                'contents/application/terms.html.twig',
-                $data
+                'contents/application/terms.html.twig'
             )
         );
     }

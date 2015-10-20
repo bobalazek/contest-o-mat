@@ -111,6 +111,16 @@ $app->before(function () use ($app) {
             } catch (\Exception $e) {
             }
         }
+
+        /*** User UID ***/
+        // Here you shall set the user UID. Normally that is via facebook id,
+        // but you can set that however you want. The main thing is, that it's
+        // always the same for the same voter.
+        $app['userUid'] = false;
+
+        if ($app['facebookUser']) {
+            $app['userUid'] = 'facebook:'.$app['facebookUser']->id;
+        }
     }
 });
 
