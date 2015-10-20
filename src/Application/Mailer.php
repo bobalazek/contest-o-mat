@@ -84,7 +84,9 @@ class Mailer
             $swiftMessageInstance->setBody($swiftMessageBody, $bodyType);
         }
 
-        return $this->app['mailer']->send($swiftMessageInstance);
+        $successfullySentEmails = $this->app['mailer']->send($swiftMessageInstance);
+
+        return $swiftMessageInstance;
     }
 
     public function emailEntityInitialize($swiftMessage, $type = null)

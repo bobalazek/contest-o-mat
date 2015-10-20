@@ -120,10 +120,6 @@ class WinnersController
 
             if ($form->isValid()) {
                 $winnerEntity = $form->getData();
-                $winnerEntity
-                    ->setIp($app['request']->getClientIp())
-                    ->setUserAgent($app['request']->headers->get('User-Agent'))
-                ;
 
                 $app['orm.em']->persist($winnerEntity);
                 $app['orm.em']->flush();
@@ -209,6 +205,85 @@ class WinnersController
         return new Response(
             $app['twig']->render(
                 'contents/members-area/winners/edit.html.twig',
+                $data
+            )
+        );
+    }
+
+    public function informAction($id, Request $request, Application $app)
+    {
+        $data = array();
+
+        if (! $app['security']->isGranted('ROLE_WINNERS_EDITOR')
+            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+            $app->abort(403);
+        }
+
+        $winner = $app['orm.em']->find('Application\Entity\WinnerEntity', $id);
+
+        if (! $winner) {
+            $app->abort(404);
+        }
+
+        $confirmAction = $app['request']->query->has('action') &&
+            $app['request']->query->get('action') == 'confirm'
+        ;
+
+        if ($confirmAction) {
+            try {
+                $email = $app['application.mailer']
+                    ->swiftMessageInitializeAndSend(array(
+                        'subject' => $app['name'].' - '.$app['translator']->trans('We have a winner!'),
+                        'to' => array(
+                            $winner->getParticipant()->getEmail() => $winner->getParticipant()->getName(),
+                        ),
+                        'body' => 'emails/winners/new.html.twig',
+                        'templateData' => array(
+                            'winner' => $winner,
+                        ),
+                    ))
+                ;
+
+                $winner
+                    ->inform()
+                    ->setInformedEmail(
+                        $email->getBody()
+                    )
+                    ->setInformedEmailToken(
+                        md5(uniqid(null, true))
+                    )
+                ;
+
+                $app['orm.em']->persist($winner);
+                $app['orm.em']->flush();
+
+                $app['flashbag']->add(
+                    'success',
+                    $app['translator']->trans(
+                        'The winner has been informed!'
+                    )
+                );
+            } catch (\Exception $e) {
+                $app['flashbag']->add(
+                    'danger',
+                    $app['translator']->trans(
+                        $e->getMessage()
+                    )
+                );
+            }
+
+            return $app->redirect(
+                $app['url_generator']->generate(
+                    'members-area.winners'
+                )
+            );
+        }
+
+        $data['winner'] = $winner;
+
+        return new Response(
+            $app['twig']->render(
+                'contents/members-area/winners/inform.html.twig',
                 $data
             )
         );

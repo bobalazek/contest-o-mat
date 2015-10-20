@@ -306,82 +306,17 @@
 			<tr>
 				<td class="center" align="center" valign="top">
 					<center>
-					<!-- BEGIN: Header -->
-					{% block header %}
-						<table class="page-header" align="center">
-						<tr>
-							<td class="center" align="center">
-								<!-- BEGIN: Header Container -->
-								<table class="container" align="center">
-								<tr>
-									<td>
-										<table class="row ">
-										<tr>
-											<td class="wrapper vertical-middle">
-												<!-- BEGIN: Logo -->
-												<table class="six columns">
-												<tr>
-													<td class="vertical-middle">
-														<a href="{{ app.baseUrl }}">
-															{% set logoImageUrl = app.baseUrl ~ '/assets/images/logo/icon.png' %}
-															<img src="{{ swiftMessage is defined ? swiftMessage.embed(app['application.mailer'].image(logoImageUrl)) : logoImageUrl }}"
-																src-original="{{ logoImageUrl }}" alt="Logo" width="48" height="48" style="width: 48px; height: 48px;" />
-														</a>
-													</td>
-												</tr>
-												</table>
-												<!-- END: Logo -->
-											</td>
-										</tr>
-										</table>
-									</td>
-								</tr>
-								</table>
-								<!-- END: Header Container -->
-							</td>
-						</tr>
-						</table>
-					{% endblock %}
-					<!-- END: Header -->
-					<!-- BEGIN: Content -->
-					{% block content %}
-						<table class="container content" align="center">
-						<tr>
-							<td>
-								{% block main %}{% endblock %}
-							</td>
-						</tr>
-						</table>
-					{% endblock %}
-					<!-- END: Content -->
-					<!-- BEGIN: Footer -->
-					{% block footer %}
-						<table class="page-footer" align="center">
-						<tr>
-							<td class="center" align="center">
-								<table class="container" align="center">
-								<tr>
-									<td>
-										<!-- BEGIN: Footer Panel -->
-										<table class="row">
-										<tr>
-											<td class="wrapper">
-												<center class="small-font">
-													Copyright {{ app.author }} 2015.
-													All rights reserved.
-												</center>
-											</td>
-										</tr>
-										</table>
-										<!-- END: Footer Panel List -->
-									</td>
-								</tr>
-								</table>
-							</td>
-						</tr>
-						</table>
-					{% endblock %}
-					<!-- END: Footer -->
+						<!-- BEGIN: Content -->
+						{% block content %}
+							<table class="container content" align="center">
+							<tr>
+								<td>
+									{% block main %}{% endblock %}
+								</td>
+							</tr>
+							</table>
+						{% endblock %}
+						<!-- END: Content -->
 					</center>
 				</td>
 			</tr>

@@ -1,0 +1,25 @@
+{% extends 'layouts/email.html.twig' %}
+
+{% block main %}
+    <table class="row note">
+        <tr>
+            <td class="wrapper last">
+                <h4>{{ 'Hello'|trans }} <b>{{ winner.getParticipant().getName()  }}</b>!</h4>
+                <p>
+                    {{ 'Do you remember participating in our prizegame?' | trans }}
+                    {{ 'We have great news for you!' | trans }}
+                    {{ 'You are one of the winners!' | trans }}
+                </p>
+                <p>
+                    <b>{{ 'Place' | trans }}</b>:
+                    {{ winner.getPlace() }}
+                </p>
+                <p>
+                    <b>{{ 'Prize' | trans }}</b>:
+                    {{ winner.getPrize() }}
+                </p>
+            </td>
+        </tr>
+    </table>
+    <p></p>
+{% endblock %}

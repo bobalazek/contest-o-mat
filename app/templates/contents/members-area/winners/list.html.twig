@@ -30,26 +30,40 @@
 			<thead>
 				<tr>
 					<th>{{ paginator_sortable(pagination, 'Place', 'w.place') }}</th>
-					<th>{{ 'Prize' | trans }}</th>
+					<th>{{ paginator_sortable(pagination, 'Prize', 'w.prize') }}</th>
 					<th>{{ 'Participant' | trans }}</th>
 					<th>{{ 'Entry' | trans }}</th>
+					<th>{{ paginator_sortable(pagination, 'Informed', 'w.informed') }}</th>
 					<th width="160">{{ paginator_sortable(pagination, 'Time Created', 'w.timeCreated') }}</th>
-					<th width="100">{{ 'Actions' | trans }}</th>
+					<th width="140">{{ 'Actions' | trans }}</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for winner in pagination.getItems() %}
-					<tr>
+					<tr class="{{ winner.isInformed() ? 'info' : '' }}">
 						<td>{{ winner.getPlace() }}</td>
 						<td>{{ winner.getPrize() }}</td>
 						<td>{{ winner.getParticipant() }}</td>
 						<td>{{ winner.getEntry() }}</td>
+						<td>
+							{% if winner.isInformed() %}
+								{{ 'Yes' | trans }}
+								<small>({{ winner.getTimeInformed() | date(app.dateTimeFormat) }})</small>
+							{% else %}
+								{{ 'No' | trans }}
+							{% endif %}
+						</td>
 						<td>{{ winner.getTimeCreated()|date(app.dateTimeFormat) }}</td>
 						<td>
 							<a class="btn btn-sm btn-default"
 								data-toggle="tooltip" title="{{ 'Edit'|trans }}"
 								href="{{ url('members-area.winners.edit', { id : winner.getId() }) }}">
 								<i class="fa fa-fw fa-cog"></i>
+							</a>
+							<a class="btn btn-sm btn-warning"
+								data-toggle="tooltip" title="{{ 'Inform'|trans }}"
+								href="{{ url('members-area.winners.inform', { id : winner.getId() }) }}">
+								<i class="fa fa-fw fa-envelope"></i>
 							</a>
 							<a class="btn btn-sm btn-danger"
 								data-toggle="tooltip" title="{{ 'Remove'|trans }}"

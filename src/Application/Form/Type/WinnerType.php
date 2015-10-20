@@ -17,7 +17,6 @@ class WinnerType extends AbstractType
         ));
 
         $builder->add('participant', 'entity', array(
-            'required' => false,
             'class' => 'Application\Entity\ParticipantEntity',
             // 'choices' => array(), // Prevent to render any. We will do that by ajax!
             'attr' => array(
@@ -33,6 +32,7 @@ class WinnerType extends AbstractType
             'attr' => array(
                 'class' => 'select-picker',
                 'data-live-search' => 'true',
+                'help_text' => 'Optionally, if you want to define more explicit, which entry is "responsible" that the user won.',
             ),
         ));
 

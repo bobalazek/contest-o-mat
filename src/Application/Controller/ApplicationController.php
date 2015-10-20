@@ -166,9 +166,10 @@ class ApplicationController
                             $app['application.mailer']
                                 ->swiftMessageInitializeAndSend(array(
                                     'subject' => $app['name'].' - '.$app['translator']->trans('Thanks for participating!'),
-                                    'to' => array( $participant->getEmail() ),
+                                    'to' => array(
+                                        $participant->getEmail() => $participant->getName(),
+                                    ),
                                     'body' => 'emails/participants/new-entry.html.twig',
-                                    'type' => 'participant.entry.new',
                                     'templateData' => array(
                                         'participant' => $participant,
                                     ),

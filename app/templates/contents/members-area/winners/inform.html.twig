@@ -1,0 +1,39 @@
+{% extends 'layouts/content/members-area.html.twig' %}
+
+{% block title %}{{ 'Inform'|trans }} | {{ 'Winners'|trans }} | {{ parent() }}{% endblock %}
+
+{% block main %}
+	<h1>
+		{{ 'Inform Winner'|trans }}
+		<small>"{{ winner }}"</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="{{ url('members-area') }}">
+				{{ 'Home' | trans }}
+			</a>
+		</li>
+		<li>
+			<a href="{{ url('members-area.winners') }}">
+				{{ 'Winners' | trans }}
+			</a>
+		</li>
+		<li class="active">
+			{{ 'Inform' | trans }}
+		</li>
+	</ol>
+	<div class="alert alert-block alert-info">
+		<h4 class="alert-heading">{{ 'Confirmation!'|trans }}</h4>
+		<p>{{ 'Are you sure you want to inform this winner (this action will send an email to the winner)?'|trans }}</p>
+		<p>
+			<a class="btn btn-primary"
+				href="{{ url('members-area.winners.inform', { id : winner.getId() }) }}?action=confirm">
+				{{ 'Confirm'|trans }}
+			</a>
+			<a class="btn btn-default"
+				href="{{ url('members-area.winners') }}">
+				{{ 'Cancel'|trans }}
+			</a>
+		</p>
+	</div>
+{% endblock %}

@@ -39,95 +39,32 @@ class WinnerEntity
     protected $prize;
 
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="ip", type="string", length=255, nullable=true)
+     * @ORM\Column(name="informed", type="boolean")
      */
-    protected $ip;
+    protected $informed = false;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ip_continent", type="string", length=16, nullable=true)
+     * @ORM\Column(name="informed_email", type="text", nullable=true)
      */
-    protected $ipContinent = 'Unknown';
+    protected $informedEmail;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ip_country", type="string", length=32, nullable=true)
+     * @ORM\Column(name="informed_email_token", type="string", length=255, nullable=true)
      */
-    protected $ipCountry = 'Unknown';
+    protected $informedEmailToken;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="ip_state", type="string", length=32, nullable=true)
+     * @ORM\Column(name="time_informed", type="datetime", nullable=true)
      */
-    protected $ipState = 'Unknown';
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ip_region", type="string", length=64, nullable=true)
-     */
-    protected $ipRegion = 'Unknown';
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ip_city", type="string", length=64, nullable=true)
-     */
-    protected $ipCity = 'Unknown';
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ip_latitude", type="string", length=32, nullable=true)
-     */
-    protected $ipLatitude = 0;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ip_longitude", type="string", length=32, nullable=true)
-     */
-    protected $ipLongitude = 0;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="user_agent", type="text", nullable=true)
-     */
-    protected $userAgent;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="user_agent_ua", type="string", length=32, nullable=true)
-     */
-    protected $userAgentUa;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="user_agent_os", type="string", length=32, nullable=true)
-     */
-    protected $userAgentOs;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="user_agent_device", type="string", length=32, nullable=true)
-     */
-    protected $userAgentDevice;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="user_agent_device_type", type="string", length=32, nullable=true)
-     */
-    protected $userAgentDeviceType = 'Desktop';
+    protected $timeInformed;
 
     /**
      * @var \DateTime
@@ -196,175 +133,70 @@ class WinnerEntity
         return $this;
     }
 
-    /*** IP ***/
-    /**
-     * @return string
-     */
-    public function getIp()
+    /*** Informed ***/
+    public function getInformed()
     {
-        return $this->ip;
+        return $this->informed;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return \Application\Entity\EntryEntity
-     */
-    public function setIp($ip)
+    public function isInformed()
     {
-        $this->ip = $ip;
+        return $this->getInformed();
+    }
 
-        // We shall not do requests from the command line
-        // (prevent batch requests when hydrating test data)
-        if (php_sapi_name() !== 'cli') {
-            try {
-                $ipData = json_decode(
-                    @file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
-                );
-                $converterArray = array(
-                    'ipContinent' => 'geoplugin_continentCode',
-                    'ipCountry' => 'geoplugin_countryCode',
-                    'ipState' => 'geoplugin_state',
-                    'ipRegion' => 'geoplugin_region',
-                    'ipCity' => 'geoplugin_city',
-                    'ipLatitude' => 'geoplugin_latitude',
-                    'ipLongitude' => 'geoplugin_longitude',
-                );
-
-                foreach ($converterArray as $key => $val) {
-                    if (isset($ipData->{$val}) && $ipData->{$val} != '') {
-                        $this->{$key} = $ipData->{$val};
-                    }
-                }
-            } catch (\Exception $e) {
-            }
-        }
+    public function setInformed($informed)
+    {
+        $this->informed = $informed;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getIpContinent()
+    public function inform()
     {
-        return $this->ipContinent;
-    }
+        $this->setInformed(true);
 
-    /**
-     * @return string
-     */
-    public function getIpCountry()
-    {
-        return $this->ipCountry;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIpState()
-    {
-        return $this->ipState;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIpRegion()
-    {
-        return $this->ipRegion;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIpCity()
-    {
-        return $this->ipCity;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIpLatitude()
-    {
-        return $this->ipLatitude;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIpLongitude()
-    {
-        return $this->ipLongitude;
-    }
-
-    /*** User agent ***/
-    /**
-     * @return string
-     */
-    public function getUserAgent()
-    {
-        return $this->userAgent;
-    }
-
-    /**
-     * @param $userAgent
-     *
-     * @return \Application\Entity\EntryEntity
-     */
-    public function setUserAgent($userAgent)
-    {
-        $this->userAgent = $userAgent;
-
-        $parser = \UAParser\Parser::create();
-        $detect = new \Mobile_Detect();
-        $userAgentInfo = $parser->parse($userAgent);
-        $userAgentMobileInfo = $detect->setUserAgent($userAgent);
-
-        $this->userAgentUa = $userAgentInfo->ua->family;
-        $this->userAgentOs = $userAgentInfo->os->family;
-        $this->userAgentDevice = $userAgentInfo->device->family;
-
-        if ($detect->isMobile()) {
-            $this->userAgentDeviceType = 'Mobile';
-        } elseif ($detect->isTablet()) {
-            $this->userAgentDeviceType = 'Tablet';
-        }
+        $this->setTimeInformed(new \Datetime());
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUserAgentUa()
+    /*** Informed email ***/
+    public function getInformedEmail()
     {
-        return $this->userAgentUa;
+        return $this->informedEmail;
     }
 
-    /**
-     * @return string
-     */
-    public function getUserAgentOs()
+    public function setInformedEmail($informedEmail)
     {
-        return $this->userAgentOs;
+        $this->informedEmail = $informedEmail;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUserAgentDevice()
+    /*** Informed email token ***/
+    public function getInformedEmailToken()
     {
-        return $this->userAgentDevice;
+        return $this->informedEmailToken;
     }
 
-    /**
-     * @return string
-     */
-    public function getUserAgentDeviceType()
+    public function setInformedEmailToken($informedEmailToken)
     {
-        return $this->userAgentDeviceType;
+        $this->informedEmailToken = $informedEmailToken;
+
+        return $this;
+    }
+
+    /*** Time informed ***/
+    public function getTimeInformed()
+    {
+        return $this->timeInformed;
+    }
+
+    public function setTimeInformed(\DateTime $timeInformed = null)
+    {
+        $this->timeInformed = $timeInformed;
+
+        return $this;
     }
 
     /*** Time created ***/

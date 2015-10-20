@@ -83,3 +83,7 @@ Application\Entity\WinnerEntity:
             - NotBlank:
                 message: 'Place cannot be blank!'
                 groups: [ newAndEdit ]
+        participant:
+            - NotBlank:
+                message: 'You must select a participant!'
+                groups: [ newAndEdit ]

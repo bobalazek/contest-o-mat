@@ -36,6 +36,12 @@ class WinnersControllerProvider implements ControllerProviderInterface
         ->bind('members-area.winners.edit');
 
         $controllers->match(
+            '/{id}/inform',
+            'Application\Controller\MembersArea\WinnersController::informAction'
+        )
+        ->bind('members-area.winners.inform');
+
+        $controllers->match(
             '/{id}/remove',
             'Application\Controller\MembersArea\WinnersController::removeAction'
         )
