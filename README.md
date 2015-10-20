@@ -20,7 +20,7 @@ Features
     * devices,
     * cities and
     * countries.
-* **Settings**: Most of the settings can be edit via the administration.
+* **Settings**: Most of the settings can be edited via the administration.
 
 Build status
 -------------------
