@@ -67,6 +67,8 @@ class UserEntity
     protected $salt;
 
     /**
+     * Used for emails & co.
+     *
      * @var string
      *
      * @ORM\Column(name="token", type="string", length=255, nullable=true)
@@ -74,6 +76,8 @@ class UserEntity
     protected $token;
 
     /**
+     * Used for authentification & co.
+     *
      * @var string
      *
      * @ORM\Column(name="access_token", type="string", length=255, nullable=true)
@@ -174,6 +178,8 @@ class UserEntity
         $this->setResetPasswordCode(
             md5(uniqid(null, true))
         );
+        
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /***** Getters, Setters and Other stuff *****/
