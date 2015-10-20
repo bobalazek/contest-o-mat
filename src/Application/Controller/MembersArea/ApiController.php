@@ -29,7 +29,7 @@ class ApiController
             ->findAll()
         ;
 
-        if($entries) {
+        if ($entries) {
             foreach ($entries as $entry) {
                 $data[$entry->getId()] = (string) $entry;
             }
@@ -53,7 +53,7 @@ class ApiController
             ->findAll()
         ;
 
-        if($participants) {
+        if ($participants) {
             foreach ($participants as $participant) {
                 $data[$participant->getId()] = (string) $participant;
             }

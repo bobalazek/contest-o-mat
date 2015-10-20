@@ -427,8 +427,8 @@ class ApplicationController
 
             if ($app['settings']['voteInterval'] == 'once_per_day'
                 && $alreadyVotedToday) {
-                    $canVote = false;
-                    $canNotVoteMessage = $app['settings']['texts']['alreadyVotedToday'];
+                $canVote = false;
+                $canNotVoteMessage = $app['settings']['texts']['alreadyVotedToday'];
 
                 if ($voteAction) {
                     $app['flashbag']->add(
@@ -438,8 +438,8 @@ class ApplicationController
                 }
             } elseif ($app['settings']['voteInterval'] == 'only_once'
                 && $alreadyVoted) {
-                    $canVote = false;
-                    $canNotVoteMessage = $app['settings']['texts']['alreadyVoted'];
+                $canVote = false;
+                $canNotVoteMessage = $app['settings']['texts']['alreadyVoted'];
 
                 if ($voteAction) {
                     $app['flashbag']->add(
