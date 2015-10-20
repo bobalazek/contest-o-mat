@@ -169,12 +169,12 @@
 						</td>
 						<td>{{ vote.getTimeCreated()|date(app.dateTimeFormat) }}</td>
 						<td>
-							<a class="btn btn-sm btn-default margin-bottom"
+							<a class="btn btn-sm btn-default"
 								data-toggle="tooltip" title="{{ 'Edit'|trans }}"
 								href="{{ url('members-area.votes.edit', { id : vote.getId() }) }}">
 								<i class="fa fa-fw fa-cog"></i>
 							</a>
-							<a class="btn btn-sm btn-default margin-bottom"
+							<a class="btn btn-sm btn-danger"
 								data-toggle="tooltip" title="{{ 'Remove'|trans }}"
 								href="{{ url('members-area.votes.remove', { id : vote.getId() }) }}">
 								<i class="fa fa-fw fa-times"></i>
