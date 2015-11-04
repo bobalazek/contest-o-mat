@@ -38,8 +38,10 @@ $app['environment'] = isset($app['environment'])
 
 /* Environment - Variable */
 $environmentVariable = getenv('APPLICATION_ENVIRONMENT');
-if ($environmentVariable &&
-    in_array($environmentVariable, $app['environments'])) {
+if (
+    $environmentVariable &&
+    in_array($environmentVariable, $app['environments'])
+) {
     $app['environment'] = $environmentVariable;
 }
 
@@ -50,6 +52,18 @@ if (file_exists(APP_DIR.'/configs/environments/'.$app['environment'].'.php')) {
             APP_DIR.'/configs/environments/'.$app['environment'].'.php'
         )
     );
+}
+
+/* Environment variables */
+// In case you don't want to share your (production) password in the repository
+if (getenv('APPLICATION_DATABASE_PASSWORD')) {
+    $app['databaseOptions']['default']['password'] = getenv('APPLICATION_DATABASE_PASSWORD');
+}
+
+/*** Var / Storage directoy check ***/
+// We NEED the storage directory. Else the app will not work
+if (! file_exists(STORAGE_DIR)) {
+    exit('The storage directory (var/) does not exists yet! Please run "bin/console application:storage:prepare" to prepare the storage directory.');
 }
 
 /***** Session *****/
@@ -150,8 +164,10 @@ $app['application.mailer'] = $app->share(function () use ($app) {
 });
 
 /***** Doctrine Database & Doctrine ORM *****/
-if (isset($app['databaseOptions']) &&
-    is_array($app['databaseOptions'])) {
+if (
+    isset($app['databaseOptions']) &&
+    is_array($app['databaseOptions'])
+) {
     $app->register(
         new Silex\Provider\DoctrineServiceProvider(),
         array(
@@ -397,8 +413,10 @@ $app['mailer.css_to_inline_styles_converter'] = $app->protect(function ($twigTem
 
 /*** Facebook SDK ***/
 $app['facebookSdk'] = false;
-if ($app['facebookSdkOptions']['id'] &&
-    $app['facebookSdkOptions']['secret']) {
+if (
+    $app['facebookSdkOptions']['id'] &&
+    $app['facebookSdkOptions']['secret']
+) {
     $app['facebookSdk'] = $app->share(function () use ($app) {
         return new \Facebook\Facebook(array(
             'app_id' => $app['facebookSdkOptions']['id'],
