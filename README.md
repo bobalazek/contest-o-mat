@@ -45,19 +45,6 @@ Setup
     * `bin/console application:database:hydrate-data` (to hydrate some data)
 * You are done! Start developing!
 
-Development
--------------------
-Important files / directory you may want / need to edit when developing your application:
-
-* Config: `app/configs/global.php`
-* Templates: `app/templates/contents/application/`
-* Participate Form Type: `src/Application/Form/Type/Participate/DefaultType.php`
-* Application Controller: `src/Application/Controller/ApplicationController.php`
-* Application Controller Provider: `src/Application/ControllerProvider/ApplicationControllerProvider.php`
-* Export Functionality:
-    * Participants Controller: `src/Application/Controller/MembersArea/ParticipantsController.php` - see the `exportAction`
-    * Entries Controller: `src/Application/Controller/MembersArea/EntriesController.php` - see the `exportAction`
-
 Database
 -------------------
 * We use the Doctrine database
@@ -65,6 +52,19 @@ Database
 * Check the entities: `bin/console orm:info` (optional)
 * Update the schema: `bin/console orm:schema-tool:update --force`
 * Database updated!
+
+Development
+-------------------
+Important files / directory you may want / need to edit when developing your application:
+
+* Config: `app/configs/global.php` (just open the file and view it yourself. There are MANY settings you may want to tweak)
+* Middlewares: `app/core/middlewares.php` (you may want to take a deeper look into the "User UID" part - line 115. and below)
+* HTML Templates: `app/templates/contents/application/`
+* Javascripts: `web/assets/javascripts/contest.js`
+* Stylesheets: `web/assets/stylesheets/contest.css`
+* Participate Form Type: `src/Application/Form/Type/Participate/DefaultType.php` (the form, which shows up at the participation)
+* Application Controller: `src/Application/Controller/ApplicationController.php` (all the contest logic, handling and persistence goes here)
+* Application Controller Provider: `src/Application/ControllerProvider/ApplicationControllerProvider.php`  (the contest routes are here)
 
 Application name
 -------------------

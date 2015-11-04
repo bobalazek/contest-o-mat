@@ -130,7 +130,6 @@
 				<script id="application-initialize-js">
 					Application.initialize();
 				</script>
-				<script>(function($,d){$.each(readyQ,function(i,f){$(f)});$.each(bindReadyQ,function(i,f){$(d).bind("ready",f)})})(jQuery,document)</script>
 			{% endblock %}
 			{% block body_javascripts_after %}{% endblock %}
 			{% if app.piwikOptions.enabled %}
@@ -151,6 +150,7 @@
 				<noscript><p><img src="{{ app.piwikOptions.url }}piwik.php?idsite={{ app.piwikOptions.site_id }}" style="border:0;" alt="" /></p></noscript>
 				<!-- End Piwik Code -->
 			{% endif %}
+			<script>(function($,d){$.each(readyQ,function(i,f){$(f)});$.each(bindReadyQ,function(i,f){$(d).bind("ready",f)})})(jQuery,document)</script>
 		<!-- Body Javascripts /END -->
 	</body>
 </html>

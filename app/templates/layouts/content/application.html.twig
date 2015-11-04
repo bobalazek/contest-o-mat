@@ -1,5 +1,10 @@
 {% extends 'layouts/content/default.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link id="contest-css" rel="stylesheet" href="{{ app.baseUri }}/assets/stylesheets/contest.css?version={{ app.version }}" />
+{% endblock %}
+
 {% block wrapper %}
     {% set isContainerFluid = isContainerFluid is defined ? isContainerFluid : true %}
     <div id="content"
@@ -28,4 +33,9 @@
             {% include 'layouts/content/default/_parts/footer.html.twig' %}
         {% endblock %}
     </footer> <!-- /#footer -->
+{% endblock %}
+
+{% block body_javascripts %}
+    {{ parent() }}
+    <script id="contest-js" type="text/javascript" src="{{ app.baseUri }}/assets/javascripts/contest.js?version={{ app.version }}"></script>
 {% endblock %}
