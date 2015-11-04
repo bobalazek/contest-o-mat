@@ -74,5 +74,6 @@
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
