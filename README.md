@@ -33,7 +33,7 @@ Requirements & Tools & Helpers
 * [Bower](http://bower.io/)
 * [PHP Coding Standards Fixer](http://cs.sensiolabs.org/) (optional)
 
-Setup
+Setup / Installation
 -------------------
 * Navigate yor your web directory: `cd /var/www`
 * Create a new project: `composer create-project bobalazek/contest-o-mat --no-scripts`

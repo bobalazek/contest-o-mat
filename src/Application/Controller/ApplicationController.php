@@ -40,18 +40,24 @@ class ApplicationController
             : false
         ;
 
-        if ($startDatetime &&
-            $startDatetime > $currentDatetime) {
+        if (
+            $startDatetime &&
+            $startDatetime > $currentDatetime
+        ) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['notYetStarted'];
-        } elseif ($endDatetime &&
-            $endDatetime < $currentDatetime) {
+        } elseif (
+            $endDatetime &&
+            $endDatetime < $currentDatetime
+        ) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['hasEnded'];
-        } elseif (! $app['facebookUser'] &&
-            $app['settings']['onlyFacebookUsersCanParticipate']) {
+        } elseif (
+            ! $app['facebookUser'] &&
+            $app['settings']['onlyFacebookUsersCanParticipate']
+        ) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['onlyFacebookUsersCanParticipate'].
@@ -59,14 +65,18 @@ class ApplicationController
                 href="'.$app['url_generator']->generate('application.facebook-authenticate').'">'.
                 $app['settings']['texts']['onlyFacebookUsersCanParticipateButton'].
             '</a>';
-        } elseif ($app['participant'] &&
+        } elseif (
+            $app['participant'] &&
             $app['participant']->hasAlreadyParticipatedToday() &&
-            $app['settings']['participateInterval'] == 'once_per_day') {
+            $app['settings']['participateInterval'] == 'once_per_day'
+        ) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['alreadyParticipatedToday'];
-        } elseif ($app['participant'] &&
-            $app['settings']['participateInterval'] == 'only_once') {
+        } elseif (
+            $app['participant'] &&
+            $app['settings']['participateInterval'] == 'only_once'
+        ) {
             $data['showForm'] = false;
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['alreadyParticipated'];
@@ -81,8 +91,10 @@ class ApplicationController
                 if ($form->isValid()) {
                     $data = $form->getData();
 
-                    if (isset($data['participant']) &&
-                        is_a($data['participant'], 'Application\Entity\ParticipantEntity')) {
+                    if (
+                        isset($data['participant']) &&
+                        is_a($data['participant'], 'Application\Entity\ParticipantEntity')
+                    ) {
                         $participantEntity = $data['participant'];
                         $participantEntity
                             ->setVia('application')
@@ -130,8 +142,10 @@ class ApplicationController
                         }
                     }
 
-                    if (isset($data['entry']) &&
-                        is_a($data['entry'], 'Application\Entity\EntryEntity')) {
+                    if (
+                        isset($data['entry']) &&
+                        is_a($data['entry'], 'Application\Entity\EntryEntity')
+                    ) {
                         $entryEntity = $data['entry'];
                         $entryEntity
                             ->setIp($request->getClientIp())
@@ -160,8 +174,10 @@ class ApplicationController
                         $app['orm.em']->flush();
                     }
 
-                    if ($participant &&
-                        $app['settings']['sendEmailToParticipantOnEntry']) {
+                    if (
+                        $participant &&
+                        $app['settings']['sendEmailToParticipantOnEntry']
+                    ) {
                         try {
                             $app['application.mailer']
                                 ->swiftMessageInitializeAndSend(array(
@@ -426,8 +442,10 @@ class ApplicationController
                 }
             }
 
-            if ($app['settings']['voteInterval'] == 'once_per_day'
-                && $alreadyVotedToday) {
+            if (
+                $alreadyVotedToday &&
+                $app['settings']['voteInterval'] == 'once_per_day'
+            ) {
                 $canVote = false;
                 $canNotVoteMessage = $app['settings']['texts']['alreadyVotedToday'];
 
@@ -437,8 +455,10 @@ class ApplicationController
                         $canNotVoteMessage
                     );
                 }
-            } elseif ($app['settings']['voteInterval'] == 'only_once'
-                && $alreadyVoted) {
+            } elseif (
+                $alreadyVoted &&
+                $app['settings']['voteInterval'] == 'only_once'
+            ) {
                 $canVote = false;
                 $canNotVoteMessage = $app['settings']['texts']['alreadyVoted'];
 
@@ -448,8 +468,10 @@ class ApplicationController
                         $canNotVoteMessage
                     );
                 }
-            } elseif ($app['settings']['voteInterval'] == 'once_per_day_per_entry'
-                && $alreadyVotedPerEntryToday) {
+            } elseif (
+                $alreadyVotedPerEntryToday &&
+                $app['settings']['voteInterval'] == 'once_per_day_per_entry'
+            ) {
                 $canVote = false;
                 $canNotVoteMessage = $app['settings']['texts']['alreadyVotedForThisEntryToday'];
 
@@ -459,8 +481,10 @@ class ApplicationController
                         $canNotVoteMessage
                     );
                 }
-            } elseif ($app['settings']['voteInterval'] == 'only_once_per_entry'
-                && $alreadyVotedPerEntry) {
+            } elseif (
+                $alreadyVotedPerEntry &&
+                $app['settings']['voteInterval'] == 'only_once_per_entry'
+            ) {
                 $canVote = false;
                 $canNotVoteMessage = $app['settings']['texts']['alreadyVotedForThisEntry'];
 
