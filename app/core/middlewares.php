@@ -5,8 +5,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 /*** Database check ***/
 $app->before(function () use ($app) {
-    if (isset($app['databaseOptions']) &&
-        is_array($app['databaseOptions'])) {
+    if (
+        isset($app['databaseOptions']) &&
+        is_array($app['databaseOptions'])
+    ) {
         try {
             $app['db']->connect();
         } catch (PDOException $e) {
@@ -23,9 +25,11 @@ $app->before(function () use ($app) {
     $app['user'] = null;
     $token = $app['security']->getToken();
 
-    if ($token &&
+    if (
+        $token &&
         ! $app['security.trust_resolver']->isAnonymous($token) &&
-        $token->getUser() instanceof \Application\Entity\UserEntity) {
+        $token->getUser() instanceof \Application\Entity\UserEntity
+    ) {
         $app['user'] = $token->getUser();
     }
 
@@ -35,12 +39,16 @@ $app->before(function () use ($app) {
     $app['facebookUser'] = false;
     $app['facebookLoginUrl'] = false;
 
-    if (isset($app['databaseOptions']) &&
-        is_array($app['databaseOptions'])) {
+    if (
+        isset($app['databaseOptions']) &&
+        is_array($app['databaseOptions'])
+    ) {
         $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
 
-        if ($app['request']->cookies->has('participant_data') &&
-            $app['settings']['useSameParticipantDataAfterFirstEntry']) {
+        if (
+            $app['request']->cookies->has('participant_data') &&
+            $app['settings']['useSameParticipantDataAfterFirstEntry']
+        ) {
             try {
                 $participantData = $app['request']->cookies->get('participant_data');
                 $participantDataExploded = explode(':', $participantData);
@@ -67,8 +75,10 @@ $app->before(function () use ($app) {
             }
         }
 
-        if ($app['facebookSdk'] &&
-            $app['settings']['useFacebookUserAsParticipantIfPossible']) {
+        if (
+            $app['facebookSdk'] &&
+            $app['settings']['useFacebookUserAsParticipantIfPossible']
+        ) {
             $redirectLoginHelper = $app['facebookSdk']->getRedirectLoginHelper();
 
             try {
