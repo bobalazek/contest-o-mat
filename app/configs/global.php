@@ -56,6 +56,7 @@ return array(
 
     // Database / Doctrine options
     // http://silex.sensiolabs.org/doc/providers/doctrine.html#parameters
+    // Important notice: For now, only the "pdo_mysql" driver is supported!
     'databaseOptions' => array(
         'default' => array(
             'driver' => 'pdo_mysql',

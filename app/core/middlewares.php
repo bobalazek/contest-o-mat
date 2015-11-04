@@ -9,6 +9,12 @@ $app->before(function () use ($app) {
         isset($app['databaseOptions']) &&
         is_array($app['databaseOptions'])
     ) {
+        if ($app['databaseOptions']['default']['driver'] != 'pdo_mysql') {
+            return new Response(
+                'Currently the system only works with the "pdo_mysql" driver.'
+            );
+        }
+
         try {
             $app['db']->connect();
         } catch (PDOException $e) {
