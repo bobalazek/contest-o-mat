@@ -22,19 +22,6 @@
 		</div>
 		<div id="primary-navigation-collapse" class="collapse navbar-collapse">
 			{% block primary_navigation %}
-				<ul id="primary-navigation-list"
-					class="navigation-list nav navbar-nav">
-					<li class="{{ app.currentUriRelative == '' ? 'active' : '' }}">
-						<a href="{{ url('index') }}">
-							{{ 'Home'|trans }}
-						</a>
-					</li>
-					<li class="{{ path('members-area') in app.currentUri ? 'active' : '' }}">
-						<a href="{{ url('members-area') }}">
-							{{ 'Members area'|trans }}
-						</a>
-					</li>
-				</ul> <!-- /#primary-navigation-list -->
 				<ul id="right-navigation-list"
 					class="nav navbar-nav navbar-right">
 					<li class="dropdown">

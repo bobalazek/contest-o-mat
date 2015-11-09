@@ -18,6 +18,12 @@ class IndexControllerProvider
         )
         ->bind('index');
 
+        $controllers->match(
+            '/contact',
+            'Application\Controller\IndexController::contactAction'
+        )
+        ->bind('contact');
+
         return $controllers;
     }
 }

@@ -1,0 +1,17 @@
+{% extends 'layouts/email.html.twig' %}
+
+{% block main %}
+	<table class="row note">
+		<tr>
+			<td class="wrapper last">
+				<p>
+					 {{ 'Thanks for contacting us! We will get back to you as soon as possible!'|trans }}
+				</p>
+				<p>
+					<strong>{{ 'Message'|trans }}:</strong> <br />
+					{{ formData.message }}
+				</p>
+			</td>
+		</tr>
+	</table>
+{% endblock %}
