@@ -139,6 +139,9 @@ Preview
 ### Members Area - Settings ###
 ![Members Area - Settings](doc/images/members-area-settings.png)
 
+### Contact ###
+![Contact](doc/images/contact.png)
+
 License
 ----------------------
 Contest-O-Mat is licensed under the MIT license.
