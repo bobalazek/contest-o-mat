@@ -106,6 +106,9 @@ Preview
 ### Application - Participate ###
 ![Application - Participate](doc/images/application-participate.png)
 
+### Members Area - Users ###
+![Members Area - Users](doc/images/members-area-users.png)
+
 ### Members Area - Entries ###
 ![Members Area - Entries](doc/images/members-area-entries.png)
 
