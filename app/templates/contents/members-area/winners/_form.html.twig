@@ -1,62 +1,29 @@
 {{ form(form) }}
 
 <script>
-    /* var participantVal = '{{ form.participant.vars.value }}';
-    var entryVal = '{{ form.entry.vars.value }}';
-    var participantsUrl = '{{ url('members-area.api.participants') }}';
-    var entriesUrl = '{{ url('members-area.api.entries') }}';
-
     jQuery(document).ready(function() {
         // Participants
-        jQuery('#winner_participant').parent().append(
-            '<div id="winner-participant-loading-text" class="help-block">'+
-                '{{ 'Participants are being loaded ...' | trans }}'+
-            '</div>'
-        );
-
-        jQuery.ajax({
-            url: participantsUrl,
-            success: function(response) {
-                if(typeof response.error == 'undefined') {
-                    jQuery.each(response, function(key, value) {
-                        jQuery('#winner_participant')
-                            .append(jQuery("<option></option>")
-                            .attr("value",key)
-                            .text(value))
-                        ;
-                    });
-
-                    jQuery('#winner_participant').selectpicker('refresh');
-                    jQuery('#winner-participant-loading-text').fadeOut();
-                    jQuery('#winner_participant').selectpicker('val', participantVal);
-                }
-            },
-        });
-
+        /*jQuery('#winner_participant')
+            .selectpicker({
+                liveSearch: true,
+            })
+            .ajaxSelectPicker({
+                ajax: {
+                    url: '{{ url('members-area.api.participants') }}',
+                },
+            })
+        ;*/
+        
         // Entries
-        jQuery('#winner_entry').parent().append(
-            '<div id="winner-entry-loading-text" class="help-block">'+
-                '{{ 'Entries are being loaded ...' | trans }}'+
-            '</div>'
-        );
-
-        jQuery.ajax({
-            url: entriesUrl,
-            success: function(response) {
-                if(typeof response.error == 'undefined') {
-                    jQuery.each(response, function(key, value) {
-                        jQuery('#winner_entry')
-                            .append(jQuery("<option></option>")
-                            .attr("value",key)
-                            .text(value))
-                        ;
-                    });
-
-                    jQuery('#winner_entry').selectpicker('refresh');
-                    jQuery('#winner-entry-loading-text').fadeOut();
-                    jQuery('#winner_entry').selectpicker('val', entryVal);
-                }
-            },
-        });
-    }); */
+        /*jQuery('#winner_entry')
+            .selectpicker({
+                liveSearch: true,
+            })
+            .ajaxSelectPicker({
+                ajax: {
+                    url: '{{ url('members-area.api.entries') }}',
+                },
+            })
+        ;*/
+    });
 </script>

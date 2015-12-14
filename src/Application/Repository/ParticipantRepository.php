@@ -303,4 +303,20 @@ class ParticipantRepository
 
         return $data;
     }
+    
+    /**
+     * @return array
+     */
+    public function getByQuery($query)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.id LIKE :query')
+            ->orWhere('p.name LIKE :query')
+            ->orWhere('p.email LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

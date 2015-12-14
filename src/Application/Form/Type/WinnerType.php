@@ -5,6 +5,8 @@ namespace Application\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class WinnerType extends AbstractType
 {
@@ -18,7 +20,6 @@ class WinnerType extends AbstractType
 
         $builder->add('participant', 'entity', array(
             'class' => 'Application\Entity\ParticipantEntity',
-            // 'choices' => array(), // Prevent to render any. We will do that by ajax!
             'attr' => array(
                 'class' => 'select-picker',
                 'data-live-search' => 'true',
@@ -28,7 +29,6 @@ class WinnerType extends AbstractType
         $builder->add('entry', 'entity', array(
             'required' => false,
             'class' => 'Application\Entity\EntryEntity',
-            // 'choices' => array(), // Prevent to render any. We will do that by ajax!
             'attr' => array(
                 'class' => 'select-picker',
                 'data-live-search' => 'true',

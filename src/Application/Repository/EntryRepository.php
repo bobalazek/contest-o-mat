@@ -303,4 +303,18 @@ class EntryRepository
 
         return $data;
     }
+    
+    /**
+     * @return array
+     */
+    public function getByQuery($query)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.id LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
