@@ -23,7 +23,7 @@ class ApiController
     public function participantsAction(Request $request, Application $app)
     {
         $data = array();
-        
+
         $query = $request->request->get('q');
 
         $participants = $app['orm.em']
@@ -44,11 +44,11 @@ class ApiController
             $data
         );
     }
-    
+
     public function entriesAction(Request $request, Application $app)
     {
         $data = array();
-        
+
         $query = $request->request->get('q');
 
         $entries = $app['orm.em']

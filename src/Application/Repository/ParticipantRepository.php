@@ -303,7 +303,7 @@ class ParticipantRepository
 
         return $data;
     }
-    
+
     /**
      * @return array
      */

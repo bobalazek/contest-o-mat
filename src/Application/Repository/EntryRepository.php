@@ -303,7 +303,7 @@ class EntryRepository
 
         return $data;
     }
-    
+
     /**
      * @return array
      */
