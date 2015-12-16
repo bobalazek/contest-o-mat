@@ -39,7 +39,7 @@ Setup / Installation
 * Create a new project: `composer create-project bobalazek/contest-o-mat --no-scripts`
 * Configure database (and maybe other stuff if you want): [app/configs/global.php](https://github.com/bobalazek/contest-o-mat/blob/master/app/configs/global.php#L47) or [app/configs/global-local.php.dist](https://github.com/bobalazek/contest-o-mat/blob/master/app/configs/global-local.php.dist) (in case you will deploy it and need a different local configuration. Just rename the global-local.php.dist to global-local.php and set your own configuration)
 * After that, run the following commands:
-    * `bin/console orm:schema-tool:install --force` (to install the database schema)
+    * `bin/console orm:schema-tool:update --force` (to install the database schema)
     * `bower update` (to install the front-end dependencies - you will need to install [Bower](http://bower.io/) first - if you haven't already)
     * `bin/console application:database:hydrate-data` (to hydrate some data, if you want)
 * You are done! Start developing!
