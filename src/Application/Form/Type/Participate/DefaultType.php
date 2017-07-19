@@ -14,18 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DefaultType extends AbstractType
 {
-    protected $app;
-
-    public function __construct($app)
-    {
-        $this->app = $app;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // Fix, so the url gets parsed thought twig
-        $twig = clone $this->app['twig'];
-        $twig->setLoader(new \Twig_Loader_String());
+        $app = $options['app'];
 
         // Participant
         /*
@@ -33,25 +24,25 @@ class DefaultType extends AbstractType
          * Each time afer that, the participant will automaticall be "attached"
          * to the entry.
          */
-        if (!$this->app['participant']) {
+        if (!$app['participant']) {
             $nameData = null;
             $emailData = null;
 
-            if ($this->app['facebookUser']) {
-                $nameData = isset($this->app['facebookUser']->name)
-                    ? $this->app['facebookUser']->name
+            if ($app['facebookUser']) {
+                $nameData = isset($app['facebookUser']->name)
+                    ? $app['facebookUser']->name
                     : null
                 ;
 
-                $emailData = isset($this->app['facebookUser']->email)
-                    ? $this->app['facebookUser']->email
+                $emailData = isset($app['facebookUser']->email)
+                    ? $app['facebookUser']->email
                     : null
                 ;
             }
 
             $builder->add(
                 $builder
-                    ->create('participant', TextType::class, [
+                    ->create('participant', FormType::class, [
                         'label' => false,
                         'by_reference' => true,
                         'data_class' => 'Application\Entity\ParticipantEntity',
@@ -104,10 +95,12 @@ class DefaultType extends AbstractType
                     )
         );
 
+        $termsTemplate = $app['twig']->createTemplate(
+            'You agree with our <a href="{{ url(\'application.terms\') }}" target="_blank">Terms</a>'
+        );
+
         $builder->add('terms', CheckboxType::class, [
-            'label' => $twig->render(
-                'You agree with our <a href="{{ url(\'application.terms\') }}" target="_blank">Terms</a>'
-            ),
+            'label' => $termsTemplate->render([]),
             'required' => true,
         ]);
 
@@ -121,6 +114,7 @@ class DefaultType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setRequired('app');
         $resolver->setDefaults([
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',

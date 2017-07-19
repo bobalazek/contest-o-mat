@@ -81,7 +81,11 @@ class ApplicationController
             $data['alertMessage'] = $app['settings']['texts']['alreadyParticipated'];
         } else {
             $form = $app['form.factory']->create(
-                new \Application\Form\Type\Participate\DefaultType($app)
+                \Application\Form\Type\Participate\DefaultType::class,
+                null,
+                [
+                    'app' => $app,
+                ]
             );
 
             if ($request->getMethod() == 'POST') {

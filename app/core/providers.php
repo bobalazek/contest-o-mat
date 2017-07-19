@@ -97,17 +97,17 @@ $app['translator']->addLoader(
 
 /*** Application Translator ***/
 $app['application.translator'] = function () use ($app) {
-    return new \Application\Translator($app);
+    return new Application\Translator($app);
 };
 
 /*** Application Mailer ***/
 $app['application.mailer'] = function () use ($app) {
-    return new \Application\Mailer($app);
+    return new Application\Mailer($app);
 };
 
 /*** Paginator ***/
 $app['paginator'] = function () use ($app) {
-    return new \Application\Paginator($app);
+    return new Application\Paginator($app);
 };
 
 /***** Form *****/

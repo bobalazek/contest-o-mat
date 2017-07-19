@@ -2,47 +2,74 @@
 
 namespace Application;
 
+use Symfony\Bridge\Twig\Translation\TwigExtractor;
+use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Dumper;
+use Silex\Application;
+
+/**
+ * @author Borut Balažek <bobalazek124@gmail.com>
+ */
 class Translator
 {
     protected $app;
 
-    public function __construct(\Silex\Application $app)
+    /**
+     * @param Application $app
+     */
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
 
-    public function setLocale($locale, $ignoreUntranslated = false)
+    /**
+     * Sets the locale (if it can).
+     *
+     * @param string $locale
+     */
+    public function setLocale($locale)
     {
-        $this->app['translator']->setLocale($locale);
+        $app = $this->app;
 
-        $localeFile = APP_DIR.'/locales/'.$this->app['locale'].'.yml';
-        if (file_exists($localeFile)) {
-            $this->app['translator']->addResource(
+        $app['translator']->setLocale($locale);
+
+        $localeMessagesFile = APP_DIR.'/locales/'.$app['locale'].'.yml';
+        if (file_exists($localeMessagesFile)) {
+            $app['translator']->addResource(
                 'yaml',
-                $localeFile,
-                $this->app['locale']
+                $localeMessagesFile,
+                $app['locale']
             );
         }
     }
 
-    public function prepare(\Silex\Application $app, $locale)
+    /**
+     * Prepares and finds all the translated and untranslated string in tempates and controllers.
+     *
+     * @param Application $app
+     * @param string      $locale
+     *
+     * @return array
+     */
+    public function prepare(Application $app, $locale)
     {
         $templatesPath = APP_DIR.'/templates';
         $untranslatedMessagesFile = APP_DIR.'/locales/'.$locale.'_untranslated.yml';
 
-        $extractor = new \Symfony\Bridge\Twig\Translation\TwigExtractor($app['twig']);
+        $extractor = new TwigExtractor($app['twig']);
 
         /***** All translations *****/
-        $catalogueAll = new \Symfony\Component\Translation\MessageCatalogue($locale);
+        $catalogueAll = new MessageCatalogue($locale);
         $extractor->extract($templatesPath, $catalogueAll);
         $allMessages = $catalogueAll->all('messages');
 
         // String from controller, controller provider, etc.
-        $finder = new \Symfony\Component\Finder\Finder();
+        $finder = new Finder();
         $finder->files()->in(ROOT_DIR.'/src');
 
         foreach ($finder as $file) {
-            $fileMessageStrings = [];
+            $fileMessageStrings = array();
 
             $filePath = $file->getRealpath();
             $fileContent = file_get_contents($filePath);
@@ -58,7 +85,7 @@ class Translator
                 }
             }
 
-            if ($fileMessageStrings) {
+            if (!empty($fileMessageStrings)) {
                 foreach ($fileMessageStrings as $fileMessageString) {
                     if (!isset($allMessages[$fileMessageString])) {
                         $allMessages[$fileMessageString] = $fileMessageString;
@@ -68,14 +95,14 @@ class Translator
         }
 
         /***** Already translated *****/
-        $app['application.translator']->setLocale($locale, $ignoreUntranslated = true);
-        $translatedMessages = $app['translator']->getMessages($locale);
-        $translatedMessages = $translatedMessages['messages'];
+        $app['application.translator']->setLocale($locale);
+        $translatedMessages = $app['translator']->getCatalogue($locale);
+        $translatedMessages = $translatedMessages->all('messages');
 
         /***** Untranslated *****/
-        $untranslatedMessages = [];
+        $untranslatedMessages = array();
 
-        if ($allMessages) {
+        if (!empty($allMessages)) {
             foreach ($allMessages as $singleMessageKey => $singleMessage) {
                 if (!isset($translatedMessages[$singleMessageKey])) {
                     $untranslatedMessages[$singleMessageKey] = $singleMessage;
@@ -84,7 +111,7 @@ class Translator
         }
 
         if (!empty($untranslatedMessages)) {
-            $dumper = new \Symfony\Component\Yaml\Dumper();
+            $dumper = new Dumper();
 
             $yaml = $dumper->dump($untranslatedMessages, 1);
 
@@ -95,10 +122,10 @@ class Translator
             file_put_contents($untranslatedMessagesFile, $yaml);
         }
 
-        return [
+        return array(
             'allMessages' => $allMessages,
             'translatedMessages' => $translatedMessages,
             'untranslatedMessages' => $untranslatedMessages,
-        ];
+        );
     }
 }

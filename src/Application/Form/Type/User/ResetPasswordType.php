@@ -21,7 +21,7 @@ class ResetPasswordType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($this->action == 'reset') {
+        if ($options['action'] == 'reset') {
             $builder->add('plainPassword', TextType::class);
         } else {
             $builder->add('email', EmailType::class);
@@ -32,15 +32,13 @@ class ResetPasswordType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $self = $this;
-
+        $resolver->setRequired('action');
         $resolver->setDefaults([
             'data_class' => 'Application\Entity\UserEntity',
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-            'validation_groups' => function (FormInterface $form) use ($self) {
-                $action = $self->action;
-
+            'validation_groups' => function (FormInterface $form) use ($resolver) {
+                $action = $resolver['action'];
                 if ($action == 'reset') {
                     return ['resetPasswordReset'];
                 } else {

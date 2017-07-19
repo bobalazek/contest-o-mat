@@ -32,6 +32,16 @@ class UiExtension extends \Twig_Extension
                 ]
             ),
             new \Twig_SimpleFunction(
+               'json_decode',
+               [
+                   $this,
+                   'jsonDecode',
+               ],
+               [
+                   'is_safe' => ['html'],
+               ]
+           ),
+            new \Twig_SimpleFunction(
                 'pagination',
                 [
                     $this,
@@ -60,6 +70,14 @@ class UiExtension extends \Twig_Extension
         $output .= '</ul>';
 
         return $output;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonDecode($string)
+    {
+        return json_decode($string);
     }
 
     /**

@@ -170,8 +170,11 @@ class MembersAreaController
         ;
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\User\ResetPasswordType($action),
-            new \Application\Entity\UserEntity()
+            \Application\Form\Type\User\ResetPasswordType::class,
+            new \Application\Entity\UserEntity(),
+            [
+                'action' => $action,
+            ]
         );
 
         if ($action == 'reset') {

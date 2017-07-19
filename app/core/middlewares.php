@@ -150,8 +150,10 @@ $app->before(function (Request $request, Application $app) {
         $localeFromQueryOrHeaders = true;
     }
 
-    if ($localeCookie &&
-        array_key_exists($localeCookie, $app['locales'])) {
+    if (
+        $localeCookie &&
+        array_key_exists($localeCookie, $app['locales'])
+    ) {
         $app['locale'] = $localeCookie;
         $app['languageCode'] = $app['locales'][$localeCookie]['languageCode'];
         $app['languageName'] = $app['locales'][$localeCookie]['languageName'];

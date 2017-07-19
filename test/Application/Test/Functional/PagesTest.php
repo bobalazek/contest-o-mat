@@ -16,21 +16,7 @@ class PagesTest extends WebTestCase
         $client = $this->createClient();
         $client->request('GET', $url);
 
-        $this->assertTrue($client->getResponse()->isSuccessful());
-    }
-
-    /**
-     * Check for a 404 page.
-     */
-    public function test404()
-    {
-        $client = $this->createClient();
-        $client->request('GET', '/just-a-404-page');
-
-        $this->assertEquals(
-            404,
-            $client->getResponse()->getStatusCode()
-        );
+        $this->assertTrue($client->getResponse()->isOk());
     }
 
     /**
