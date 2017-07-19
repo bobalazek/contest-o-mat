@@ -5,7 +5,7 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Vote Meta Entity
+ * Vote Meta Entity.
  *
  * @ORM\Table(name="vote_metas")
  * @ORM\Entity(repositoryClass="Application\Repository\VoteMetaRepository")
@@ -16,7 +16,7 @@ class VoteMetaEntity
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -135,6 +135,7 @@ class VoteMetaEntity
     {
         return $this->vote;
     }
+
     public function setVote($vote)
     {
         $this->vote = $vote;
@@ -170,6 +171,7 @@ class VoteMetaEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PreUpdate
      */

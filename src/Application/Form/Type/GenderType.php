@@ -5,8 +5,7 @@ namespace Application\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class GenderType
-    extends AbstractType
+class GenderType extends AbstractType
 {
     const MALE = 'male';
     const FEMALE = 'female';

@@ -4,11 +4,10 @@ namespace Application\Test\Functional;
 
 use Application\Test\WebTestCase;
 
-class PagesTest
-    extends WebTestCase
+class PagesTest extends WebTestCase
 {
     /**
-     * Checks if the required pages exist
+     * Checks if the required pages exist.
      *
      * @dataProvider urlExistingPagesProvider
      */
@@ -21,7 +20,7 @@ class PagesTest
     }
 
     /**
-     * Check for a 404 page
+     * Check for a 404 page.
      */
     public function test404()
     {

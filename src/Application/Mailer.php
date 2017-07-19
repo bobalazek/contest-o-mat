@@ -127,7 +127,7 @@ class Mailer
 
     public function send($swiftMessage = false)
     {
-        if (! $swiftMessage) {
+        if (!$swiftMessage) {
             $swiftMessage = $this->getSwiftMessageInstance();
         }
 

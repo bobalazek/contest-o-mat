@@ -5,7 +5,7 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Winner Entity
+ * Winner Entity.
  *
  * @ORM\Table(name="winners")
  * @ORM\Entity(repositoryClass="Application\Repository\WinnerRepository")
@@ -16,7 +16,7 @@ class WinnerEntity
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -39,7 +39,7 @@ class WinnerEntity
     protected $prize;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="informed", type="boolean")
      */
@@ -269,6 +269,7 @@ class WinnerEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PreUpdate
      */

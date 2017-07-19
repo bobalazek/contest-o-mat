@@ -4,7 +4,7 @@ return array(
     'environment' => 'development',
     'debug' => true,
     'name' => 'Contest-O-Mat',
-    'version' => '0.11.0',
+    'version' => '1.0.0-dev',
     'author' => 'Borut Balazek',
     // You MUST change the baseUri, in case you'll have multiple instances
     // of this application on the same (sub-)domain.
@@ -92,7 +92,7 @@ return array(
     'facebookSdkOptions' => array(
         'id' => '',
         'secret' => '',
-        'version' => 'v2.4',
+        'version' => 'v2.10',
         'permissions' => array(
             'email',
         ),

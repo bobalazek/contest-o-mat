@@ -5,7 +5,7 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Participant Entity
+ * Participant Entity.
  *
  * @ORM\Table(name="participants")
  * @ORM\Entity(repositoryClass="Application\Repository\ParticipantRepository")
@@ -16,7 +16,7 @@ class ParticipantEntity
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -252,6 +252,7 @@ class ParticipantEntity
     }
 
     /*** IP ***/
+
     /**
      * @return string
      */
@@ -355,6 +356,7 @@ class ParticipantEntity
     }
 
     /*** User agent ***/
+
     /**
      * @return string
      */
@@ -509,7 +511,7 @@ class ParticipantEntity
 
     public function addParticipantMeta(\Application\Entity\ParticipantMetaEntity $participantMeta)
     {
-        if (! $this->participantMetas->contains($participantMeta)) {
+        if (!$this->participantMetas->contains($participantMeta)) {
             $participantMeta->setParticipant($this);
 
             $this->participantMetas->add($participantMeta);
@@ -574,7 +576,7 @@ class ParticipantEntity
         $slugify = new \Cocur\Slugify\Slugify();
         $metas = $this->getMetas();
 
-        if (! empty($metas)) {
+        if (!empty($metas)) {
             foreach ($metas as $metaKey => $metaValue) {
                 $metaEntity = new \Application\Entity\ParticipantMetaEntity();
 
@@ -627,6 +629,7 @@ class ParticipantEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PostLoad
      */

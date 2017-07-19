@@ -10,7 +10,8 @@ class DoctrineManagerRegistry implements ManagerRegistry
     protected $managers;
     protected $connections;
     protected $name;
-    public function __construct($name, array $connections, array $managers, $defaultConnection = "default", $defaultManager = "default")
+
+    public function __construct($name, array $connections, array $managers, $defaultConnection = 'default', $defaultManager = 'default')
     {
         $this->name = $name;
         $this->managers = $managers;
@@ -20,7 +21,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultConnectionName()
     {
@@ -28,7 +29,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConnection($name = null)
     {
@@ -40,7 +41,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConnections()
     {
@@ -48,7 +49,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConnectionNames()
     {
@@ -56,7 +57,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultManagerName()
     {
@@ -64,7 +65,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManager($name = null)
     {
@@ -76,7 +77,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManagers()
     {
@@ -84,25 +85,25 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function resetManager($name = null)
     {
-        #@TODO fix it
-        throw new Exception("not implemented yet");
+        //@TODO fix it
+        throw new Exception('not implemented yet');
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAliasNamespace($alias)
     {
-        #@TODO fix it
-        throw new Exception("not implemented yet");
+        //@TODO fix it
+        throw new Exception('not implemented yet');
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManagerNames()
     {
@@ -110,7 +111,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRepository($persistentObject, $persistentManagerName = null)
     {
@@ -118,7 +119,7 @@ class DoctrineManagerRegistry implements ManagerRegistry
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManagerForClass($class)
     {

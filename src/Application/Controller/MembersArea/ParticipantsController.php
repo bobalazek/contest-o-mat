@@ -13,8 +13,8 @@ class ParticipantsController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -114,8 +114,8 @@ class ParticipantsController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -169,14 +169,14 @@ class ParticipantsController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $participant = $app['orm.em']->find('Application\Entity\ParticipantEntity', $id);
 
-        if (! $participant) {
+        if (!$participant) {
             $app->abort(404);
         }
 
@@ -227,14 +227,14 @@ class ParticipantsController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $participant = $app['orm.em']->find('Application\Entity\ParticipantEntity', $id);
 
-        if (! $participant) {
+        if (!$participant) {
             $app->abort(404);
         }
 

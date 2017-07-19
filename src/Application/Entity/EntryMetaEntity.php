@@ -5,7 +5,7 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Entry Entity
+ * Entry Entity.
  *
  * @ORM\Table(name="entry_metas")
  * @ORM\Entity(repositoryClass="Application\Repository\EntryMetaRepository")
@@ -16,7 +16,7 @@ class EntryMetaEntity
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -131,6 +131,7 @@ class EntryMetaEntity
     {
         return $this->entry;
     }
+
     public function setEntry($entry)
     {
         $this->entry = $entry;
@@ -166,6 +167,7 @@ class EntryMetaEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PreUpdate
      */

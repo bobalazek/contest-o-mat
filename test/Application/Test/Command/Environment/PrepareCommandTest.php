@@ -5,8 +5,7 @@ namespace Application\Test\Command\Environment;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class PrepareCommandTest
-    extends \PHPUnit_Framework_TestCase
+class PrepareCommandTest extends \PHPUnit_Framework_TestCase
 {
     public function testExecute()
     {

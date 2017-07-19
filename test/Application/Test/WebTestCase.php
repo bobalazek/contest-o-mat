@@ -4,8 +4,7 @@ namespace Application\Test;
 
 use Silex\WebTestCase as SilexWebTestCase;
 
-class WebTestCase
-    extends SilexWebTestCase
+class WebTestCase extends SilexWebTestCase
 {
     public function createApplication()
     {

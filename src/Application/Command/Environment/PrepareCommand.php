@@ -6,8 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PrepareCommand
-    extends ContainerAwareCommand
+class PrepareCommand extends ContainerAwareCommand
 {
     protected function configure()
     {

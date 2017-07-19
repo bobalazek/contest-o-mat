@@ -13,8 +13,8 @@ class VotesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_VOTES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_VOTES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -112,8 +112,8 @@ class VotesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_VOTES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_VOTES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -167,14 +167,14 @@ class VotesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_VOTES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_VOTES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $vote = $app['orm.em']->find('Application\Entity\VoteEntity', $id);
 
-        if (! $vote) {
+        if (!$vote) {
             $app->abort(404);
         }
 
@@ -225,14 +225,14 @@ class VotesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_VOTES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_VOTES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $vote = $app['orm.em']->find('Application\Entity\VoteEntity', $id);
 
-        if (! $vote) {
+        if (!$vote) {
             $app->abort(404);
         }
 

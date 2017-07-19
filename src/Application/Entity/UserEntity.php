@@ -4,22 +4,20 @@ namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * User Entity
+ * User Entity.
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="Application\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class UserEntity
-    implements AdvancedUserInterface, \Serializable
+class UserEntity implements AdvancedUserInterface, \Serializable
 {
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -85,14 +83,14 @@ class UserEntity
     protected $accessToken;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="enabled", type="boolean")
      */
     protected $enabled = false;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="locked", type="boolean")
      */
@@ -372,7 +370,7 @@ class UserEntity
 
     public function isAccountNonLocked()
     {
-        return ! $this->isLocked();
+        return !$this->isLocked();
     }
 
     /*** Reset password code ***/
@@ -453,7 +451,7 @@ class UserEntity
 
     public function isAccountNonExpired()
     {
-        return ! $this->getExpired();
+        return !$this->getExpired();
     }
 
     /*** Credentials expired ***/
@@ -469,7 +467,7 @@ class UserEntity
 
     public function isCredentialsNonExpired()
     {
-        return ! $this->getExpired();
+        return !$this->getExpired();
     }
 
    /*** Roles ***/
@@ -510,7 +508,7 @@ class UserEntity
 
     public function addRole(\Application\Entity\RoleEntity $role = null)
     {
-        if (! $this->roles->contains($role)) {
+        if (!$this->roles->contains($role)) {
             $this->roles->add($role);
         }
 
@@ -552,7 +550,7 @@ class UserEntity
     /***** Other AdvancedUserInterface Methods *****/
     public function isEqualTo(AdvancedUserInterface $user)
     {
-        if (! $user instanceof AdvancedUserInterface) {
+        if (!$user instanceof AdvancedUserInterface) {
             return false;
         }
 
@@ -594,8 +592,7 @@ class UserEntity
             $this->username,
             $this->email,
             $this->password,
-            $this->salt,
-        ) = unserialize($serialized);
+            $this->salt) = unserialize($serialized);
     }
 
     /********** Magic Methods **********/
@@ -649,6 +646,7 @@ class UserEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PreUpdate
      */

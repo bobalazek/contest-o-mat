@@ -47,7 +47,7 @@ class UiExtension extends \Twig_Extension
 
     public function arrayLabels($array = array())
     {
-        if (! count($array)) {
+        if (!count($array)) {
             return '';
         }
 

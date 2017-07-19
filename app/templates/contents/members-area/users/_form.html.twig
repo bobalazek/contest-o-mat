@@ -1,1 +1,10 @@
-{{ form(form) }}
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.profile) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_rest(form) }}
+    </div>
+</div>
+{{ form_end(form) }}

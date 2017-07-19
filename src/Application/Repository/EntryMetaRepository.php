@@ -4,8 +4,7 @@ namespace Application\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class EntryMetaRepository
-    extends EntityRepository
+class EntryMetaRepository extends EntityRepository
 {
     public function countAll()
     {

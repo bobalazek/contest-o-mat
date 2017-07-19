@@ -1,5 +1,19 @@
 {{ form_start(form) }}
-    {{ form_row(form.participant) }}
+    <div class="form-group">
+        {{ form_label(form.participant) }}
+        {{ form_errors(form.participant) }}
+        {% do form.participant.setRendered %}
+        <select id="winner_participant"
+            class="select-picker form-control"
+            name="winner[participant]"
+            data-live-search="true">
+            {% if winner is defined and winner.participant != null %}
+            <option value="{{ winner.participant.getId() }}">
+                {{ winner.participant }}
+            </option>
+            {% endif %}
+        </select>
+    </div>
     <div id="entry-meta-wrapper">
         {% do form.entryMetas.setRendered %}
         <div class="clearfix">
@@ -73,5 +87,17 @@
             });
         }
         initializeRemoveMetaButton();
+        
+        // Participants
+        jQuery('#winner_participant')
+            .selectpicker({
+                liveSearch: true,
+            })
+            .ajaxSelectPicker({
+                ajax: {
+                    url: '{{ url('members-area.api.participants') }}',
+                },
+            })
+        ;
     });
 </script>

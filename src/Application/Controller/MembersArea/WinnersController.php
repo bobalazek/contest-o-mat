@@ -13,8 +13,8 @@ class WinnersController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -105,8 +105,8 @@ class WinnersController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -156,14 +156,14 @@ class WinnersController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $winner = $app['orm.em']->find('Application\Entity\WinnerEntity', $id);
 
-        if (! $winner) {
+        if (!$winner) {
             $app->abort(404);
         }
 
@@ -214,14 +214,14 @@ class WinnersController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $winner = $app['orm.em']->find('Application\Entity\WinnerEntity', $id);
 
-        if (! $winner) {
+        if (!$winner) {
             $app->abort(404);
         }
 
@@ -293,14 +293,14 @@ class WinnersController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $winner = $app['orm.em']->find('Application\Entity\WinnerEntity', $id);
 
-        if (! $winner) {
+        if (!$winner) {
             $app->abort(404);
         }
 

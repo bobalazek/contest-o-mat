@@ -5,7 +5,7 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Profile Entity
+ * Profile Entity.
  *
  * @ORM\Table(name="profiles")
  * @ORM\Entity(repositoryClass="Application\Repository\ProfileRepository")
@@ -16,7 +16,7 @@ class ProfileEntity
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id

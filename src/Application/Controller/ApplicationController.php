@@ -5,7 +5,6 @@ namespace Application\Controller;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Application\Entity\VoteEntity;
 
 class ApplicationController
 {
@@ -55,7 +54,7 @@ class ApplicationController
             $data['alert'] = 'info';
             $data['alertMessage'] = $app['settings']['texts']['hasEnded'];
         } elseif (
-            ! $app['facebookUser'] &&
+            !$app['facebookUser'] &&
             $app['settings']['onlyFacebookUsersCanParticipate']
         ) {
             $data['showForm'] = false;
@@ -264,9 +263,9 @@ class ApplicationController
                 if (
                     $request->query->has('via_javascript') &&
                     $request->query->has('facebook_access_token') &&
-                    ! $accessToken
+                    !$accessToken
                 ) {
-                    $facebookAccessToken =  $request->query->get(
+                    $facebookAccessToken = $request->query->get(
                         'facebook_access_token',
                         false
                     );
@@ -331,8 +330,8 @@ class ApplicationController
         $data = array();
 
         if (
-            ! $app['settings']['entriesArePublic'] &&
-            ! $app['security']->isGranted('ROLE_ADMIN')
+            !$app['settings']['entriesArePublic'] &&
+            !$app['security']->isGranted('ROLE_ADMIN')
         ) {
             $app->abort(404);
         }
@@ -381,8 +380,8 @@ class ApplicationController
         $canNotVoteMessage = null;
 
         if (
-            ! $app['settings']['entriesArePublic'] &&
-            ! $app['security']->isGranted('ROLE_ADMIN')
+            !$app['settings']['entriesArePublic'] &&
+            !$app['security']->isGranted('ROLE_ADMIN')
         ) {
             $app->abort(404);
         }
@@ -392,7 +391,7 @@ class ApplicationController
             $id
         );
 
-        if (! $entry) {
+        if (!$entry) {
             $app->abort(404);
         }
 
@@ -521,7 +520,7 @@ class ApplicationController
                     }
 
                     $metas = $voteEntity->getMetas();
-                    if (! empty($metas)) {
+                    if (!empty($metas)) {
                         foreach ($metas as $metaKey => $metaValue) {
                             $metaEntity = new \Application\Entity\VoteMetaEntity();
 
@@ -616,8 +615,8 @@ class ApplicationController
         $data = array();
 
         if (
-            ! $app['settings']['showWinners'] &&
-            ! $app['security']->isGranted('ROLE_ADMIN')
+            !$app['settings']['showWinners'] &&
+            !$app['security']->isGranted('ROLE_ADMIN')
         ) {
             $app->abort(404);
         }

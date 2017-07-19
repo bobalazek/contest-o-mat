@@ -36,7 +36,8 @@ class VoteType extends AbstractType
             'by_reference' => false,
         ));
 
-        $builder->add('Save', 'submit', array(
+        $builder->add('submit', 'submit', array(
+            'label' => 'Save',
             'attr' => array(
                 'class' => 'btn-primary btn-lg btn-block',
             ),

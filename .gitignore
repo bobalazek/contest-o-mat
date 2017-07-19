@@ -1,5 +1,4 @@
 *~
-/composer.lock
 /composer.phar
 /app/configs/global-local.php
 /app/configs/environments/development.php

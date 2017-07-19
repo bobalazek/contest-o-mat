@@ -8,8 +8,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Application\Entity\UserEntity;
 
-class UserProvider
-    implements UserProviderInterface
+class UserProvider implements UserProviderInterface
 {
     private $app;
     private $credentials;
@@ -47,7 +46,7 @@ class UserProvider
             $user = $userByEmail;
         }
 
-        if (! $user && $showExceptionIfNotExistent) {
+        if (!$user && $showExceptionIfNotExistent) {
             throw new UsernameNotFoundException(
                 sprintf(
                     'Username or Email "%s" does not exist.',
@@ -61,7 +60,7 @@ class UserProvider
 
     public function refreshUser(UserInterface $user)
     {
-        if (! $user instanceof UserEntity) {
+        if (!$user instanceof UserEntity) {
             throw new UnsupportedUserException(
                 sprintf(
                     'Instances of "%s" are not supported.',

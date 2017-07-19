@@ -4,8 +4,7 @@ namespace Application\Test\Form\Type;
 
 use Symfony\Component\Form\Test\TypeTestCase;
 
-class RoleTypeTest
-    extends TypeTestCase
+class RoleTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {

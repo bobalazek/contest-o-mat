@@ -33,7 +33,7 @@ $app->before(function () use ($app) {
 
     if (
         $token &&
-        ! $app['security.trust_resolver']->isAnonymous($token) &&
+        !$app['security.trust_resolver']->isAnonymous($token) &&
         $token->getUser() instanceof \Application\Entity\UserEntity
     ) {
         $app['user'] = $token->getUser();
@@ -119,7 +119,7 @@ $app->before(function () use ($app) {
                         );
 
                         if ($participant) {
-                            $app['participant']  = $participant;
+                            $app['participant'] = $participant;
                         }
                     } catch (\Exception $e) {
                     }
@@ -181,7 +181,7 @@ $app->before(function () use ($app) {
         $app['session']->start();
     }
 
-    if (! isset($app['user'])) {
+    if (!isset($app['user'])) {
         $app['user'] = null;
     }
 
@@ -224,7 +224,6 @@ $app->before(function () use ($app) {
         }
     } catch (\Exception $e) {
     }
-
 }, \Silex\Application::EARLY_EVENT);
 
 /*** Set Logut path ***/

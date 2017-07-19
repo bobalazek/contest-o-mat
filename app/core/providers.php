@@ -1,7 +1,7 @@
 <?php
 
 /***** Config *****/
-if (! file_exists(APP_DIR.'/configs/global.php')) {
+if (!file_exists(APP_DIR.'/configs/global.php')) {
     exit('No global config file found. Please create one (app/configs/global.php)!');
 }
 
@@ -62,7 +62,7 @@ if (getenv('APPLICATION_DATABASE_PASSWORD')) {
 
 /*** Var / Storage directoy check ***/
 // We NEED the storage directory. Else the app will not work
-if (! file_exists(STORAGE_DIR)) {
+if (!file_exists(STORAGE_DIR)) {
     exit('The storage directory (var/) does not exists yet! Please run "bin/console application:storage:prepare" to prepare the storage directory.');
 }
 

@@ -7,8 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class HydrateDataCommand
-    extends ContainerAwareCommand
+class HydrateDataCommand extends ContainerAwareCommand
 {
     protected $app;
 
@@ -74,7 +73,7 @@ class HydrateDataCommand
             $timeMin = strtotime('-4 weeks');
             $timeMax = strtotime('now');
 
-            for ($i = 0; $i < 1000; $i++) {
+            for ($i = 0; $i < 1000; ++$i) {
                 $participantEntity = new \Application\Entity\ParticipantEntity();
                 $entryEntity = new \Application\Entity\EntryEntity();
 
@@ -169,7 +168,7 @@ class HydrateDataCommand
             // User Roles
             $userRolesCollection = new \Doctrine\Common\Collections\ArrayCollection();
 
-            if (! empty($user['roles'])) {
+            if (!empty($user['roles'])) {
                 $userRoles = $user['roles'];
 
                 foreach ($userRoles as $userRole) {

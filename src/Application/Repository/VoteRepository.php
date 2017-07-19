@@ -4,8 +4,7 @@ namespace Application\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class VoteRepository
-    extends EntityRepository
+class VoteRepository extends EntityRepository
 {
     public function countAll()
     {

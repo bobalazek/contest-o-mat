@@ -4,8 +4,7 @@ namespace Application\Test;
 
 use Symfony\Component\Console\Application;
 
-class TranslatorTest
-    extends WebTestCase
+class TranslatorTest extends WebTestCase
 {
     public function testSwitchLocale()
     {

@@ -5,7 +5,7 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Entry Entity
+ * Entry Entity.
  *
  * @ORM\Table(name="entries")
  * @ORM\Entity(repositoryClass="Application\Repository\EntryRepository")
@@ -16,7 +16,7 @@ class EntryEntity
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -174,6 +174,7 @@ class EntryEntity
     }
 
     /*** IP ***/
+
     /**
      * @return string
      */
@@ -277,6 +278,7 @@ class EntryEntity
     }
 
     /*** User agent ***/
+
     /**
      * @return string
      */
@@ -404,7 +406,7 @@ class EntryEntity
 
     public function addEntryMeta(\Application\Entity\EntryMetaEntity $entryMeta)
     {
-        if (! $this->entryMetas->contains($entryMeta)) {
+        if (!$this->entryMetas->contains($entryMeta)) {
             $entryMeta->setEntry($this);
 
             $this->entryMetas->add($entryMeta);
@@ -459,7 +461,7 @@ class EntryEntity
         $slugify = new \Cocur\Slugify\Slugify();
         $metas = $this->getMetas();
 
-        if (! empty($metas)) {
+        if (!empty($metas)) {
             foreach ($metas as $metaKey => $metaValue) {
                 $metaEntity = new \Application\Entity\EntryMetaEntity();
 
@@ -510,6 +512,7 @@ class EntryEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PostLoad
      */

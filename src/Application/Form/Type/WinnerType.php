@@ -34,7 +34,8 @@ class WinnerType extends AbstractType
             ),
         ));
 
-        $builder->add('Save', 'submit', array(
+        $builder->add('submit', 'submit', array(
+            'label' => 'Save',
             'attr' => array(
                 'class' => 'btn-primary btn-lg btn-block',
             ),

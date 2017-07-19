@@ -4,24 +4,22 @@ namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
- * Role Entity
+ * Role Entity.
  *
  * @ORM\Table(name="roles")
  * @ORM\Entity(repositoryClass="Application\Repository\RoleRepository")
  * @ORM\HasLifecycleCallbacks()
  * @DoctrineAssert\UniqueEntity(fields="role")
  */
-class RoleEntity
-    implements RoleInterface
+class RoleEntity implements RoleInterface
 {
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -178,6 +176,7 @@ class RoleEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PreUpdate
      */

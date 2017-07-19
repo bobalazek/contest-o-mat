@@ -60,7 +60,7 @@ class Translator
 
             if ($fileMessageStrings) {
                 foreach ($fileMessageStrings as $fileMessageString) {
-                    if (! isset($allMessages[$fileMessageString])) {
+                    if (!isset($allMessages[$fileMessageString])) {
                         $allMessages[$fileMessageString] = $fileMessageString;
                     }
                 }
@@ -77,13 +77,13 @@ class Translator
 
         if ($allMessages) {
             foreach ($allMessages as $singleMessageKey => $singleMessage) {
-                if (! isset($translatedMessages[$singleMessageKey])) {
+                if (!isset($translatedMessages[$singleMessageKey])) {
                     $untranslatedMessages[$singleMessageKey] = $singleMessage;
                 }
             }
         }
 
-        if (! empty($untranslatedMessages)) {
+        if (!empty($untranslatedMessages)) {
             $dumper = new \Symfony\Component\Yaml\Dumper();
 
             $yaml = $dumper->dump($untranslatedMessages, 1);

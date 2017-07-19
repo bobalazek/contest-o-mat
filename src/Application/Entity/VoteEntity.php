@@ -5,7 +5,7 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Vote Entity
+ * Vote Entity.
  *
  * @ORM\Table(name="votes")
  * @ORM\Entity(repositoryClass="Application\Repository\VoteRepository")
@@ -16,7 +16,7 @@ class VoteEntity
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -190,6 +190,7 @@ class VoteEntity
     }
 
     /*** IP ***/
+
     /**
      * @return string
      */
@@ -293,6 +294,7 @@ class VoteEntity
     }
 
     /*** User agent ***/
+
     /**
      * @return string
      */
@@ -420,7 +422,7 @@ class VoteEntity
 
     public function addVoteMeta(\Application\Entity\VoteMetaEntity $voteMeta)
     {
-        if (! $this->voteMetas->contains($voteMeta)) {
+        if (!$this->voteMetas->contains($voteMeta)) {
             $voteMeta->setVote($this);
 
             $this->voteMetas->add($voteMeta);
@@ -485,7 +487,7 @@ class VoteEntity
         $slugify = new \Cocur\Slugify\Slugify();
         $metas = $this->getMetas();
 
-        if (! empty($metas)) {
+        if (!empty($metas)) {
             foreach ($metas as $metaKey => $metaValue) {
                 $metaEntity = new \Application\Entity\VoteMetaEntity();
 
@@ -536,6 +538,7 @@ class VoteEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PostLoad
      */

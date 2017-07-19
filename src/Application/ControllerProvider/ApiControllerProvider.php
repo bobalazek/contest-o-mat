@@ -5,8 +5,7 @@ namespace Application\ControllerProvider;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 
-class ApiControllerProvider
-    implements ControllerProviderInterface
+class ApiControllerProvider implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {

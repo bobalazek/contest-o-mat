@@ -1,9 +1,44 @@
-{{ form(form) }}
+{{ form_start(form) }}
+    {{ form_row(form.place) }}
+    {{ form_row(form.prize) }}
+    <div class="form-group">
+        {{ form_label(form.participant) }}
+        {{ form_errors(form.participant) }}
+        {% do form.participant.setRendered %}
+        <select id="winner_participant"
+            class="select-picker form-control"
+            name="winner[participant]"
+            data-live-search="true">
+            {% if winner is defined and winner.participant != null %}
+            <option value="{{ winner.participant.getId() }}">
+                {{ winner.participant }}
+            </option>
+            {% endif %}
+        </select>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.entry) }}
+        {{ form_errors(form.entry) }}
+        {% do form.entry.setRendered %}
+        <select id="winner_entry"
+            class="select-picker form-control"
+            name="winner[entry]"
+            data-live-search="true">
+            {% if winner is defined and winner.entry != null %}
+            <option value="{{ winner.entry.getId() }}">
+                {{ winner.entry }}
+            </option>
+            {% endif %}
+        </select>
+    </div>
+    {{ form_row(form.place) }}
+    {{ form_row(form.submit) }}
+{{ form_end(form) }}
 
 <script>
     jQuery(document).ready(function() {
         // Participants
-        /*jQuery('#winner_participant')
+        jQuery('#winner_participant')
             .selectpicker({
                 liveSearch: true,
             })
@@ -12,10 +47,10 @@
                     url: '{{ url('members-area.api.participants') }}',
                 },
             })
-        ;*/
+        ;
 
         // Entries
-        /*jQuery('#winner_entry')
+        jQuery('#winner_entry')
             .selectpicker({
                 liveSearch: true,
             })
@@ -24,6 +59,6 @@
                     url: '{{ url('members-area.api.entries') }}',
                 },
             })
-        ;*/
+        ;
     });
 </script>

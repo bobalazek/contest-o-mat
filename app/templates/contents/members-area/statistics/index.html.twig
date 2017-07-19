@@ -150,9 +150,11 @@
                     initializeVoteCharts();
                 }
 
-                if(tab == 'visits') {
-                    initializeVisitCharts();
-                }
+                {% if app.piwikOptions.enabled %}
+                    if(tab == 'visits') {
+                        initializeVisitCharts();
+                    }
+                {% endif %}
             });
         });
     </script>

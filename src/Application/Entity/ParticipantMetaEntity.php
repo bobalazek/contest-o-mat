@@ -5,7 +5,7 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Participant Metas Entity
+ * Participant Metas Entity.
  *
  * @ORM\Table(name="participant_metas")
  * @ORM\Entity(repositoryClass="Application\Repository\ParticipantMetaRepository")
@@ -16,7 +16,7 @@ class ParticipantMetaEntity
     /*************** Variables ***************/
     /********** General Variables **********/
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -135,6 +135,7 @@ class ParticipantMetaEntity
     {
         return $this->participant;
     }
+
     public function setParticipant($participant)
     {
         $this->participant = $participant;
@@ -170,6 +171,7 @@ class ParticipantMetaEntity
     }
 
     /********** Callback Methods **********/
+
     /**
      * @ORM\PreUpdate
      */

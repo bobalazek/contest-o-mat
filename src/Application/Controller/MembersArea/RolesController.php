@@ -12,8 +12,8 @@ class RolesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_ROLES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_ROLES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -51,8 +51,8 @@ class RolesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_ROLES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_ROLES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -102,8 +102,8 @@ class RolesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_ROLES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_ROLES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -112,7 +112,7 @@ class RolesController
             $id
         );
 
-        if (! $role) {
+        if (!$role) {
             $app->abort(404);
         }
 
@@ -163,8 +163,8 @@ class RolesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_ROLES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_ROLES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -173,7 +173,7 @@ class RolesController
             $id
         );
 
-        if (! $role) {
+        if (!$role) {
             $app->abort(404);
         }
 

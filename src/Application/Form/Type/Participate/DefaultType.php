@@ -27,7 +27,7 @@ class DefaultType extends AbstractType
          * Each time afer that, the participant will automaticall be "attached"
          * to the entry.
          */
-        if (! $this->app['participant']) {
+        if (!$this->app['participant']) {
             $nameData = null;
             $emailData = null;
 

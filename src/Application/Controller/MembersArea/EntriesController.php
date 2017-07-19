@@ -13,8 +13,8 @@ class EntriesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_ENTRIES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_ENTRIES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -114,8 +114,8 @@ class EntriesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_ENTRIES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_ENTRIES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
@@ -169,14 +169,14 @@ class EntriesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_ENTRIES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_ENTRIES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $entry = $app['orm.em']->find('Application\Entity\EntryEntity', $id);
 
-        if (! $entry) {
+        if (!$entry) {
             $app->abort(404);
         }
 
@@ -227,14 +227,14 @@ class EntriesController
     {
         $data = array();
 
-        if (! $app['security']->isGranted('ROLE_ENTRIES_EDITOR')
-            && ! $app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security']->isGranted('ROLE_ENTRIES_EDITOR')
+            && !$app['security']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 
         $entry = $app['orm.em']->find('Application\Entity\EntryEntity', $id);
 
-        if (! $entry) {
+        if (!$entry) {
             $app->abort(404);
         }
 

@@ -1,6 +1,20 @@
 {{ form_start(form) }}
     {{ form_row(form.voterUid) }}
-    {{ form_row(form.entry) }}
+    <div class="form-group">
+        {{ form_label(form.entry) }}
+        {{ form_errors(form.entry) }}
+        {% do form.entry.setRendered %}
+        <select id="winner_entry"
+            class="select-picker form-control"
+            name="winner[entry]"
+            data-live-search="true">
+            {% if vote is defined and vote.entry != null %}
+            <option value="{{ vote.entry.getId() }}">
+                {{ vote.entry }}
+            </option>
+            {% endif %}
+        </select>
+    </div>
     <div id="vote-meta-wrapper">
         {% do form.voteMetas.setRendered %}
         <div class="clearfix">
@@ -74,5 +88,17 @@
             });
         }
         initializeRemoveMetaButton();
+        
+        // Entries
+        jQuery('#winner_entry')
+            .selectpicker({
+                liveSearch: true,
+            })
+            .ajaxSelectPicker({
+                ajax: {
+                    url: '{{ url('members-area.api.entries') }}',
+                },
+            })
+        ;
     });
 </script>
