@@ -4,24 +4,28 @@ namespace Application\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 
 class VoteMetaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('key', 'text');
-        $builder->add('value', 'textarea');
+        $builder->add('key', TextType::class);
+        $builder->add('value', TextareaType::class);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Application\Entity\VoteMetaEntity',
-            'validation_groups' => array('newAndEdit'),
+            'validation_groups' => ['newAndEdit'],
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-        ));
+        ]);
     }
 
     public function getName()

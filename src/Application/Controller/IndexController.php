@@ -10,7 +10,7 @@ class IndexController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         return $app->redirect(
             $app['url_generator']->generate('application')
@@ -19,11 +19,11 @@ class IndexController
 
     public function contactAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        $formData = array();
+        $formData = [];
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\ContactType()
+            \Application\Form\Type\ContactType::class
         );
 
         if ($request->getMethod() == 'POST') {
@@ -37,27 +37,27 @@ class IndexController
                         $app['name'].' - '.$app['translator']->trans('Contact')
                     )
                     ->setFrom(
-                        array(
+                        [
                             $formData['email'] => $formData['name'],
-                        )
+                        ]
                     )
                     ->setTo(
-                        array(
+                        [
                             $app['email'] => $app['emailName'],
-                        )
+                        ]
                     )
                     ->setCc(
-                        array(
+                        [
                             $formData['email'] => $formData['name'],
-                        )
+                        ]
                     )
                     ->setBody(
                         $app['mailer.css_to_inline_styles_converter'](
                             'emails/contact.html.twig',
-                            array(
+                            [
                                 'app' => $app,
                                 'formData' => $formData,
-                            )
+                            ]
                         ),
                         'text/html'
                     )

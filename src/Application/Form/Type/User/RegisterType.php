@@ -4,7 +4,12 @@ namespace Application\Form\Type\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RegisterType extends AbstractType
 {
@@ -12,49 +17,49 @@ class RegisterType extends AbstractType
     {
         $builder->add(
             $builder
-                ->create('profile', 'form', array(
+                ->create('profile', FormType::class, [
                         'by_reference' => true,
                         'data_class' => 'Application\Entity\ProfileEntity',
                         'label' => false,
-                ))
-                    ->add('firstName', 'text', array(
+                ])
+                    ->add('firstName', TextType::class, [
                         'label' => 'First name',
-                    ))
-                    ->add('lastName', 'text', array(
+                    ])
+                    ->add('lastName', TextType::class, [
                         'label' => 'Last name',
                         'required' => false,
-                    ))
+                    ])
         );
 
-        $builder->add('username', 'text', array(
+        $builder->add('username', TextType::class, [
             'label' => 'Username',
-        ));
-        $builder->add('email', 'email', array(
+        ]);
+        $builder->add('email', EmailType::class, [
             'label' => 'Email',
-        ));
-        $builder->add('plainPassword', 'repeated', array(
+        ]);
+        $builder->add('plainPassword', RepeatedType::class, [
             'type' => 'password',
             'first_name' => 'password',
             'second_name' => 'repeatPassword',
             'required' => false,
             'invalid_message' => 'errors.user.password.invalidText',
-        ));
+        ]);
 
-        $builder->add('Save', 'submit', array(
-            'attr' => array(
+        $builder->add('Save', SubmitType::class, [
+            'attr' => [
                 'class' => 'btn-primary btn-lg btn-block',
-            ),
-        ));
+            ],
+        ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Application\Entity\UserEntity',
-            'validation_groups' => array('register'),
+            'validation_groups' => ['register'],
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-        ));
+        ]);
     }
 
     public function getName()

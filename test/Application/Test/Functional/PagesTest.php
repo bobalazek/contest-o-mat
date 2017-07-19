@@ -38,11 +38,11 @@ class PagesTest extends WebTestCase
      */
     public function urlExistingPagesProvider()
     {
-        return array(
-            array('/application/'),
-            array('/application/participate'),
-            array('/members-area/login'),
-            array('/members-area/reset-password'),
-        );
+        return [
+            ['/application/'],
+            ['/application/participate'],
+            ['/members-area/login'],
+            ['/members-area/reset-password'],
+        ];
     }
 }

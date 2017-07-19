@@ -10,12 +10,14 @@ class MembersAreaController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         $adminMode = $request->query->get('admin_mode', false);
 
-        if ($adminMode &&
-            !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            $adminMode &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -28,11 +30,11 @@ class MembersAreaController
 
     public function loginAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         $data['lastUsername'] = $app['session']->get('_security.last_username');
-        $data['lastError'] = $app['security.last_error']($app['request']);
-        $data['csrfToken'] = $app['form.csrf_provider']->generateCsrfToken('authenticate'); // The intention MUST be "authenticate"
+        $data['lastError'] = $app['security.last_error']($request);
+        $data['csrfToken'] = $app['csrf.token_manager']->getToken('authenticate');
 
         return new Response(
             $app['twig']->render(
@@ -44,7 +46,7 @@ class MembersAreaController
 
     public function logoutAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         return new Response(
             $app['twig']->render(
@@ -56,7 +58,7 @@ class MembersAreaController
 
     public function registerAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         if (!$app['settings']['registrationEnabled']) {
             $app->abort(404);
@@ -72,7 +74,7 @@ class MembersAreaController
         ;
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\User\RegisterType(),
+            \Application\Form\Type\User\RegisterType::class,
             new \Application\Entity\UserEntity()
         );
 
@@ -92,15 +94,15 @@ class MembersAreaController
                 $app['orm.em']->flush();
 
                 $app['application.mailer']
-                    ->swiftMessageInitializeAndSend(array(
+                    ->swiftMessageInitializeAndSend([
                         'subject' => $app['name'].' - '.$app['translator']->trans('Welcome'),
-                        'to' => array($userEntity->getEmail()),
+                        'to' => [$userEntity->getEmail()],
                         'body' => 'emails/users/register-welcome.html.twig',
                         'type' => 'user.register.welcome',
-                        'templateData' => array(
+                        'templateData' => [
                             'user' => $userEntity,
-                        ),
-                    ))
+                        ],
+                    ])
                 ;
 
                 $data['success'] = true;
@@ -122,15 +124,15 @@ class MembersAreaController
                     );
 
                     $app['application.mailer']
-                        ->swiftMessageInitializeAndSend(array(
+                        ->swiftMessageInitializeAndSend([
                             'subject' => $app['name'].' - '.$app['translator']->trans('Registration'),
-                            'to' => array($userEntity->getEmail()),
+                            'to' => [$userEntity->getEmail()],
                             'body' => 'emails/users/register.html.twig',
                             'type' => 'user.register',
-                            'templateData' => array(
+                            'templateData' => [
                                 'user' => $userEntity,
-                            ),
-                        ))
+                            ],
+                        ])
                     ;
 
                     $app['orm.em']->persist($userEntity);
@@ -156,7 +158,7 @@ class MembersAreaController
 
     public function resetPasswordAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         $code = $request->query->has('code')
             ? $request->query->get('code')
@@ -243,15 +245,15 @@ class MembersAreaController
                         $app['orm.em']->flush();
 
                         $app['application.mailer']
-                            ->swiftMessageInitializeAndSend(array(
+                            ->swiftMessageInitializeAndSend([
                                 'subject' => $app['name'].' - '.$app['translator']->trans('Reset password'),
-                                'to' => array($userEntity->getEmail()),
+                                'to' => [$userEntity->getEmail()],
                                 'body' => 'emails/users/reset-password.html.twig',
                                 'type' => 'user.reset_password',
-                                'templateData' => array(
+                                'templateData' => [
                                     'user' => $userEntity,
-                                ),
-                            ))
+                                ],
+                            ])
                         ;
 
                         $data['success'] = true; // If success, we hide the form

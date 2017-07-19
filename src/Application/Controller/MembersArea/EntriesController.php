@@ -11,10 +11,12 @@ class EntriesController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_ENTRIES_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_ENTRIES_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -33,18 +35,18 @@ class EntriesController
             $entryResults,
             $currentPage,
             $limitPerPage,
-            array(
+            [
                 'route' => 'members-area.entries',
                 'defaultSortFieldName' => 'e.timeCreated',
                 'defaultSortDirection' => 'desc',
-                'searchFields' => array(
+                'searchFields' => [
                     'p.name',
                     'p.email',
                     'e.ip',
                     'e.userAgent',
                     'em.value',
-                ),
-            )
+                ],
+            ]
         );
 
         $data['pagination'] = $pagination;
@@ -82,14 +84,14 @@ class EntriesController
             $twig->setLoader(new \Twig_Loader_String());
 
             foreach ($entries as $entry) {
-                $finalExportOptionsValues = array();
+                $finalExportOptionsValues = [];
 
                 foreach ($exportOptionsValues as $singleValue) {
                     $finalExportOptionsValues[] = $twig->render(
                         $singleValue,
-                        array(
+                        [
                             'entry' => $entry,
-                        )
+                        ]
                     );
                 }
 
@@ -112,15 +114,17 @@ class EntriesController
 
     public function newAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_ENTRIES_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_ENTRIES_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\EntryType(),
+            \Application\Form\Type\EntryType::class,
             new \Application\Entity\EntryEntity()
         );
 
@@ -130,8 +134,8 @@ class EntriesController
             if ($form->isValid()) {
                 $entryEntity = $form->getData();
                 $entryEntity
-                    ->setIp($app['request']->getClientIp())
-                    ->setUserAgent($app['request']->headers->get('User-Agent'))
+                    ->setIp($request->getClientIp())
+                    ->setUserAgent($request->headers->get('User-Agent'))
                 ;
 
                 $app['orm.em']->persist($entryEntity);
@@ -147,9 +151,9 @@ class EntriesController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.entries.edit',
-                        array(
+                        [
                             'id' => $entryEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -167,10 +171,12 @@ class EntriesController
 
     public function editAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_ENTRIES_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_ENTRIES_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -181,7 +187,7 @@ class EntriesController
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\EntryType(),
+            \Application\Form\Type\EntryType::class,
             $entry
         );
 
@@ -204,9 +210,9 @@ class EntriesController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.entries.edit',
-                        array(
+                        [
                             'id' => $entryEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -225,10 +231,12 @@ class EntriesController
 
     public function removeAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_ENTRIES_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_ENTRIES_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -238,8 +246,8 @@ class EntriesController
             $app->abort(404);
         }
 
-        $confirmAction = $app['request']->query->has('action') &&
-            $app['request']->query->get('action') == 'confirm'
+        $confirmAction = $request->query->has('action') &&
+            $request->query->get('action') == 'confirm'
         ;
 
         if ($confirmAction) {

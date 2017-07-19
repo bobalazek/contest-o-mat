@@ -146,12 +146,12 @@ class VoteMetaEntity
     /********** API ***********/
     public function toArray()
     {
-        return array(
+        return [
             'id' => $this->getId(),
             'key' => $this->getKey(),
             'value' => $this->getValue(),
             'time_created' => $this->getTimeCreated(),
-        );
+        ];
     }
 
     /********** Magic Methods **********/

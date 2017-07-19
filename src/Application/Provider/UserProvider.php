@@ -26,18 +26,18 @@ class UserProvider implements UserProviderInterface
             ->getRepository(
                 'Application\Entity\UserEntity'
             )
-            ->findOneBy(array(
+            ->findOneBy([
                 'username' => $username,
-            ))
+            ])
         ;
 
         $userByEmail = $this->app['orm.em']
             ->getRepository(
                 'Application\Entity\UserEntity'
             )
-            ->findOneBy(array(
+            ->findOneBy([
                 'email' => $username,
-            ))
+            ])
         ;
 
         if ($userByUsername) {

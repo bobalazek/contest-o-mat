@@ -29,7 +29,7 @@
                 {% endfor %}
             </div>
         </div>
-        {{ paginator_render(pagination) }}
+        {{ paginator_bottom_render(pagination) }}
     {% else %}
         <div class="alert alert-info">
             {{ 'No entries found!' | trans }}

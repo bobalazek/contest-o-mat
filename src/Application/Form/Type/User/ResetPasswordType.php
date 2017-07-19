@@ -5,7 +5,10 @@ namespace Application\Form\Type\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ResetPasswordType extends AbstractType
 {
@@ -19,19 +22,19 @@ class ResetPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($this->action == 'reset') {
-            $builder->add('plainPassword', 'text');
+            $builder->add('plainPassword', TextType::class);
         } else {
-            $builder->add('email', 'email');
+            $builder->add('email', EmailType::class);
         }
 
-        $builder->add('Submit', 'submit');
+        $builder->add('Submit', SubmitType::class);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $self = $this;
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Application\Entity\UserEntity',
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
@@ -39,12 +42,12 @@ class ResetPasswordType extends AbstractType
                 $action = $self->action;
 
                 if ($action == 'reset') {
-                    return array('resetPasswordReset');
+                    return ['resetPasswordReset'];
                 } else {
-                    return array('resetPasswordRequest');
+                    return ['resetPasswordRequest'];
                 }
             },
-        ));
+        ]);
     }
 
     public function getName()

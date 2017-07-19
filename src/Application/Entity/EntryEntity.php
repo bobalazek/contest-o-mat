@@ -199,7 +199,7 @@ class EntryEntity
                 $ipData = json_decode(
                     @file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
                 );
-                $converterArray = array(
+                $converterArray = [
                     'ipContinent' => 'geoplugin_continentCode',
                     'ipCountry' => 'geoplugin_countryCode',
                     'ipState' => 'geoplugin_state',
@@ -207,7 +207,7 @@ class EntryEntity
                     'ipCity' => 'geoplugin_city',
                     'ipLatitude' => 'geoplugin_latitude',
                     'ipLongitude' => 'geoplugin_longitude',
-                );
+                ];
 
                 foreach ($converterArray as $key => $val) {
                     if (isset($ipData->{$val}) && $ipData->{$val} != '') {
@@ -306,7 +306,6 @@ class EntryEntity
         $this->userAgentDevice = $userAgentInfo->device->family;
 
         if ($detect->isMobile()) {
-            $this->userAgentDeviceType = 'Mobile';
         } elseif ($detect->isTablet()) {
             $this->userAgentDeviceType = 'Tablet';
         }
@@ -446,7 +445,7 @@ class EntryEntity
         $entryMetas = $this->getEntryMetas()->toArray();
 
         if (count($entryMetas)) {
-            $metas = array();
+            $metas = [];
 
             foreach ($entryMetas as $entryMeta) {
                 $metas[$entryMeta->getKey()] = $entryMeta->getValue();
@@ -498,11 +497,11 @@ class EntryEntity
     /********** API ***********/
     public function toArray()
     {
-        return array(
+        return [
             'id' => $this->getId(),
             'metas' => $this->getMetas(),
             'time_created' => $this->getTimeCreated(),
-        );
+        ];
     }
 
     /********** Magic Methods **********/

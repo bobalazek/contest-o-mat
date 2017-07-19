@@ -20,7 +20,7 @@ class VoteRepository extends EntityRepository
      */
     public function getByHours()
     {
-        $results = array();
+        $results = [];
 
         $databaseResults = $this->getEntityManager()
             ->createQuery(
@@ -54,10 +54,10 @@ class VoteRepository extends EntityRepository
                 }
             }
 
-            $results[] = array(
+            $results[] = [
                 'date' => $date,
                 'count' => $count,
-            );
+            ];
         }
 
         return $results;
@@ -68,7 +68,7 @@ class VoteRepository extends EntityRepository
      */
     public function getByDays()
     {
-        $results = array();
+        $results = [];
 
         $databaseResults = $this->getEntityManager()
             ->createQuery(
@@ -97,10 +97,10 @@ class VoteRepository extends EntityRepository
                 }
             }
 
-            $results[] = array(
+            $results[] = [
                 'date' => $date,
                 'count' => $count,
-            );
+            ];
         }
 
         return $results;
@@ -111,13 +111,13 @@ class VoteRepository extends EntityRepository
      */
     public function getByBrowsers($app)
     {
-        $data = array(
+        $data = [
             'Chrome' => 0,
             'Firefox' => 0,
             'Opera' => 0,
             'Safari' => 0,
             'IE' => 0,
-        );
+        ];
 
         $databaseResults = $this->getEntityManager()
             ->createQuery(
@@ -146,12 +146,12 @@ class VoteRepository extends EntityRepository
      */
     public function getByOperatingSystems($app)
     {
-        $data = array(
+        $data = [
             'Windows 7' => 0,
             'Windows XP' => 0,
             'Mac OS X' => 0,
             'Linux' => 0,
-        );
+        ];
 
         $databaseResults = $this->getEntityManager()
             ->createQuery(
@@ -180,11 +180,11 @@ class VoteRepository extends EntityRepository
      */
     public function getByDeviceTypes($app)
     {
-        $data = array(
+        $data = [
             'Desktop' => 0,
             'Tablet' => 0,
             'Mobile' => 0,
-        );
+        ];
 
         $databaseResults = $this->getEntityManager()
             ->createQuery(
@@ -213,11 +213,11 @@ class VoteRepository extends EntityRepository
      */
     public function getByDevices($app)
     {
-        $data = array(
+        $data = [
             'Other' => 0,
             'Android' => 0,
             'Apple' => 0,
-        );
+        ];
 
         $databaseResults = $this->getEntityManager()
             ->createQuery(
@@ -246,9 +246,9 @@ class VoteRepository extends EntityRepository
      */
     public function getByCities($app)
     {
-        $data = array(
+        $data = [
             'Unknown' => 0,
-        );
+        ];
 
         $databaseResults = $this->getEntityManager()
             ->createQuery(
@@ -277,9 +277,9 @@ class VoteRepository extends EntityRepository
      */
     public function getByCountries($app)
     {
-        $data = array(
+        $data = [
             'Unknown' => 0,
-        );
+        ];
 
         $databaseResults = $this->getEntityManager()
             ->createQuery(

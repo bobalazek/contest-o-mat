@@ -44,12 +44,6 @@ $app->mount(
     new Application\ControllerProvider\MembersArea\UsersControllerProvider()
 );
 
-/******** Roles ********/
-$app->mount(
-    '/members-area/roles',
-    new Application\ControllerProvider\MembersArea\RolesControllerProvider()
-);
-
 /******** Participants ********/
 $app->mount(
     '/members-area/participants',
@@ -94,11 +88,11 @@ $app->match('/set-locale/{locale}', function ($locale) use ($app) {
         new \DateTime('now + 1 year')
     );
 
-    $response = \Symfony\Component\HttpFoundation\Response::create(null, 302, array(
+    $response = \Symfony\Component\HttpFoundation\Response::create(null, 302, [
         'Location' => isset($_SERVER['HTTP_REFERER'])
             ? $_SERVER['HTTP_REFERER']
             : $app['baseUrl'],
-    ));
+    ]);
 
     $response->headers->setCookie($cookie);
 
@@ -122,18 +116,18 @@ $app->error(function (\Exception $e, $code) use ($app) {
     }
 
     // 404.html, or 40x.html, or 4xx.html, or default.html
-    $templates = array(
+    $templates = [
         'contents/errors/'.$code.'.html.twig',
         'contents/errors/'.substr($code, 0, 2).'x.html.twig',
         'contents/errors/'.substr($code, 0, 1).'xx.html.twig',
         'contents/errors/default.html.twig',
-    );
+    ];
 
     return new Response(
         $app['twig']->resolveTemplate($templates)->render(
-            array(
+            [
                 'code' => $code,
-            )
+            ]
         ),
         $code
     );

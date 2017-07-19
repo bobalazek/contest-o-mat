@@ -10,10 +10,12 @@ class UsersController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_USERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_USERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -31,11 +33,11 @@ class UsersController
             $userResults,
             $currentPage,
             $limitPerPage,
-            array(
+            [
                 'route' => 'members-area.users',
                 'defaultSortFieldName' => 'u.email',
                 'defaultSortDirection' => 'asc',
-            )
+            ]
         );
 
         $data['pagination'] = $pagination;
@@ -50,16 +52,21 @@ class UsersController
 
     public function newAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_USERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_USERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\UserType(),
-            new \Application\Entity\UserEntity()
+            \Application\Form\Type\UserType::class,
+            new \Application\Entity\UserEntity(),
+            [
+                'app' => $app,
+            ]
         );
 
         if ($request->getMethod() == 'POST') {
@@ -95,9 +102,9 @@ class UsersController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.users.edit',
-                        array(
+                        [
                             'id' => $userEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -115,10 +122,12 @@ class UsersController
 
     public function detailAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_USERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_USERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -140,10 +149,12 @@ class UsersController
 
     public function editAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_USERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_USERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -157,8 +168,11 @@ class UsersController
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\UserType(),
-            $user
+            \Application\Form\Type\UserType::class,
+            $user,
+            [
+                'app' => $app,
+            ]
         );
 
         if ($request->getMethod() == 'POST') {
@@ -167,12 +181,7 @@ class UsersController
             if ($form->isValid()) {
                 $userEntity = $form->getData();
 
-                $roleSuperAdmin = $app['orm.em']
-                    ->getRepository('Application\Entity\RoleEntity')
-                    ->findOneByRole('ROLE_SUPER_ADMIN')
-                ;
-
-                if ($userEntity->hasRole($roleSuperAdmin) &&
+                if ($userEntity->hasRole('ROLE_SUPER_ADMIN') &&
                     $userEntity->isLocked()) {
                     $app['flashbag']->add(
                         'danger',
@@ -184,9 +193,9 @@ class UsersController
                     return $app->redirect(
                         $app['url_generator']->generate(
                             'members-area.users.edit',
-                            array(
+                            [
                                 'id' => $userEntity->getId(),
-                            )
+                            ]
                         )
                     );
                 }
@@ -220,9 +229,9 @@ class UsersController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.users.edit',
-                        array(
+                        [
                             'id' => $userEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -242,10 +251,12 @@ class UsersController
 
     public function removeAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_USERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_USERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -255,7 +266,8 @@ class UsersController
             $app->abort(404);
         }
 
-        $confirmAction = $app['request']->query->has('action') && $app['request']->query->get('action') == 'confirm';
+        $confirmAction = $request->query->has('action') &&
+            $request->query->get('action') == 'confirm';
 
         if ($confirmAction) {
             try {

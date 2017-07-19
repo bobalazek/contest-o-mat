@@ -1,40 +1,36 @@
 <?php
 
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Application\Entity\UserEntity;
 
 /*** Database check ***/
-$app->before(function () use ($app) {
+$app->before(function (Request $request, Application $app) {
     if (
-        isset($app['databaseOptions']) &&
-        is_array($app['databaseOptions'])
+        isset($app['database_options']) &&
+        is_array($app['database_options'])
     ) {
-        if ($app['databaseOptions']['default']['driver'] != 'pdo_mysql') {
-            return new Response(
-                'Currently the system only works with the "pdo_mysql" driver.'
-            );
-        }
-
         try {
             $app['db']->connect();
         } catch (PDOException $e) {
             return new Response(
-                'Whoops, your database is configured wrong.
-                Please check that again! Message: '.$e->getMessage()
+                'Whoops, your database is configured wrong. '.
+                'Please check that again! Message: '.$e->getMessage()
             );
         }
     }
 });
 
 /*** User check ***/
-$app->before(function () use ($app) {
+$app->before(function (Request $request, Application $app) {
     $app['user'] = null;
-    $token = $app['security']->getToken();
+    $token = $app['security.token_storage']->getToken();
 
     if (
         $token &&
         !$app['security.trust_resolver']->isAnonymous($token) &&
-        $token->getUser() instanceof \Application\Entity\UserEntity
+        $token->getUser() instanceof UserEntity
     ) {
         $app['user'] = $token->getUser();
     }
@@ -52,11 +48,11 @@ $app->before(function () use ($app) {
         $participantsRepository = $app['orm.em']->getRepository('Application\Entity\ParticipantEntity');
 
         if (
-            $app['request']->cookies->has('participant_data') &&
+            $request->cookies->has('participant_data') &&
             $app['settings']['useSameParticipantDataAfterFirstEntry']
         ) {
             try {
-                $participantData = $app['request']->cookies->get('participant_data');
+                $participantData = $request->cookies->get('participant_data');
                 $participantDataExploded = explode(':', $participantData);
                 $thisBaseUrlHashed = md5($app['baseUrl']);
 
@@ -128,12 +124,7 @@ $app->before(function () use ($app) {
             }
         }
 
-        /*** User UID ***/
-        // Here you shall set the user UID. Normally that is via facebook id,
-        // but you can set that however you want. The main thing is, that it's
-        // always the same for the same voter.
         $app['userUid'] = false;
-
         if ($app['facebookUser']) {
             $app['userUid'] = 'facebook:'.$app['facebookUser']->id;
         }
@@ -141,7 +132,7 @@ $app->before(function () use ($app) {
 });
 
 /*** Language / Locale check ***/
-$app->before(function (Request $request) use ($app) {
+$app->before(function (Request $request, Application $app) {
     $localeCookie = $request->cookies->has('locale')
         ? $request->cookies->get('locale')
         : false
@@ -176,7 +167,7 @@ $app->before(function (Request $request) use ($app) {
 });
 
 /*** Set Variables ****/
-$app->before(function () use ($app) {
+$app->before(function (Request $request, Application $app) {
     if (!$app['session']->isStarted()) {
         $app['session']->start();
     }
@@ -186,12 +177,12 @@ $app->before(function () use ($app) {
     }
 
     $app['sessionId'] = $app['session']->getId();
-    $app['host'] = $app['request']->getHost();
-    $app['hostWithScheme'] = $app['request']->getScheme().'://'.$app['host'];
-    $app['baseUri'] = $app['request']->getBaseUrl();
-    $app['baseUrl'] = $app['request']->getSchemeAndHttpHost().$app['request']->getBaseUrl();
-    $app['currentUri'] = $app['request']->getRequestURI();
-    $app['currentUrl'] = $app['request']->getUri();
+    $app['host'] = $request->getHost();
+    $app['hostWithScheme'] = $request->getScheme().'://'.$app['host'];
+    $app['baseUri'] = $request->getBaseUrl();
+    $app['baseUrl'] = $request->getSchemeAndHttpHost().$request->getBaseUrl();
+    $app['currentUri'] = $request->getRequestURI();
+    $app['currentUrl'] = $request->getUri();
     $app['currentUriRelative'] = rtrim(str_replace($app['baseUri'], '', $app['currentUri']), '/');
     $app['currentUriArray'] = array_filter(
         explode(
@@ -224,12 +215,15 @@ $app->before(function () use ($app) {
         }
     } catch (\Exception $e) {
     }
-}, \Silex\Application::EARLY_EVENT);
+}, Application::EARLY_EVENT);
 
 /*** Set Logut path ***/
-$app->before(function (Request $request) use ($app) {
-    $csrfToken = $app['form.csrf_provider']->generateCsrfToken('logout');
-    $app['logoutUrl'] = $app['url_generator']->generate('members-area.logout').'?csrf_token='.$csrfToken;
+$app->before(function (Request $request, Application $app) {
+    $app['logoutUrl'] = $app['url_generator']
+        ->generate('members-area.logout').
+        '?_csrf_token='.
+        $app['csrf.token_manager']->getToken('logout')
+    ;
 });
 
 /*** SOAP ***/

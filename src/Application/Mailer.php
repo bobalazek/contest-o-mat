@@ -15,13 +15,13 @@ class Mailer
     }
 
     /***** Swiftmailer stuff *****/
-    public function swiftMessageInitializeAndSend(array $data = array())
+    public function swiftMessageInitializeAndSend(array $data = [])
     {
         $swiftMessageInstance = \Swift_Message::newInstance();
-        $templateData = array(
+        $templateData = [
             'app' => $this->app,
             'user' => $this->app['user'],
-        );
+        ];
         $emailType = isset($data['type'])
             ? $data['type']
             : ''
@@ -34,9 +34,9 @@ class Mailer
         if (isset($data['from'])) {
             $swiftMessageInstance->setFrom($data['from']);
         } else {
-            $swiftMessageInstance->setFrom(array(
+            $swiftMessageInstance->setFrom([
                 $this->app['email'] => $this->app['emailName'],
-            ));
+            ]);
         }
 
         if (isset($data['to'])) {

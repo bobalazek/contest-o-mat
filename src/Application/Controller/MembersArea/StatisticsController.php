@@ -10,7 +10,7 @@ class StatisticsController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         return new Response(
             $app['twig']->render(

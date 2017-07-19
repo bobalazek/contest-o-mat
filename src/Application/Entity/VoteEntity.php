@@ -215,7 +215,7 @@ class VoteEntity
                 $ipData = json_decode(
                     @file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip)
                 );
-                $converterArray = array(
+                $converterArray = [
                     'ipContinent' => 'geoplugin_continentCode',
                     'ipCountry' => 'geoplugin_countryCode',
                     'ipState' => 'geoplugin_state',
@@ -223,7 +223,7 @@ class VoteEntity
                     'ipCity' => 'geoplugin_city',
                     'ipLatitude' => 'geoplugin_latitude',
                     'ipLongitude' => 'geoplugin_longitude',
-                );
+                ];
 
                 foreach ($converterArray as $key => $val) {
                     if (isset($ipData->{$val}) && $ipData->{$val} != '') {
@@ -472,7 +472,7 @@ class VoteEntity
         $voteMetas = $this->getVoteMetas()->toArray();
 
         if (count($voteMetas)) {
-            $metas = array();
+            $metas = [];
 
             foreach ($voteMetas as $voteMeta) {
                 $metas[$voteMeta->getKey()] = $voteMeta->getValue();
@@ -524,11 +524,11 @@ class VoteEntity
     /********** API ***********/
     public function toArray()
     {
-        return array(
+        return [
             'id' => $this->getId(),
             'metas' => $this->getMetas(),
             'time_created' => $this->getTimeCreated(),
-        );
+        ];
     }
 
     /********** Magic Methods **********/

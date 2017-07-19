@@ -10,7 +10,7 @@ class ApplicationController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         return new Response(
             $app['twig']->render(
@@ -23,7 +23,7 @@ class ApplicationController
     public function participateAction(Request $request, Application $app)
     {
         $response = new Response();
-        $data = array();
+        $data = [];
 
         $data['showForm'] = true;
         $data['alert'] = false;
@@ -179,16 +179,16 @@ class ApplicationController
                     ) {
                         try {
                             $app['application.mailer']
-                                ->swiftMessageInitializeAndSend(array(
+                                ->swiftMessageInitializeAndSend([
                                     'subject' => $app['name'].' - '.$app['translator']->trans('Thanks for participating!'),
-                                    'to' => array(
+                                    'to' => [
                                         $participant->getEmail() => $participant->getName(),
-                                    ),
+                                    ],
                                     'body' => 'emails/participants/new-entry.html.twig',
-                                    'templateData' => array(
+                                    'templateData' => [
                                         'participant' => $participant,
-                                    ),
-                                ))
+                                    ],
+                                ])
                             ;
                         } catch (\Exception $e) {
                         }
@@ -327,11 +327,11 @@ class ApplicationController
 
     public function entriesAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         if (
             !$app['settings']['entriesArePublic'] &&
-            !$app['security']->isGranted('ROLE_ADMIN')
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
         ) {
             $app->abort(404);
         }
@@ -351,11 +351,11 @@ class ApplicationController
             $entryResults,
             $currentPage,
             $limitPerPage,
-            array(
+            [
                 'route' => 'application.entries',
                 'defaultSortFieldName' => 'e.timeCreated',
                 'defaultSortDirection' => 'desc',
-            )
+            ]
         );
 
         $data['pagination'] = $pagination;
@@ -370,7 +370,7 @@ class ApplicationController
 
     public function entriesDetailAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
         $currentTime = new \Datetime();
         $alreadyVoted = false;
         $alreadyVotedToday = false;
@@ -381,7 +381,7 @@ class ApplicationController
 
         if (
             !$app['settings']['entriesArePublic'] &&
-            !$app['security']->isGranted('ROLE_ADMIN')
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
         ) {
             $app->abort(404);
         }
@@ -406,20 +406,20 @@ class ApplicationController
 
             $lastVoteByUid = $app['orm.em']
                 ->getRepository('Application\Entity\VoteEntity')
-                ->findOneBy(array(
+                ->findOneBy([
                     'voterUid' => $uid,
-                ), array(
+                ], [
                     'timeCreated' => 'DESC',
-                ))
+                ])
             ;
             $lastVoteByUidPerEntry = $app['orm.em']
                 ->getRepository('Application\Entity\VoteEntity')
-                ->findOneBy(array(
+                ->findOneBy([
                     'entry' => $entry,
                     'voterUid' => $uid,
-                ), array(
+                ], [
                     'timeCreated' => 'DESC',
-                ))
+                ])
             ;
 
             if ($lastVoteByUid) {
@@ -552,18 +552,18 @@ class ApplicationController
                 '',
                 $app['url_generator']->generate(
                     'application.entries.detail',
-                    array(
+                    [
                         'id' => $entry->getId(),
-                    )
+                    ]
                 )
             );
 
             $facebookAuthenticateUrl = $app['url_generator']
                 ->generate(
                     'application.facebook-authenticate',
-                    array(
+                    [
                         'redirect_url' => $redirectUrl,
-                    )
+                    ]
                 )
             ;
 
@@ -595,9 +595,9 @@ class ApplicationController
             return $app->redirect(
                 $app['url_generator']->generate(
                     'application.entries.detail',
-                    array(
+                    [
                         'id' => $entry->getId(),
-                    )
+                    ]
                 )
             );
         }
@@ -612,11 +612,11 @@ class ApplicationController
 
     public function winnersAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         if (
             !$app['settings']['showWinners'] &&
-            !$app['security']->isGranted('ROLE_ADMIN')
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
         ) {
             $app->abort(404);
         }
@@ -634,11 +634,11 @@ class ApplicationController
             $winnerResults,
             $currentPage,
             $limitPerPage,
-            array(
+            [
                 'route' => 'application.winners',
                 'defaultSortFieldName' => 'w.place',
                 'defaultSortDirection' => 'asc',
-            )
+            ]
         );
 
         $data['pagination'] = $pagination;

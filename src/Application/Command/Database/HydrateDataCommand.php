@@ -117,29 +117,6 @@ class HydrateDataCommand extends ContainerAwareCommand
             $output->writeln('<info>Participants and Entries were successfully hydrated (with random data)!</info>');
         }
 
-        /***** Roles *****/
-        $roles = include APP_DIR.'/fixtures/roles.php';
-
-        foreach ($roles as $role) {
-            $roleEntity = new \Application\Entity\RoleEntity();
-            $roleEntity
-                ->setId($role[0])
-                ->setName($role[1])
-                ->setDescription($role[2])
-                ->setRole($role[3])
-                ->setPriority($role[4])
-            ;
-
-            $app['orm.em']->persist($roleEntity);
-        }
-
-        /*
-         * We already need to flush the first time here,
-         *   else the roles are not available later for the users,
-         *   who want to use them.
-         */
-        $app['orm.em']->flush();
-
         /***** Users *****/
         $users = include APP_DIR.'/fixtures/users.php';
 
@@ -165,24 +142,6 @@ class HydrateDataCommand extends ContainerAwareCommand
                 ;
             }
 
-            // User Roles
-            $userRolesCollection = new \Doctrine\Common\Collections\ArrayCollection();
-
-            if (!empty($user['roles'])) {
-                $userRoles = $user['roles'];
-
-                foreach ($userRoles as $userRole) {
-                    $roleEntity = $app['orm.em']
-                        ->getRepository('Application\Entity\RoleEntity')
-                        ->findOneByRole($userRole)
-                    ;
-
-                    if ($roleEntity) {
-                        $userRolesCollection->add($roleEntity);
-                    }
-                }
-            }
-
             // User
             $userEntity
                 ->setId($user['id'])
@@ -192,7 +151,7 @@ class HydrateDataCommand extends ContainerAwareCommand
                     $user['plainPassword'],
                     $app['security.encoder_factory']
                 )
-                ->setRoles($userRolesCollection)
+                ->setRoles($user['roles'])
                 ->setProfile($profileEntity)
                 ->enable()
             ;

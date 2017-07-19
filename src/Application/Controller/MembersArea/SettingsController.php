@@ -10,9 +10,9 @@ class SettingsController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_ADMIN')) {
+        if (!$app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
             $app->abort(403);
         }
 

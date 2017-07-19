@@ -319,7 +319,7 @@ class ProfileEntity
     /********** Other Methods **********/
     public function toArray($includeAllData = false)
     {
-        $data = array();
+        $data = [];
 
         $data['id'] = $this->getId();
         $data['title'] = $this->getTitle();

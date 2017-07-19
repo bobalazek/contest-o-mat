@@ -4,7 +4,10 @@ namespace Application\Form\Type\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SettingsType extends AbstractType
 {
@@ -12,32 +15,32 @@ class SettingsType extends AbstractType
     {
         $builder->add(
             'profile',
-            new \Application\Form\Type\ProfileType()
+            \Application\Form\Type\ProfileType::class
         );
 
-        $builder->add('username', 'text', array(
+        $builder->add('username', TextType::class, [
             'label' => 'Username',
-        ));
-        $builder->add('email', 'email', array(
+        ]);
+        $builder->add('email', EmailType::class, [
             'read_only' => true,
-        ));
+        ]);
 
-        $builder->add('Save', 'submit', array(
-            'attr' => array(
+        $builder->add('Save', SubmitType::class, [
+            'attr' => [
                 'class' => 'btn-primary btn-lg btn-block',
-            ),
-        ));
+            ],
+        ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Application\Entity\UserEntity',
-            'validation_groups' => array('settings'),
+            'validation_groups' => ['settings'],
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
             'cascade_validation' => true,
-        ));
+        ]);
     }
 
     public function getName()

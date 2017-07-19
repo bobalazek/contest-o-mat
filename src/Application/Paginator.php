@@ -11,7 +11,7 @@ class Paginator
         $this->app = $app;
     }
 
-    public function paginate($data, $currentPage = 1, $limitPerPage = 10, $options = array())
+    public function paginate($data, $currentPage = 1, $limitPerPage = 10, $options = [])
     {
         $paginator = new \Knp\Component\Pager\Paginator();
 
@@ -29,7 +29,8 @@ class Paginator
             : false
         ;
 
-        $searchValue = $this->app['request']->query->get(
+        $request = $this->app['request_stack']->getCurrentRequest();
+        $searchValue = $request->query->get(
             $options['searchParameter'],
             false
         );

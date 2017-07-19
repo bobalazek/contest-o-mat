@@ -9,11 +9,11 @@ class ApiController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array(
+        $data = [
             'status' => 'ok',
             'status_code' => 200,
             'message' => 'Hello API!',
-        );
+        ];
 
         return $app->json(
             $data
@@ -22,7 +22,7 @@ class ApiController
 
     public function participantsAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         $query = $request->request->get('q');
 
@@ -33,10 +33,10 @@ class ApiController
 
         if ($participants) {
             foreach ($participants as $participant) {
-                $data[] = array(
+                $data[] = [
                     'value' => $participant->getId(),
                     'text' => (string) $participant,
-                );
+                ];
             }
         }
 
@@ -47,7 +47,7 @@ class ApiController
 
     public function entriesAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         $query = $request->request->get('q');
 
@@ -58,10 +58,10 @@ class ApiController
 
         if ($entries) {
             foreach ($entries as $entry) {
-                $data[] = array(
+                $data[] = [
                     'value' => $entry->getId(),
                     'text' => (string) $entry,
-                );
+                ];
             }
         }
 

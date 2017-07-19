@@ -4,29 +4,33 @@ namespace Application\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class VoteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('voterUid', 'text', array(
+        $builder->add('voterUid', TextType::class, [
             'required' => false,
             'label' => 'Voter UID',
-        ));
+        ]);
 
-        $builder->add('entry', 'entity', array(
+        $builder->add('entry', EntityType::class, [
             'required' => false,
             'empty_value' => false,
             'class' => 'Application\Entity\EntryEntity',
-            'attr' => array(
+            'attr' => [
                 'class' => 'select-picker',
                 'data-live-search' => 'true',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('voteMetas', 'collection', array(
-            'type' => new \Application\Form\Type\VoteMetaType(),
+        $builder->add('voteMetas', CollectionType::class, [
+            'type' => \Application\Form\Type\VoteMetaType::class,
             'allow_add' => true,
             'allow_delete' => true,
             'delete_empty' => true,
@@ -34,24 +38,24 @@ class VoteType extends AbstractType
             'cascade_validation' => true,
             'error_bubbling' => false,
             'by_reference' => false,
-        ));
+        ]);
 
-        $builder->add('submit', 'submit', array(
+        $builder->add('submit', SubmitType::class, [
             'label' => 'Save',
-            'attr' => array(
+            'attr' => [
                 'class' => 'btn-primary btn-lg btn-block',
-            ),
-        ));
+            ],
+        ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Application\Entity\VoteEntity',
-            'validation_groups' => array('newAndEdit'),
+            'validation_groups' => ['newAndEdit'],
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-        ));
+        ]);
     }
 
     public function getName()

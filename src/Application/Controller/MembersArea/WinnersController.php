@@ -11,10 +11,12 @@ class WinnersController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_WINNERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -31,11 +33,11 @@ class WinnersController
             $winnerResults,
             $currentPage,
             $limitPerPage,
-            array(
+            [
                 'route' => 'members-area.winners',
                 'defaultSortFieldName' => 'w.place',
                 'defaultSortDirection' => 'asc',
-            )
+            ]
         );
 
         $data['pagination'] = $pagination;
@@ -73,14 +75,14 @@ class WinnersController
             $twig->setLoader(new \Twig_Loader_String());
 
             foreach ($winners as $winner) {
-                $finalExportOptionsValues = array();
+                $finalExportOptionsValues = [];
 
                 foreach ($exportOptionsValues as $singleValue) {
                     $finalExportOptionsValues[] = $twig->render(
                         $singleValue,
-                        array(
+                        [
                             'winner' => $winner,
-                        )
+                        ]
                     );
                 }
 
@@ -103,15 +105,17 @@ class WinnersController
 
     public function newAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_WINNERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\WinnerType(),
+            \Application\Form\Type\WinnerType::class,
             new \Application\Entity\WinnerEntity()
         );
 
@@ -134,9 +138,9 @@ class WinnersController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.winners.edit',
-                        array(
+                        [
                             'id' => $winnerEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -154,10 +158,12 @@ class WinnersController
 
     public function editAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_WINNERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -168,7 +174,7 @@ class WinnersController
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\WinnerType(),
+            \Application\Form\Type\WinnerType::class,
             $winner
         );
 
@@ -191,9 +197,9 @@ class WinnersController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.winners.edit',
-                        array(
+                        [
                             'id' => $winnerEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -212,10 +218,12 @@ class WinnersController
 
     public function informAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_WINNERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -225,23 +233,23 @@ class WinnersController
             $app->abort(404);
         }
 
-        $confirmAction = $app['request']->query->has('action') &&
-            $app['request']->query->get('action') == 'confirm'
+        $confirmAction = $request->query->has('action') &&
+            $request->query->get('action') == 'confirm'
         ;
 
         if ($confirmAction) {
             try {
                 $email = $app['application.mailer']
-                    ->swiftMessageInitializeAndSend(array(
+                    ->swiftMessageInitializeAndSend([
                         'subject' => $app['name'].' - '.$app['translator']->trans('We have a winner!'),
-                        'to' => array(
+                        'to' => [
                             $winner->getParticipant()->getEmail() => $winner->getParticipant()->getName(),
-                        ),
+                        ],
                         'body' => 'emails/winners/new.html.twig',
-                        'templateData' => array(
+                        'templateData' => [
                             'winner' => $winner,
-                        ),
-                    ))
+                        ],
+                    ])
                 ;
 
                 $winner
@@ -291,10 +299,12 @@ class WinnersController
 
     public function removeAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_WINNERS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_WINNERS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -304,8 +314,8 @@ class WinnersController
             $app->abort(404);
         }
 
-        $confirmAction = $app['request']->query->has('action') &&
-            $app['request']->query->get('action') == 'confirm'
+        $confirmAction = $request->query->has('action') &&
+            $request->query->get('action') == 'confirm'
         ;
 
         if ($confirmAction) {

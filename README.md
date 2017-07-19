@@ -145,6 +145,15 @@ Preview
 ### Contact ###
 ![Contact](doc/images/contact.png)
 
+Changelog
+----------------------
+
+### 1.0.0
+
+* Complete refactor - the app is now based upon silex2
+* Fixes big selects (entry & participant data) - now loads the data asynchronously
+
+
 License
 ----------------------
 Contest-O-Mat is licensed under the MIT license.

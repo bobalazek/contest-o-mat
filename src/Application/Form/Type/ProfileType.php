@@ -4,58 +4,61 @@ namespace Application\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 class ProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', 'text', array(
+        $builder->add('title', TextType::class, [
             'label' => 'Title',
             'required' => false,
-        ));
+        ]);
 
-        $builder->add('firstName', 'text', array(
+        $builder->add('firstName', TextType::class, [
             'label' => 'First name',
-        ));
+        ]);
 
-        $builder->add('middleName', 'text', array(
+        $builder->add('middleName', TextType::class, [
             'label' => 'Middle name',
             'required' => false,
-        ));
+        ]);
 
-        $builder->add('lastName', 'text', array(
+        $builder->add('lastName', TextType::class, [
             'label' => 'Last name',
             'required' => false,
-        ));
+        ]);
 
         $builder->add(
             'gender',
-            new \Application\Form\Type\GenderType(),
-            array(
+            \Application\Form\Type\GenderType::class,
+            [
                 'label' => 'Gender',
                 'required' => false,
-            )
+            ]
         );
 
-        $builder->add('birthdate', 'birthday', array(
+        $builder->add('birthdate', BirthdayType::class, [
             'label' => 'Birthdate',
             'required' => false,
-        ));
+        ]);
 
-        $builder->add('image', 'file', array(
+        $builder->add('image', FileType::class, [
             'required' => false,
-        ));
+        ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Application\Entity\ProfileEntity',
-            'validation_groups' => array('newAndEdit'),
+            'validation_groups' => ['newAndEdit'],
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-        ));
+        ]);
     }
 
     public function getName()

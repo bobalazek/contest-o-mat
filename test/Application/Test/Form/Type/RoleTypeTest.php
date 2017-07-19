@@ -8,11 +8,11 @@ class RoleTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
-        $formData = array(
+        $formData = [
             'name' => 'Admin',
             'description' => 'The role for admins',
             'role' => 'ROLE_ADMIN',
-        );
+        ];
 
         $type = new \Application\Form\Type\RoleType();
         $entity = new \Application\Entity\RoleEntity();

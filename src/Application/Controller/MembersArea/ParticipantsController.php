@@ -11,10 +11,12 @@ class ParticipantsController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_PARTICIPANTS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -32,19 +34,19 @@ class ParticipantsController
             $participantResults,
             $currentPage,
             $limitPerPage,
-            array(
+            [
                 'route' => 'members-area.participants',
                 'defaultSortFieldName' => 'p.timeCreated',
                 'defaultSortDirection' => 'desc',
-                'searchFields' => array(
+                'searchFields' => [
                     'p.name',
                     'p.email',
                     'p.via',
                     'p.ip',
                     'p.userAgent',
                     'pm.value',
-                ),
-            )
+                ],
+            ]
         );
 
         $data['pagination'] = $pagination;
@@ -82,14 +84,14 @@ class ParticipantsController
             $twig->setLoader(new \Twig_Loader_String());
 
             foreach ($participants as $participant) {
-                $finalExportOptionsValues = array();
+                $finalExportOptionsValues = [];
 
                 foreach ($exportOptionsValues as $singleValue) {
                     $finalExportOptionsValues[] = $twig->render(
                         $singleValue,
-                        array(
+                        [
                             'participant' => $participant,
-                        )
+                        ]
                     );
                 }
 
@@ -112,15 +114,17 @@ class ParticipantsController
 
     public function newAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_PARTICIPANTS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\ParticipantType(),
+            \Application\Form\Type\ParticipantType::class,
             new \Application\Entity\ParticipantEntity()
         );
 
@@ -130,8 +134,8 @@ class ParticipantsController
             if ($form->isValid()) {
                 $participantEntity = $form->getData();
                 $participantEntity
-                    ->setIp($app['request']->getClientIp())
-                    ->setUserAgent($app['request']->headers->get('User-Agent'))
+                    ->setIp($request->getClientIp())
+                    ->setUserAgent($request->headers->get('User-Agent'))
                 ;
 
                 $app['orm.em']->persist($participantEntity);
@@ -147,9 +151,9 @@ class ParticipantsController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.participants.edit',
-                        array(
+                        [
                             'id' => $participantEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -167,10 +171,12 @@ class ParticipantsController
 
     public function editAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_PARTICIPANTS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -181,7 +187,7 @@ class ParticipantsController
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\ParticipantType(),
+            \Application\Form\Type\ParticipantType::class,
             $participant
         );
 
@@ -204,9 +210,9 @@ class ParticipantsController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.participants.edit',
-                        array(
+                        [
                             'id' => $participantEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -225,10 +231,12 @@ class ParticipantsController
 
     public function removeAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_PARTICIPANTS_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_PARTICIPANTS_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -238,8 +246,8 @@ class ParticipantsController
             $app->abort(404);
         }
 
-        $confirmAction = $app['request']->query->has('action') &&
-            $app['request']->query->get('action') == 'confirm'
+        $confirmAction = $request->query->has('action') &&
+            $request->query->get('action') == 'confirm'
         ;
 
         if ($confirmAction) {

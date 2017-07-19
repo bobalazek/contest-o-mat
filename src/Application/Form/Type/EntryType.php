@@ -4,23 +4,26 @@ namespace Application\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class EntryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('participant', 'entity', array(
+        $builder->add('participant', EntityType::class, [
             'required' => false,
             'empty_value' => false,
             'class' => 'Application\Entity\ParticipantEntity',
-            'attr' => array(
+            'attr' => [
                 'class' => 'select-picker',
                 'data-live-search' => 'true',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('entryMetas', 'collection', array(
+        $builder->add('entryMetas', CollectionType::class, [
             'type' => new \Application\Form\Type\EntryMetaType(),
             'allow_add' => true,
             'allow_delete' => true,
@@ -29,23 +32,23 @@ class EntryType extends AbstractType
             'cascade_validation' => true,
             'error_bubbling' => false,
             'by_reference' => false,
-        ));
+        ]);
 
-        $builder->add('Save', 'submit', array(
-            'attr' => array(
+        $builder->add('Save', SubmitType::class, [
+            'attr' => [
                 'class' => 'btn-primary btn-lg btn-block',
-            ),
-        ));
+            ],
+        ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Application\Entity\EntryEntity',
-            'validation_groups' => array('newAndEdit'),
+            'validation_groups' => ['newAndEdit'],
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-        ));
+        ]);
     }
 
     public function getName()

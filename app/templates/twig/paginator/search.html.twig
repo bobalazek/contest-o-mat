@@ -1,10 +1,11 @@
 {% set searchFields = pagination.getPaginatorOption('searchFields') %}
+{% set request = app.request_stack.getCurrentRequest() %}
 {% if searchFields %}
     <div style="display: inline-block;">
         <div class="input-group">
             <input id="paginator-search-input"
                 class="form-control input-sm" type="search"
-                value="{{ app.request.get(pagination.getPaginatorOption('searchParameter'), '') }}" />
+                value="{{ request.get(pagination.getPaginatorOption('searchParameter'), '') }}" />
             <span class="input-group-btn">
                 <button id="paginator-search-button"
                     class="btn btn-default btn-sm"

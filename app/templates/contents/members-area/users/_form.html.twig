@@ -4,7 +4,13 @@
         {{ form_row(form.profile) }}
     </div>
     <div class="col-md-6">
-        {{ form_rest(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.plainPassword) }}
+        {{ form_row(form.roles) }}
+        <h3>{{ 'Statuses' | trans }}</h3>
+        {{ form_row(form.enabled) }}
+        {{ form_row(form.locked) }}
     </div>
 </div>
 {{ form_end(form) }}

@@ -4,7 +4,13 @@ namespace Application\Form\Type\Participate;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DefaultType extends AbstractType
 {
@@ -45,21 +51,21 @@ class DefaultType extends AbstractType
 
             $builder->add(
                 $builder
-                    ->create('participant', 'form', array(
+                    ->create('participant', TextType::class, [
                         'label' => false,
                         'by_reference' => true,
                         'data_class' => 'Application\Entity\ParticipantEntity',
-                    ))
-                        ->add('name', 'text', array(
+                    ])
+                        ->add('name', TextType::class, [
                             'data' => $nameData,
-                        ))
-                        ->add('email', 'email', array(
+                        ])
+                        ->add('email', EmailType::class, [
                             'data' => $emailData,
-                        ))
+                        ])
                         // Only if you want custom metas for the participant
                         /* ->add(
                             $builder
-                                ->create('metas', 'form', array(
+                                ->create('metas', FormType::class, array(
                                     'label' => false,
                                 ))
                                     ->add('age', 'number')
@@ -72,53 +78,53 @@ class DefaultType extends AbstractType
         // Entry
         $builder->add(
             $builder
-                ->create('entry', 'form', array(
+                ->create('entry', FormType::class, [
                     'label' => false,
                     'by_reference' => true,
                     'data_class' => 'Application\Entity\EntryEntity',
-                ))
+                ])
                     ->add(
                         $builder
-                            ->create('metas', 'form', array(
+                            ->create('metas', FormType::class, [
                                 'label' => false,
-                            ))
+                            ])
                                 /*
                                  * Since the entries entity depends on metas,
                                  * hydrate the custom metas for each entry here below!
                                  */
-                                ->add('answer', 'text', array(
+                                ->add('answer', TextType::class, [
                                     'label' => 'What is the meaning of life?',
-                                ))
-                                ->add('me_and_the_hulk_image', 'file', array(
+                                ])
+                                ->add('me_and_the_hulk_image', FileType::class, [
                                     'label' => 'An image of yourself an the Hulk!',
-                                    'constraints' => array(
+                                    'constraints' => [
                                         new \Symfony\Component\Validator\Constraints\Image(),
-                                    ),
-                                ))
+                                    ],
+                                ])
                     )
         );
 
-        $builder->add('terms', 'checkbox', array(
+        $builder->add('terms', CheckboxType::class, [
             'label' => $twig->render(
                 'You agree with our <a href="{{ url(\'application.terms\') }}" target="_blank">Terms</a>'
             ),
             'required' => true,
-        ));
+        ]);
 
-        $builder->add('submit', 'submit', array(
+        $builder->add('submit', SubmitType::class, [
             'label' => 'Submit',
-            'attr' => array(
+            'attr' => [
                 'class' => 'btn-primary btn-lg btn-block',
-            ),
-        ));
+            ],
+        ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-        ));
+        ]);
     }
 
     public function getName()

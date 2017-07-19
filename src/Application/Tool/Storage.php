@@ -6,7 +6,7 @@ class Storage
 {
     public static function prepare()
     {
-        self::prepareFolders(array(
+        self::prepareFolders([
             'var',
             'var/cache',
             'var/cache/assetic',
@@ -21,17 +21,17 @@ class Storage
             'var/sessions',
             'var/mailer',
             'var/mailer/spool',
-        ));
+        ]);
 
-        self::prepareLogFiles(array(
+        self::prepareLogFiles([
             'var/logs/development.log',
             'var/logs/testing.log',
             'var/logs/staging.log',
             'var/logs/production.log',
-        ));
+        ]);
     }
 
-    public static function prepareFolders(array $paths = array(), $uploadsPath = false)
+    public static function prepareFolders(array $paths = [], $uploadsPath = false)
     {
         if (empty($paths)) {
             return false;
@@ -75,7 +75,7 @@ class Storage
         }
     }
 
-    public static function prepareSharedFolders(array $paths = array())
+    public static function prepareSharedFolders(array $paths = [])
     {
         if (empty($paths)) {
             return false;

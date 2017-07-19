@@ -3,7 +3,7 @@
 namespace Application\ControllerProvider;
 
 use Silex\Application;
-use Silex\ControllerProviderInterface;
+use Silex\Api\ControllerProviderInterface;
 
 class MembersAreaControllerProvider implements ControllerProviderInterface
 {

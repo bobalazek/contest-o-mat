@@ -14,14 +14,6 @@
 			</a>
 		</li>
 	{% endif %}
-	{% if is_granted('ROLE_ROLES_EDITOR') or is_granted('ROLE_ADMIN') %}
-		<li class="{{ path('members-area.roles') in app.currentUri ? 'active' : '' }}" role="presentation">
-			<a href="{{ url('members-area.roles') }}">
-				<i class="fa fa-fw fa-tags"></i>
-				{{ 'Roles'|trans }}
-			</a>
-		</li>
-	{% endif %}
 	{% if is_granted('ROLE_PARTICIPANTS_EDITOR') or is_granted('ROLE_ADMIN') %}
 		<li class="{{ path('members-area.participants') in app.currentUri ? 'active' : '' }}" role="presentation">
 			<a href="{{ url('members-area.participants') }}">

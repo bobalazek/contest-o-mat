@@ -11,10 +11,12 @@ class VotesController
 {
     public function indexAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_VOTES_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_VOTES_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -33,16 +35,16 @@ class VotesController
             $voteResults,
             $currentPage,
             $limitPerPage,
-            array(
+            [
                 'route' => 'members-area.votes',
                 'defaultSortFieldName' => 'v.timeCreated',
                 'defaultSortDirection' => 'desc',
-                'searchFields' => array(
+                'searchFields' => [
                     'v.ip',
                     'v.userAgent',
                     'vm.value',
-                ),
-            )
+                ],
+            ]
         );
 
         $data['pagination'] = $pagination;
@@ -80,14 +82,14 @@ class VotesController
             $twig->setLoader(new \Twig_Loader_String());
 
             foreach ($votes as $vote) {
-                $finalExportOptionsValues = array();
+                $finalExportOptionsValues = [];
 
                 foreach ($exportOptionsValues as $singleValue) {
                     $finalExportOptionsValues[] = $twig->render(
                         $singleValue,
-                        array(
+                        [
                             'vote' => $vote,
-                        )
+                        ]
                     );
                 }
 
@@ -110,15 +112,17 @@ class VotesController
 
     public function newAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_VOTES_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_VOTES_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\VoteType(),
+            \Application\Form\Type\VoteType::class,
             new \Application\Entity\VoteEntity()
         );
 
@@ -128,8 +132,8 @@ class VotesController
             if ($form->isValid()) {
                 $voteEntity = $form->getData();
                 $voteEntity
-                    ->setIp($app['request']->getClientIp())
-                    ->setUserAgent($app['request']->headers->get('User-Agent'))
+                    ->setIp($request->getClientIp())
+                    ->setUserAgent($request->headers->get('User-Agent'))
                 ;
 
                 $app['orm.em']->persist($voteEntity);
@@ -145,9 +149,9 @@ class VotesController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.votes.edit',
-                        array(
+                        [
                             'id' => $voteEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -165,10 +169,12 @@ class VotesController
 
     public function editAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_VOTES_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_VOTES_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -179,7 +185,7 @@ class VotesController
         }
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\VoteType(),
+            \Application\Form\Type\VoteType::class,
             $vote
         );
 
@@ -202,9 +208,9 @@ class VotesController
                 return $app->redirect(
                     $app['url_generator']->generate(
                         'members-area.votes.edit',
-                        array(
+                        [
                             'id' => $voteEntity->getId(),
-                        )
+                        ]
                     )
                 );
             }
@@ -223,10 +229,12 @@ class VotesController
 
     public function removeAction($id, Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
-        if (!$app['security']->isGranted('ROLE_VOTES_EDITOR')
-            && !$app['security']->isGranted('ROLE_ADMIN')) {
+        if (
+            !$app['security.authorization_checker']->isGranted('ROLE_VOTES_EDITOR') &&
+            !$app['security.authorization_checker']->isGranted('ROLE_ADMIN')
+        ) {
             $app->abort(403);
         }
 
@@ -236,8 +244,8 @@ class VotesController
             $app->abort(404);
         }
 
-        $confirmAction = $app['request']->query->has('action') &&
-            $app['request']->query->get('action') == 'confirm'
+        $confirmAction = $request->query->has('action') &&
+            $request->query->get('action') == 'confirm'
         ;
 
         if ($confirmAction) {

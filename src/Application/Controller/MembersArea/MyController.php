@@ -17,7 +17,7 @@ class MyController
 
     public function profileAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         return new Response(
             $app['twig']->render(
@@ -29,14 +29,14 @@ class MyController
 
     public function profileSettingsAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         // Used for user action
         $userOld = $app['user']->toArray(true);
         $userOld['profile'] = $app['user']->getProfile()->toArray(true);
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\User\SettingsType(),
+            \Application\Form\Type\User\SettingsType::class,
             $app['user']
         );
 
@@ -91,13 +91,13 @@ class MyController
 
     public function profileSettingsPasswordAction(Request $request, Application $app)
     {
-        $data = array();
+        $data = [];
 
         $userOriginal = $app['user'];
         $passwordOld = $userOriginal->getPassword();
 
         $form = $app['form.factory']->create(
-            new \Application\Form\Type\User\Settings\PasswordType(),
+            \Application\Form\Type\User\Settings\PasswordType::class,
             $app['user']
         );
 

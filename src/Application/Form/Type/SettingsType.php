@@ -4,7 +4,14 @@ namespace Application\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SettingsType extends AbstractType
 {
@@ -20,202 +27,202 @@ class SettingsType extends AbstractType
         $configFileContents = require APP_DIR.'/configs/global.php';
         $originalTexts = $configFileContents['settings']['texts'];
 
-        $builder->add('registrationEnabled', 'checkbox', array(
+        $builder->add('registrationEnabled', CheckboxType::class, [
             'label' => 'Registration enabled?',
             'required' => false,
             'data' => $this->app['settings']['registrationEnabled'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'In you are for example in the development mode and you want your client to register manually.',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('useSameParticipantDataAfterFirstEntry', 'checkbox', array(
+        $builder->add('useSameParticipantDataAfterFirstEntry', CheckboxType::class, [
             'label' => 'Use same participant data after first entry?',
             'required' => false,
             'data' => $this->app['settings']['useSameParticipantDataAfterFirstEntry'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'If you want to use the same participant data (that was entered with the first entry) each follow up entry. When un-checked, the cookie will NOT be saved and the participant will be saved over and over again. Exception for this is, if you force the user to use facebook login. Then it will rather look by it\'s Facebook ID (and not the created cookie).',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('useFacebookUserAsParticipantIfPossible', 'checkbox', array(
+        $builder->add('useFacebookUserAsParticipantIfPossible', CheckboxType::class, [
             'label' => 'Use facebook user as participant if possible?',
             'required' => false,
             'data' => $this->app['settings']['useFacebookUserAsParticipantIfPossible'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'Should we use the facebook SDK?',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('onlyFacebookUsersCanParticipate', 'checkbox', array(
+        $builder->add('onlyFacebookUsersCanParticipate', CheckboxType::class, [
             'label' => 'Only facebook users can participate?',
             'required' => false,
             'data' => $this->app['settings']['onlyFacebookUsersCanParticipate'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'Force users to login via Facebook!',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('entriesArePublic', 'checkbox', array(
+        $builder->add('entriesArePublic', CheckboxType::class, [
             'label' => 'Entries are public?',
             'required' => false,
             'data' => $this->app['settings']['entriesArePublic'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'Should the entries be public? If disabled / un-checked, only admin can view the entries.',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('showWinners', 'checkbox', array(
+        $builder->add('showWinners', CheckboxType::class, [
             'label' => 'Show winners?',
             'required' => false,
             'data' => $this->app['settings']['showWinners'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'Shall the winners (link) be shown? If disabled / un-checked, only admin can view the entries.',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('participateInterval', 'choice', array(
+        $builder->add('participateInterval', ChoiceType::class, [
             'label' => 'Participate interval',
             'required' => false,
-            'choices' => array(
+            'choices' => [
                 '' => 'Always (no restrictions)',
                 'only_once' => 'Only Once',
                 'once_per_day' => 'Once per Day',
-            ),
+            ],
             'data' => $this->app['settings']['participateInterval'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'How often can someone participate?',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('voteInterval', 'choice', array(
+        $builder->add('voteInterval', ChoiceType::class, [
             'label' => 'Vote interval',
             'required' => false,
-            'choices' => array(
+            'choices' => [
                 '' => 'Always (no restrictions)',
                 'only_once' => 'Only Once',
                 'once_per_day' => 'Once per Day',
                 'only_once_per_entry' => 'Only Once per Entry (allows you still to vote on other entries)',
                 'once_per_day_per_entry' => 'Once per Day per Entry (allows you still to vote on other entries)',
-            ),
+            ],
             'data' => $this->app['settings']['voteInterval'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'How often can someone vote?',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('startDate', 'datetime', array(
+        $builder->add('startDate', DateTimeType::class, [
             'label' => 'Start date?',
             'required' => false,
             'input' => 'string',
             'data' => $this->app['settings']['startDate'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'When should the contest / prizegame start? Leave / set to empty, if there is no start date.',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('endDate', 'datetime', array(
+        $builder->add('endDate', DateTimeType::class, [
             'label' => 'End date?',
             'required' => false,
             'input' => 'string',
             'data' => $this->app['settings']['endDate'],
-            'attr' => array(
+            'attr' => [
                 'help_text' => 'When should the contest / prizegame end? Leave / set to empty, if there is no end date.',
-            ),
-        ));
+            ],
+        ]);
 
         $builder->add(
             $builder
-                ->create('texts', 'form', array(
+                ->create('texts', FormType::class, [
                     'label' => false,
-                ))
-                    ->add('alreadyParticipated', 'textarea', array(
+                ])
+                    ->add('alreadyParticipated', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['alreadyParticipated'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['alreadyParticipated'].'"',
-                        ),
-                    ))
-                    ->add('alreadyParticipatedToday', 'textarea', array(
+                        ],
+                    ])
+                    ->add('alreadyParticipatedToday', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['alreadyParticipatedToday'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['alreadyParticipatedToday'].'"',
-                        ),
-                    ))
-                    ->add('thanksForYourParticipation', 'textarea', array(
+                        ],
+                    ])
+                    ->add('thanksForYourParticipation', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['thanksForYourParticipation'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['thanksForYourParticipation'].'"',
-                        ),
-                    ))
-                    ->add('notYetStarted', 'textarea', array(
+                        ],
+                    ])
+                    ->add('notYetStarted', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['notYetStarted'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['notYetStarted'].'"',
-                        ),
-                    ))
-                    ->add('hasEnded', 'textarea', array(
+                        ],
+                    ])
+                    ->add('hasEnded', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['hasEnded'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['hasEnded'].'"',
-                        ),
-                    ))
-                    ->add('onlyFacebookUsersCanParticipate', 'textarea', array(
+                        ],
+                    ])
+                    ->add('onlyFacebookUsersCanParticipate', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['onlyFacebookUsersCanParticipate'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['onlyFacebookUsersCanParticipate'].'"',
-                        ),
-                    ))
-                    ->add('onlyFacebookUsersCanParticipateButton', 'textarea', array(
+                        ],
+                    ])
+                    ->add('onlyFacebookUsersCanParticipateButton', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['onlyFacebookUsersCanParticipateButton'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['onlyFacebookUsersCanParticipateButton'].'"',
-                        ),
-                    ))
-                    ->add('alreadyVoted', 'textarea', array(
+                        ],
+                    ])
+                    ->add('alreadyVoted', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['alreadyVoted'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['alreadyVoted'].'"',
-                        ),
-                    ))
-                    ->add('alreadyVotedToday', 'textarea', array(
+                        ],
+                    ])
+                    ->add('alreadyVotedToday', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['alreadyVotedToday'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['alreadyVotedToday'].'"',
-                        ),
-                    ))
-                    ->add('alreadyVotedForThisEntry', 'textarea', array(
+                        ],
+                    ])
+                    ->add('alreadyVotedForThisEntry', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['alreadyVotedForThisEntry'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['alreadyVotedForThisEntry'].'"',
-                        ),
-                    ))
-                    ->add('alreadyVotedForThisEntryToday', 'textarea', array(
+                        ],
+                    ])
+                    ->add('alreadyVotedForThisEntryToday', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['alreadyVotedForThisEntryToday'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['alreadyVotedForThisEntryToday'].'"',
-                        ),
-                    ))
-                    ->add('terms', 'textarea', array(
+                        ],
+                    ])
+                    ->add('terms', TextareaType::class, [
                         'data' => $this->app['settings']['texts']['terms'],
-                        'attr' => array(
+                        'attr' => [
                             'help_text' => 'Original text: "'.$originalTexts['terms'].'". Also accepts HTML.',
-                        ),
-                    ))
+                        ],
+                    ])
         );
 
-        $builder->add('Save', 'submit', array(
-            'attr' => array(
+        $builder->add('Save', SubmitType::class, [
+            'attr' => [
                 'class' => 'btn-primary btn-lg btn-block',
-            ),
-        ));
+            ],
+        ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-        ));
+        ]);
     }
 
     public function getName()

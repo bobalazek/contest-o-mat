@@ -83,6 +83,13 @@ class UserEntity implements AdvancedUserInterface, \Serializable
     protected $accessToken;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="json_array", nullable=true)
+     */
+    protected $roles;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="enabled", type="boolean")
@@ -136,18 +143,6 @@ class UserEntity implements AdvancedUserInterface, \Serializable
      * @ORM\OneToOne(targetEntity="Application\Entity\ProfileEntity", mappedBy="user", cascade={"all"})
      **/
     protected $profile;
-
-    /**
-     * @var Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="Application\Entity\RoleEntity", inversedBy="users")
-     * @ORM\JoinTable(
-     *      name="user_roles",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
-     *  )
-     */
-    protected $roles;
 
     /***** Other Variables *****/
     protected $expired = false; // userExpired / accountExpired
@@ -311,6 +306,47 @@ class UserEntity implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
+    /*** Roles ***/
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        $roles = is_array($this->roles)
+            ? $this->roles
+            : []
+        ;
+        $roles[] = 'ROLE_USER';
+
+        return (array) array_unique($roles, SORT_REGULAR);
+    }
+
+    /**
+     * @param array $roles
+     *
+     * @return UserEntity
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @param string $role
+     *
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return in_array(
+            $role,
+            $this->getRoles()
+        );
+    }
+
     /*** Enabled ***/
     public function getEnabled()
     {
@@ -470,68 +506,6 @@ class UserEntity implements AdvancedUserInterface, \Serializable
         return !$this->getExpired();
     }
 
-   /*** Roles ***/
-    public function getRoles()
-    {
-        $rolesArray = array();
-
-        $userRoles = $this->roles;
-
-        if ($userRoles) {
-            $rolesArray = $userRoles->toArray();
-        }
-
-        if ($rolesArray) {
-            $rolesArray[] = 'ROLE_USER';
-            $rolesArray = array_unique($rolesArray);
-
-            return $rolesArray;
-        } elseif ($this->getId() == 1) {
-            // The user with ID 1 ist normally the super admin
-            return array('ROLE_SUPER_ADMIN');
-        }
-
-        return array('ROLE_USER'); // Fallback, when no roles are found
-    }
-
-    public function setRoles($roles)
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function hasRole(\Application\Entity\RoleEntity $role = null)
-    {
-        return $this->roles->contains($role);
-    }
-
-    public function addRole(\Application\Entity\RoleEntity $role = null)
-    {
-        if (!$this->roles->contains($role)) {
-            $this->roles->add($role);
-        }
-
-        return $this;
-    }
-
-    public function removeRole($role = null)
-    {
-        if (is_string($role)) {
-            foreach ($this->roles as $singleRole) {
-                if ($singleRole->getRole() == $role) {
-                    $this->roles->removeElement($singleRole);
-                }
-            }
-        } else {
-            if ($this->roles->contains($role)) {
-                $this->roles->removeElement($role);
-            }
-        }
-
-        return $this;
-    }
-
     /*** Profile ***/
     public function getProfile()
     {
@@ -576,13 +550,13 @@ class UserEntity implements AdvancedUserInterface, \Serializable
 
     public function serialize()
     {
-        return serialize(array(
+        return serialize([
             $this->id,
             $this->username,
             $this->email,
             $this->password,
             $this->salt,
-        ));
+        ]);
     }
 
     public function unserialize($serialized)
@@ -607,7 +581,7 @@ class UserEntity implements AdvancedUserInterface, \Serializable
     /********** Other Methods **********/
     public function toArray($includeAllData = false)
     {
-        $data = array();
+        $data = [];
 
         $data['id'] = $this->getId();
         $data['locale'] = $this->getLocale();
@@ -631,7 +605,7 @@ class UserEntity implements AdvancedUserInterface, \Serializable
 
     public function toJson()
     {
-        return array(
+        return [
             'id' => $this->getId(),
             'username' => $this->getUsername(),
             'email' => $this->getEmail(),
@@ -642,7 +616,7 @@ class UserEntity implements AdvancedUserInterface, \Serializable
             'locked' => $this->getLocked(),
             'time_created' => $this->getTimeCreated(),
             'access_token' => $this->getAccessToken(),
-        );
+        ];
     }
 
     /********** Callback Methods **********/

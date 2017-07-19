@@ -5,60 +5,71 @@ namespace Application\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $rolesChoices = $options['app']['userSystemOptions']['roles'];
+
         $builder->add(
             'profile',
-            new \Application\Form\Type\ProfileType(),
-            array(
+            \Application\Form\Type\ProfileType::class,
+            [
                 'label' => false,
-            )
+            ]
         );
 
-        $builder->add('username', 'text', array(
+        $builder->add('username', TextType::class, [
             'required' => false,
-        ));
-        $builder->add('email', 'email');
-        $builder->add('plainPassword', 'repeated', array(
-            'type' => 'password',
+        ]);
+        $builder->add('email', EmailType::class);
+        $builder->add('plainPassword', RepeatedType::class, [
+            'type' => PasswordType::class,
             'first_name' => 'password',
             'second_name' => 'repeatPassword',
             'required' => false,
             'invalid_message' => 'errors.user.password.invalidText',
-        ));
+        ]);
 
-        $builder->add('roles', 'entity', array(
+        $builder->add('roles', ChoiceType::class, array(
             'required' => false,
-            'class' => 'Application\Entity\RoleEntity',
             'multiple' => true,
-            'expanded' => false,
+            'expanded' => true,
+            'choices' => $rolesChoices,
         ));
 
-        $builder->add('enabled', 'checkbox', array(
+        $builder->add('enabled', CheckboxType::class, [
             'required' => false,
-        ));
-        $builder->add('locked', 'checkbox', array(
+        ]);
+        $builder->add('locked', CheckboxType::class, [
             'required' => false,
-        ));
+        ]);
 
-        $builder->add('Save', 'submit', array(
-            'attr' => array(
+        $builder->add('Save', SubmitType::class, [
+            'attr' => [
                 'class' => 'btn-primary btn-lg btn-block',
-            ),
-        ));
+            ],
+        ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setRequired('app');
+        $resolver->setDefaults([
             'data_class' => 'Application\Entity\UserEntity',
             'validation_groups' => function (FormInterface $form) {
                 $user = $form->getData();
-                $validationGroups = array();
+                $validationGroups = [];
 
                 if ($user->isLocked()) {
                     $validationGroups[] = 'isLocked';
@@ -75,7 +86,7 @@ class UserType extends AbstractType
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
             'cascade_validation' => true,
-        ));
+        ]);
     }
 
     public function getName()

@@ -3,26 +3,27 @@
 namespace Application\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class GenderType extends AbstractType
 {
     const MALE = 'male';
     const FEMALE = 'female';
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'choices' => array(
+        $resolver->setDefaults([
+            'choices' => [
                 self::MALE => 'Male',
                 self::FEMALE => 'Female',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 
     public function getName()

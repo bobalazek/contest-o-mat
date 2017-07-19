@@ -23,7 +23,7 @@ if (!function_exists('rglob')) {
 if (!function_exists('dateRange')) {
     function dateRange($first, $last, $step = '+1 day', $format = 'Y-m-d')
     {
-        $dates = array();
+        $dates = [];
         $current = strtotime($first);
         $last = strtotime($last);
 

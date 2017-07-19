@@ -254,12 +254,12 @@ class WinnerEntity
     /********** API ***********/
     public function toArray()
     {
-        return array(
+        return [
             'id' => $this->getId(),
             'participant' => $this->getParticipant(),
             'entry' => $this->getEntry(),
             'time_created' => $this->getTimeCreated(),
-        );
+        ];
     }
 
     /********** Magic Methods **********/

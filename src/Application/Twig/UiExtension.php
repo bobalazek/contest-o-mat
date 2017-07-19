@@ -2,50 +2,52 @@
 
 namespace Application\Twig;
 
-use Silex\Application;
-
+/**
+ * @author Borut Balažek <bobalazek124@gmail.com>
+ */
 class UiExtension extends \Twig_Extension
 {
-    private $app;
-
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'application/ui';
     }
 
+    /**
+     * @return \Twig_SimpleFunction[]
+     */
     public function getFunctions()
     {
-        return array(
-            'array_labels' => new \Twig_Function_Method(
-                $this,
-                'arrayLabels',
-                array(
-                    'is_safe' => array('html'),
-                )
+        return [
+             new \Twig_SimpleFunction(
+                'array_labels',
+                [
+                    $this,
+                    'arrayLabels',
+                ],
+                [
+                    'is_safe' => ['html'],
+                ]
             ),
-            'pagination' => new \Twig_Function_Method(
-                $this,
+            new \Twig_SimpleFunction(
                 'pagination',
-                array(
-                    'is_safe' => array('html'),
-                )
+                [
+                    $this,
+                    'pagination',
+                ],
+                [
+                    'is_safe' => ['html'],
+                ]
             ),
-            'json_decode' => new \Twig_Function_Method(
-                $this,
-                'jsonDecode',
-                array(
-                    'is_safe' => array('html'),
-                )
-            ),
-        );
+        ];
     }
 
-    public function arrayLabels($array = array())
+    /**
+     * @return string
+     */
+    public function arrayLabels($array = [])
     {
         if (!count($array)) {
             return '';
@@ -60,13 +62,11 @@ class UiExtension extends \Twig_Extension
         return $output;
     }
 
+    /**
+     * @return string
+     */
     public function pagination($output)
     {
         return $output;
-    }
-
-    public function jsonDecode($str)
-    {
-        return json_decode($str);
     }
 }

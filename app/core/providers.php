@@ -16,11 +16,11 @@ if (
     file_exists(APP_DIR.'/configs/global-local.php')
     && in_array(
         @$_SERVER['REMOTE_ADDR'],
-        array(
+        [
             '127.0.0.1',
             'fe80::1',
             '::1',
-        )
+        ]
     )
 ) {
     $app->register(
@@ -67,27 +67,28 @@ if (!file_exists(STORAGE_DIR)) {
 }
 
 /***** Session *****/
-$app->register(new Silex\Provider\SessionServiceProvider(), array(
+$app->register(new Silex\Provider\SessionServiceProvider(), [
     'session.storage.save_path' => STORAGE_DIR.'/sessions',
-    'session.storage.options' => array(
+    'session.storage.options' => [
         'cookie_path' => $app['baseUri'],
-    ),
-));
+    ],
+]);
 
 /* Flashbag */
-$app['flashbag'] = $app->share(function () use ($app) {
+$app['flashbag'] = function () use ($app) {
     return $app['session']->getFlashBag();
-});
+};
 
 /***** Http Cache *****/
-$app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
+$app->register(new Silex\Provider\HttpCacheServiceProvider(), [
     'http_cache.cache_dir' => STORAGE_DIR.'/cache/http/',
-));
+]);
 
 /***** Translation *****/
-$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+$app->register(new Silex\Provider\LocaleServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider(), [
     'locale_fallback' => 'en_US',
-));
+]);
 
 $app['translator']->addLoader(
     'yaml',
@@ -95,19 +96,19 @@ $app['translator']->addLoader(
 );
 
 /*** Application Translator ***/
-$app['application.translator'] = $app->share(function () use ($app) {
+$app['application.translator'] = function () use ($app) {
     return new \Application\Translator($app);
-});
+};
 
 /*** Application Mailer ***/
-$app['application.mailer'] = $app->share(function () use ($app) {
+$app['application.mailer'] = function () use ($app) {
     return new \Application\Mailer($app);
-});
+};
 
 /*** Paginator ***/
-$app['paginator'] = $app->share(function () use ($app) {
+$app['paginator'] = function () use ($app) {
     return new \Application\Paginator($app);
-});
+};
 
 /***** Form *****/
 $app->register(new Silex\Provider\FormServiceProvider());
@@ -115,20 +116,20 @@ $app->register(new Silex\Provider\FormServiceProvider());
 /***** Twig / Templating Engine *****/
 $app->register(
     new Silex\Provider\TwigServiceProvider(),
-    array(
+    [
         'twig.path' => APP_DIR.'/templates',
-        'twig.form.templates' => array(
+        'twig.form.templates' => [
             'twig/form.html.twig',
-        ),
-        'twig.options' => array(
+        ],
+        'twig.options' => [
             'cache' => STORAGE_DIR.'/cache/template',
             'debug' => $app['debug'],
-        ),
-    )
+        ],
+    ]
 );
 
 /*** Twig Extensions ***/
-$app['twig'] = $app->share($app->extend('twig', function ($twig, $app) {
+$app['twig'] = $app->extend('twig', function ($twig, $app) {
     $twig->addExtension(new Application\Twig\DateExtension($app));
     $twig->addExtension(new Application\Twig\FormExtension($app));
     $twig->addExtension(new Application\Twig\FileExtension($app));
@@ -141,26 +142,6 @@ $app['twig'] = $app->share($app->extend('twig', function ($twig, $app) {
     );
 
     return $twig;
-}));
-
-/***** Translation *****/
-$app->register(new Silex\Provider\TranslationServiceProvider(), array(
-    'locale_fallback' => 'en_US',
-));
-
-$app['translator']->addLoader(
-    'yaml',
-    new Symfony\Component\Translation\Loader\YamlFileLoader()
-);
-
-/*** Application Translator ***/
-$app['application.translator'] = $app->share(function () use ($app) {
-    return new \Application\Translator($app);
-});
-
-/*** Application Mailer ***/
-$app['application.mailer'] = $app->share(function () use ($app) {
-    return new \Application\Mailer($app);
 });
 
 /***** Doctrine Database & Doctrine ORM *****/
@@ -170,35 +151,35 @@ if (
 ) {
     $app->register(
         new Silex\Provider\DoctrineServiceProvider(),
-        array(
+        [
             'dbs.options' => $app['databaseOptions'],
-        )
+        ]
     );
 
     $app->register(
-        new Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider(),
-        array(
-            'orm.em.options' => array(
-                'mappings' => array(
-                    array(
+        new Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider(),
+        [
+            'orm.em.options' => [
+                'mappings' => [
+                    [
                         'type' => 'annotation',
                         'namespace' => 'Application\Entity',
                         'path' => SRC_DIR.'/Application/Entity',
                         'use_simple_annotation_reader' => false,
-                    ),
-                ),
-            ),
-            'orm.custom.functions.string' => array(
+                    ],
+                ],
+            ],
+            'orm.custom.functions.string' => [
                 'cast' => 'Oro\ORM\Query\AST\Functions\Cast',
                 'group_concat' => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
-            ),
-            'orm.custom.functions.datetime' => array(
+            ],
+            'orm.custom.functions.datetime' => [
                 'date' => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 'time' => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 'timestamp' => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 'convert_tz' => 'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz',
-            ),
-            'orm.custom.functions.numeric' => array(
+            ],
+            'orm.custom.functions.numeric' => [
                 'timestampdiff' => 'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',
                 'dayofyear' => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 'dayofweek' => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
@@ -212,19 +193,19 @@ if (
                 'year' => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
                 'sign' => 'Oro\ORM\Query\AST\Functions\Numeric\Sign',
                 'pow' => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
-            ),
-        )
+            ],
+        ]
     );
 
     \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(
-        array(
+        [
             require VENDOR_DIR.'/autoload.php',
             'loadClass',
-        )
+        ]
     );
 
     $entityManagerConfig = Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
-        array(APP_DIR.'/src/Application/Entity'),
+        [APP_DIR.'/src/Application/Entity'],
         $app['debug']
     );
 
@@ -239,95 +220,74 @@ if (
 
     $app['orm.proxies_dir'] = STORAGE_DIR.'/cache/proxy';
 
-    $app['orm.manager_registry'] = $app->share(function ($app) {
-        return new \Application\Doctrine\ORM\DoctrineManagerRegistry(
+    $app['orm.manager_registry'] = function ($app) {
+        return new Application\Doctrine\ORM\DoctrineManagerRegistry(
             'manager_registry',
-            array('default' => $app['orm.em']->getConnection()),
-            array('default' => $app['orm.em'])
+            ['default' => $app['orm.em']->getConnection()],
+            ['default' => $app['orm.em']]
         );
-    });
+    };
 
-    $app['form.extensions'] = $app->share(
-        $app->extend(
-            'form.extensions',
-            function ($extensions) use ($app) {
-                $extensions[] = new \Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension(
-                    $app['orm.manager_registry']
-                );
+    $app['form.extensions'] = $app->extend(
+        'form.extensions',
+        function ($extensions) use ($app) {
+            $extensions[] = new Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension(
+                $app['orm.manager_registry']
+            );
 
-                return $extensions;
-            }
-        )
+            return $extensions;
+        }
     );
 }
 
 /***** Validator *****/
-$app->register(new \Silex\Provider\ValidatorServiceProvider());
+$app->register(new Silex\Provider\CsrfServiceProvider());
+$app->register(new Silex\Provider\ValidatorServiceProvider());
 
 $app['validator.mapping.mapping.file_path'] = APP_DIR.'/configs/validation.yml';
 
-$app['validator.mapping.class_metadata_factory'] = $app->share(function ($app) {
-    return new Symfony\Component\Validator\Mapping\ClassMetadataFactory(
+$app['validator.mapping.class_metadata_factory'] = function ($app) {
+    return new Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory(
         new Symfony\Component\Validator\Mapping\Loader\YamlFileLoader(
             APP_DIR.'/configs/validation.yml'
         )
     );
-});
+};
 
-$app['validator.unique_entity'] = $app->share(function ($app) {
-    return new \Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator(
+$app['validator.unique_entity'] = function ($app) {
+    return new Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator(
         $app['orm.manager_registry']
     );
-});
+};
 
-$app['security.validator.user_password'] = $app->share(function ($app) {
+$app['security.validator.user_password'] = function ($app) {
     return new Symfony\Component\Security\Core\Validator\Constraints\UserPasswordValidator(
-        $app['security'],
+        $app['security.authorization_checker'],
         $app['security.encoder_factory']
     );
-});
+};
 
-$app['validator.validator_service_ids'] = array(
+$app['validator.validator_service_ids'] = [
     'doctrine.orm.validator.unique' => 'validator.unique_entity',
     'security.validator.user_password' => 'security.validator.user_password',
-);
+];
 
-/***** Url Generator *****/
-$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
-
-/***** Http Cache *****/
-$app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
-    'http_cache.cache_dir' => STORAGE_DIR.'/cache/http/',
-));
+/***** Routing *****/
+$app->register(new Silex\Provider\RoutingServiceProvider());
 
 /***** User Provider *****/
-$app['user.provider'] = $app->share(function () use ($app) {
+$app['user.provider'] = function () use ($app) {
     return new \Application\Provider\UserProvider($app);
-});
-
-/*** UAParser ***/
-$app['ua.parser'] = $app->share(function () use ($app) {
-    return \UAParser\Parser::create();
-});
-
-/*** Mobile Detect ***/
-$app->register(
-    new Binfo\Silex\MobileDetectServiceProvider()
-);
-
-/*** UAParser ***/
-$app['ip.parser'] = $app->share(function () use ($app) {
-    return new \Application\IPParser();
-});
+};
 
 /***** Security *****/
-$securityFirewalls = array();
+$securityFirewalls = [];
 
 /*** Members Area ***/
-$securityFirewalls['members-area'] = array(
+$securityFirewalls['members-area'] = [
     'pattern' => '^/',
     'anonymous' => true,
-    'form' => array(
+    'form' => [
         'login_path' => '/members-area/login',
         'check_path' => '/members-area/login/check',
         'failure_path' => '/members-area/login',
@@ -339,40 +299,40 @@ $securityFirewalls['members-area'] = array(
         'csrf_parameter' => 'csrf_token',
         'with_csrf' => true,
         'use_referer' => true,
-    ),
-    'logout' => array(
+    ],
+    'logout' => [
         'logout_path' => '/members-area/logout',
         'target' => '/members-area',
         'invalidate_session' => true,
         'csrf_parameter' => 'csrf_token',
-    ),
+    ],
     'remember_me' => $app['rememberMeOptions'],
-    'switch_user' => array(
+    'switch_user' => [
         'parameter' => 'switch_user',
         'role' => 'ROLE_ALLOWED_TO_SWITCH',
-    ),
+    ],
     'users' => $app['user.provider'],
-);
+];
 
 $app->register(
     new Silex\Provider\SecurityServiceProvider(),
-    array(
+    [
         'security.firewalls' => $securityFirewalls,
-    )
+    ]
 );
 
-$app['security.access_rules'] = array(
-    array('^/members-area/login', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-    array('^/members-area/register', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-    array('^/members-area/reset-password', 'IS_AUTHENTICATED_ANONYMOUSLY'),
-    array('^/members-area', 'ROLE_USER'),
-    array('^/members-area/oauth', 'ROLE_USER'),
-);
+$app['security.access_rules'] = [
+    ['^/members-area/login', 'IS_AUTHENTICATED_ANONYMOUSLY'],
+    ['^/members-area/register', 'IS_AUTHENTICATED_ANONYMOUSLY'],
+    ['^/members-area/reset-password', 'IS_AUTHENTICATED_ANONYMOUSLY'],
+    ['^/members-area', 'ROLE_USER'],
+    ['^/members-area/oauth', 'ROLE_USER'],
+];
 
-$app['security.role_hierarchy'] = array(
-    'ROLE_SUPER_ADMIN' => array('ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH'),
-    'ROLE_ADMIN' => array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
-);
+$app['security.role_hierarchy'] = [
+    'ROLE_SUPER_ADMIN' => ['ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH'],
+    'ROLE_ADMIN' => ['ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'],
+];
 
 /* Voters */
 $app['security.voters'] = $app->extend(
@@ -392,7 +352,7 @@ $app->register(new Silex\Provider\SwiftmailerServiceProvider());
 
 $app['swiftmailer.options'] = $app['swiftmailerOptions'];
 
-$app['mailer.css_to_inline_styles_converter'] = $app->protect(function ($twigTemplatePathOrContent, $twigTemplateData = array(), $isTwigTemplate = true) use ($app) {
+$app['mailer.css_to_inline_styles_converter'] = $app->protect(function ($twigTemplatePathOrContent, $twigTemplateData = [], $isTwigTemplate = true) use ($app) {
     $emogrifier = new \Pelago\Emogrifier();
     $emogrifier->setHtml(
         $isTwigTemplate
@@ -401,9 +361,9 @@ $app['mailer.css_to_inline_styles_converter'] = $app->protect(function ($twigTem
             'emails/blank.html.twig',
             array_merge(
                 $twigTemplateData,
-                array(
+                [
                     'content' => $twigTemplatePathOrContent,
-                )
+                ]
             )
         )
     );
@@ -417,28 +377,11 @@ if (
     $app['facebookSdkOptions']['id'] &&
     $app['facebookSdkOptions']['secret']
 ) {
-    $app['facebookSdk'] = $app->share(function () use ($app) {
-        return new \Facebook\Facebook(array(
+    $app['facebookSdk'] = function () use ($app) {
+        return new \Facebook\Facebook([
             'app_id' => $app['facebookSdkOptions']['id'],
             'app_secret' => $app['facebookSdkOptions']['secret'],
             'default_graph_version' => $app['facebookSdkOptions']['version'],
-        ));
-    });
+        ]);
+    };
 }
-
-/*** Listeners ***/
-$app['dispatcher']->addListener(
-    \Symfony\Component\Security\Core\AuthenticationEvents::AUTHENTICATION_SUCCESS,
-    function ($event) use ($app) {
-        $user = $event->getAuthenticationToken()->getUser();
-
-        $user
-            ->setTimeLastActive(
-                new \DateTime()
-            )
-        ;
-
-        $app['orm.em']->merge($user);
-        $app['orm.em']->flush();
-    }
-);
