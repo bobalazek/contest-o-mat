@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": "^7.0",
         "silex/silex": "~2.1",
         "doctrine/dbal": "~2.5",
         "doctrine/migrations": "~1.1",
