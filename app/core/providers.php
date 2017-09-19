@@ -240,8 +240,10 @@ if (
     );
 }
 
-/***** Validator *****/
+/***** CSRF *****/
 $app->register(new Silex\Provider\CsrfServiceProvider());
+
+/***** Validator *****/
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
 $app['validator.mapping.mapping.file_path'] = APP_DIR.'/configs/validation.yml';
